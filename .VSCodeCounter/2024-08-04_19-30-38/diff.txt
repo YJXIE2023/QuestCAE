@@ -1,0 +1,77 @@
+Date : 2024-08-04 19:30:38
+Directory : /home/xie/code/QuestCAE
+Total : 27 files,  391 codes, 15 comments, 108 blanks, all 514 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C++      |         26 |        360 |         15 |         74 |        449 |
+| Markdown |          1 |         31 |          0 |         34 |         65 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                   | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                      |         27 |        391 |         15 |        108 |        514 |
+| . (Files)                                                              |          1 |         31 |          0 |         34 |         65 |
+| application                                                            |          1 |          0 |          0 |         -1 |         -1 |
+| external_libraries                                                     |          2 |         21 |          6 |          7 |         34 |
+| external_libraries/boost                                               |          2 |         21 |          6 |          7 |         34 |
+| questCAE                                                               |         22 |        356 |         14 |         78 |        448 |
+| questCAE/condition                                                     |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/data_structure                                                |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/dof                                                           |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/element                                                       |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/geometry                                                      |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/includes                                                      |          2 |        164 |          0 |         41 |        205 |
+| questCAE/matrix                                                        |          2 |          0 |          0 |          0 |          0 |
+| questCAE/mesh                                                          |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/modelPart                                                     |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/node                                                          |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/process                                                       |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/properties                                                    |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/quadrature                                                    |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/slover                                                        |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/sources                                                       |          2 |        175 |          9 |         42 |        226 |
+| questCAE/spatialContainer                                              |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/strategy                                                      |          1 |          0 |          0 |         -1 |         -1 |
+| questCAE/utilities                                                     |          1 |         17 |          5 |         10 |         32 |
+| questCAE/vector                                                        |          1 |          0 |          0 |         -1 |         -1 |
+| utilities                                                              |          1 |        -17 |         -5 |        -10 |        -32 |
++------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                               | language | code       | comment    | blank      | total      |
++------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /home/xie/code/QuestCAE/README.md                                      | Markdown |         31 |          0 |         34 |         65 |
+| /home/xie/code/QuestCAE/application/application.hpp                    | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/external_libraries/boost/instrusive_ptr.hpp    | C++      |          0 |          0 |          1 |          1 |
+| /home/xie/code/QuestCAE/external_libraries/boost/ublas_interface.hpp   | C++      |         21 |          6 |          6 |         33 |
+| /home/xie/code/QuestCAE/questCAE/condition/condition.hpp               | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/data_structure/array_1d.hpp           | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/dof/dof.hpp                           | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/element/element.hpp                   | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/geometry/geometry.hpp                 | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/includes/check.hpp                    | C++      |        185 |          6 |         47 |        238 |
+| /home/xie/code/QuestCAE/questCAE/includes/ublas_interface.hpp          | C++      |        -21 |         -6 |         -6 |        -33 |
+| /home/xie/code/QuestCAE/questCAE/matrix/bcsr_matrix.hpp                | C++      |          0 |          0 |          1 |          1 |
+| /home/xie/code/QuestCAE/questCAE/matrix/matrix.hpp                     | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/mesh/mesh.hpp                         | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/modelPart/modelPart.hpp               | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/node/node.hpp                         | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/process/process.hpp                   | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/properties/properties.hpp             | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/quadrature/quadrature.hpp             | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/slover/slover.hpp                     | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/sources/code_location.cpp             | C++      |        104 |          4 |         18 |        126 |
+| /home/xie/code/QuestCAE/questCAE/sources/exceptions.cpp                | C++      |         71 |          5 |         24 |        100 |
+| /home/xie/code/QuestCAE/questCAE/spatialContainer/spatialContainer.hpp | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/strategy/strategy.hpp                 | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/questCAE/utilities/stl_vector_io.hpp           | C++      |         17 |          5 |         10 |         32 |
+| /home/xie/code/QuestCAE/questCAE/vector/vector.hpp                     | C++      |          0 |          0 |         -1 |         -1 |
+| /home/xie/code/QuestCAE/utilities/stl_vector_io.hpp                    | C++      |        -17 |         -5 |        -10 |        -32 |
+| Total                                                                  |          |        391 |         15 |        108 |        514 |
++------------------------------------------------------------------------+----------+------------+------------+------------+------------+
