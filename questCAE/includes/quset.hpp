@@ -10,7 +10,7 @@
 //External includes
 
 //Project includes
-#include "includes/define.hpp"
+#include "define.hpp"
 
 
 namespace Quest{
