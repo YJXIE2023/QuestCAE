@@ -1,0 +1,58 @@
+Date : 2024-09-01 17:41:44
+Directory : /home/xie/code/QuestCAE
+Total : 23 files,  1791 codes, 102 comments, 584 blanks, all 2477 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C++      |         22 |      1,759 |        102 |        550 |      2,411 |
+| Markdown |          1 |         32 |          0 |         34 |         66 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                  | files      | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                     |         23 |      1,791 |        102 |        584 |      2,477 |
+| . (Files)                                                             |          1 |         32 |          0 |         34 |         66 |
+| exLibraries                                                           |          3 |        287 |         16 |         80 |        383 |
+| exLibraries/boost                                                     |          2 |        105 |         12 |         28 |        145 |
+| exLibraries/intrusive_ptr                                             |          1 |        182 |          4 |         52 |        238 |
+| questCAE                                                              |         19 |      1,472 |         86 |        470 |      2,028 |
+| questCAE/IO                                                           |          5 |        232 |         13 |         92 |        337 |
+| questCAE/container                                                    |          3 |        645 |         21 |        164 |        830 |
+| questCAE/includes                                                     |          8 |        405 |         38 |        162 |        605 |
+| questCAE/sources                                                      |          2 |        173 |          9 |         42 |        224 |
+| questCAE/utilities                                                    |          1 |         17 |          5 |         10 |         32 |
++-----------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-----------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                              | language | code       | comment    | blank      | total      |
++-----------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /home/xie/code/QuestCAE/README.md                                     | Markdown |         32 |          0 |         34 |         66 |
+| /home/xie/code/QuestCAE/exLibraries/boost/ublas_complex_interface.hpp | C++      |         51 |          6 |         12 |         69 |
+| /home/xie/code/QuestCAE/exLibraries/boost/ublas_interface.hpp         | C++      |         54 |          6 |         16 |         76 |
+| /home/xie/code/QuestCAE/exLibraries/intrusive_ptr/intrusive_ptr.hpp   | C++      |        182 |          4 |         52 |        238 |
+| /home/xie/code/QuestCAE/questCAE/IO/logger.hpp                        | C++      |          0 |          0 |          1 |          1 |
+| /home/xie/code/QuestCAE/questCAE/IO/logger_message.cpp                | C++      |         53 |          3 |         17 |         73 |
+| /home/xie/code/QuestCAE/questCAE/IO/logger_message.hpp                | C++      |        168 |          5 |         64 |        237 |
+| /home/xie/code/QuestCAE/questCAE/IO/logger_output.cpp                 | C++      |          0 |          0 |          1 |          1 |
+| /home/xie/code/QuestCAE/questCAE/IO/logger_output.hpp                 | C++      |         11 |          5 |          9 |         25 |
+| /home/xie/code/QuestCAE/questCAE/container/array_1d.hpp               | C++      |        411 |         12 |         84 |        507 |
+| /home/xie/code/QuestCAE/questCAE/container/flags.cpp                  | C++      |         59 |          3 |         18 |         80 |
+| /home/xie/code/QuestCAE/questCAE/container/flags.hpp                  | C++      |        175 |          6 |         62 |        243 |
+| /home/xie/code/QuestCAE/questCAE/includes/check.hpp                   | C++      |        185 |          6 |         47 |        238 |
+| /home/xie/code/QuestCAE/questCAE/includes/code_location.hpp           | C++      |         54 |          6 |         31 |         91 |
+| /home/xie/code/QuestCAE/questCAE/includes/define.hpp                  | C++      |         13 |          5 |         10 |         28 |
+| /home/xie/code/QuestCAE/questCAE/includes/exceptions.hpp              | C++      |         61 |          7 |         36 |        104 |
+| /home/xie/code/QuestCAE/questCAE/includes/quest_export_api.hpp        | C++      |         32 |          3 |          8 |         43 |
+| /home/xie/code/QuestCAE/questCAE/includes/quset.hpp                   | C++      |          6 |          6 |         10 |         22 |
+| /home/xie/code/QuestCAE/questCAE/includes/serializer.hpp              | C++      |          0 |          0 |          1 |          1 |
+| /home/xie/code/QuestCAE/questCAE/includes/smart_pointers.hpp          | C++      |         54 |          5 |         19 |         78 |
+| /home/xie/code/QuestCAE/questCAE/sources/code_location.cpp            | C++      |        103 |          4 |         18 |        125 |
+| /home/xie/code/QuestCAE/questCAE/sources/exceptions.cpp               | C++      |         70 |          5 |         24 |         99 |
+| /home/xie/code/QuestCAE/questCAE/utilities/stl_vector_io.hpp          | C++      |         17 |          5 |         10 |         32 |
+| Total                                                                 |          |      1,791 |        102 |        584 |      2,477 |
++-----------------------------------------------------------------------+----------+------------+------------+------------+------------+

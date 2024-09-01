@@ -10,12 +10,38 @@
 #include <sstream>
 
 //自定义头文件
-#include "quest_export_api.hpp"
-#include "exceptions.hpp"
-#include "smart_pointers.hpp"
+#include "includes/quest_export_api.hpp"
+#include "includes/exceptions.hpp"
+#include "includes/smart_pointers.hpp"
+
+/*---------------------------------------------------
+exception
+----------------------------------------------------*/
 
 
 
+
+/*---------------------------------------------------
+Flags
+----------------------------------------------------*/
+
+#ifndef QUEST_CREATE_FLAG
+#undef QUEST_CREATE_FLAG
+#endif
+#define QUEST_CREATE_FLAG(name, positon)        \
+    const Quest::Flags name(Quest::Flags::Create(positon));
+
+#ifdef QUEST_DEFINE_LOCAL_FLAG
+#undef QUEST_DEFINE_LOCAL_FLAG
+#endif 
+#define QUEST_DEFINE_LOCAL_FLAG(name) \
+    static const Quest::Flags name;
+
+#ifdef QUEST_CREATE_LOCAL_FLAG
+#undef QUEST_CREATE_LOCAL_FLAG
+#endif
+#define QUEST_CREATE_LOCAL_FLAG(class_name, name, position)   \
+    const Quest::Flags class_name::name(Quest::Flags::Create(position));
 
 
 #endif // DEFINE_H

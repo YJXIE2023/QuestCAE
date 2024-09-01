@@ -13,8 +13,8 @@
 #include <initializer_list>
 
 //项目头文件
-#include "defines.hpp"
-#include "ublas_interface.hpp"
+#include "includes/defines.hpp"
+#include "boost/ublas_interface.hpp"
 
 #include <boost/numeric/ublas/vector_expression.hpp>    //向量表达式基类
 #include <boost/numeric/ublas/storage.hpp>    //不同方式存储向量
@@ -156,7 +156,7 @@ namespace Quest{
                 private:
                     const_iterator_type it_;
                     friend class iterator;
-            }
+            };
             #endif // BOOST_UBLAS_USE_INDEXED_ITERATOR
 
             //迭代器的实现
@@ -238,7 +238,7 @@ namespace Quest{
                 private:
                     iterator_type it_;
                     friend class const_iterator;
-            }
+            };
             #endif // BOOST_UBLAS_USE_INDEXED_ITERATOR
 
             BOOST_UBLAS_INLINE

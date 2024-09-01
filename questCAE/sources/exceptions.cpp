@@ -2,13 +2,12 @@
 exceptions.hpp类实现代码
 ------------------------------------------*/
 
-#define LIBRARY_EXPORTS
 
 //系统头文件
 #include <sstream>
 
 //项目头文件
-#include "exceptions.hpp"
+#include "includes/exceptions.hpp"
 
 namespace Quest{
 

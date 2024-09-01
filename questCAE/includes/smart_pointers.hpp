@@ -12,7 +12,7 @@
 #include <memory>
 
 // 自定义头文件
-#include "intrusive_ptr.hpp"
+#include "intrusive_ptr/intrusive_ptr.hpp"
 
 namespace Quest{
 
