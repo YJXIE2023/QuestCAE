@@ -13,7 +13,7 @@
 #include <initializer_list>
 
 //项目头文件
-#include "includes/defines.hpp"
+#include "includes/define.hpp"
 #include "boost/ublas_interface.hpp"
 
 #include <boost/numeric/ublas/vector_expression.hpp>    //向量表达式基类
@@ -481,7 +481,7 @@ namespace Quest{
             typedef typename array_type::const_iterator const_iterator_type;
             typedef typename array_type::iterator iterator_type;
             array_type data_;
-    }
+    };
 }
 
 namespace AuxiliaryHashCombine{

@@ -6,6 +6,45 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 
 #-----------------------------------------
-# openMP默认选项
+# 选择共性内存并行化选项
 #-----------------------------------------
 
+
+#-----------------------------------------
+# openMP默认选项
+#-----------------------------------------
+if(NOT DEFINED QUEST_SHARED_MEMORY_PARALLELIZATION)
+    message(STATUS "\"QUEST_SHARED_MEMORY_PARALLELIZATION\" not defined, defaulting to \"OpenMP\"") 
+    SET(QUEST_SHARED_MEMORY_PARALLELIZATION "OpenMP")
+endif(NOT DEFINED QUEST_SHARED_MEMORY_PARALLELIZATION)
+
+if (QUEST_SHARED_MEMORY_PARALLELIZATION STREQUAL "OpenMP")
+    find_package(OpenMP)
+    if(OPENMP_FOUND)
+        message(STATUS "Using OpenMP for shared memory parallelization")
+        add_compile_definitions(QUEST_SMP_OPENMP)
+        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} ${OpenMP_EXE_LINKER_FLAGS}")
+    else(OPENMP_FOUND)
+        message(FATAL_ERROR "OpenMP could not be found!")
+        add_compile_definitions(QUEST_SMP_NONE)
+    endif (OPENMP_FOUND)
+
+elseif (QUEST_SHARED_MEMORY_PARALLELIZARION STREQUAL "C++11")
+    message(STATUS "Using C++11 for shared memory parallelization")
+    add_compile_definitions(QUEST_SMP_CXX11)
+    message(WARNING "Using C++11 for shared memory parallelization is highly experimental and not fully supported!")
+
+elseif (QUEST_SHARED_MEMORY_PARALLELIZARION STREQUAL "None")
+    add_compile_definitions(QUEST_SMP_NONE)
+    message(STATUS "Shared memory parallelization is disabled")
+
+else()
+    message(FATAL_ERROR "Invalid value for \"QUEST_SHARED_MEMORY_PARALLELIZATION\"! Avaiable options are \"OpenMP\", \"C++11\", or \"None\"")
+endif()
+
+OPTION(QUEST_NO_TRY_CATCH "Disabled the use of try-catch through the code" OFF)
+if(QUEST_NO_TRY_CATCH MATCHES ON)
+    add_compile_definitions(QUEST_NO_TRY_CATCH)
+endif(QUEST_NO_TRY_CATCH MATCHES ON)

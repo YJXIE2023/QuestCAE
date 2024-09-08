@@ -80,7 +80,7 @@ namespace Quest{
 
     };//class Exception
 
-    #define QUEST_ERROR throw quest::Exception("Error: ",QUEST_CODE_LOCATION)
+    #define QUEST_ERROR throw Quest::Exception("Error: ",QUEST_CODE_LOCATION)
     #define QUEST_ERROR_IF(condition) if(condition) QUEST_ERROR
     #define QUEST_ERROR_IF_NOT(condition) if(!(condition)) QUEST_ERROR
 

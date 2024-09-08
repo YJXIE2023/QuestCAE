@@ -82,7 +82,7 @@ namespace Quest{
 #define QUEST_CURRENT_FUNCTION "unknown function"
 #endif
 
-#define QUEST_CODE_LOCATION QUEST::CodeLocation(__FILE__, QUEST_CURRENT_FUNCTION, __LINE__)
+#define QUEST_CODE_LOCATION Quest::CodeLocation(__FILE__, QUEST_CURRENT_FUNCTION, __LINE__)
 
 
 };
