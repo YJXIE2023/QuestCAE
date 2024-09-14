@@ -87,4 +87,6 @@ Flags
     const Quest::Flags class_name::name(Quest::Flags::Create(position));
 
 
+
+
 #endif // DEFINE_H

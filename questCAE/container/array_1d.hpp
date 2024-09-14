@@ -14,7 +14,7 @@
 
 //项目头文件
 #include "includes/define.hpp"
-#include "boost/ublas_interface.hpp"
+#include "includes/ublas_interface.hpp"
 
 #include <boost/numeric/ublas/vector_expression.hpp>    //向量表达式基类
 #include <boost/numeric/ublas/storage.hpp>    //不同方式存储向量
