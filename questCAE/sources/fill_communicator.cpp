@@ -3,24 +3,24 @@ fill_communicator.hpp类的实现代码
 -----------------------------------*/
 
 // 项目头文件
-#include "include/fill_communicator.hpp"
-#include "include/data_communicator.hpp"
+#include "includes/fill_communicator.hpp"
+#include "includes/data_communicator.hpp"
 #include "includes/parallel_enviroment.hpp"
 
 namespace Quest{
 
     FillCommunicator::FillCommunicator(ModelPart& rModelPart, const DataCommunicator& rDataCommunicator):
-        mrDataCom(rModelPart),
-        mrBaseModelPart(rDataCommunicator){}
+        mrDataCom(rDataCommunicator),
+        mrBaseModelPart(rModelPart){}
 
     
     void FillCommunicator::Execute(){
         QUEST_TRY
-        QUEST_CATCH
+        QUEST_CATCH("");
     }
 
 
-    void FillCoummunicator::PrintDebugInfo(){
+    void FillCommunicator::PrintDebugInfo(){
         PrintModelPartDebugInfo(mrBaseModelPart);
     }
 
@@ -57,6 +57,6 @@ namespace Quest{
     }
 
 
-    void FillCommunicator::PrintData(std::rOstream& rOstream)const {}
+    void FillCommunicator::PrintData(std::ostream& rOstream)const {}
 
 }

@@ -88,5 +88,13 @@ Flags
 
 
 
+/*---------------------------------------------------
+components
+----------------------------------------------------*/
+
+
+#define QUEST_DEPRECATED [[deprecated]]
+#define QUEST_DEPRECATED_MSG(msg) [[deprecated(msg)]]
+
 
 #endif // DEFINE_H
