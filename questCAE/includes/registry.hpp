@@ -2,8 +2,8 @@
 全局的注册表类，用于存储和检索名称和对象的映射关系
 --------------------------------------------------------------*/
 
-#ifndef REGISTRY_HPP
-#define REGISTRY_HPP
+#ifndef QUEST_REGISTRY_HPP
+#define QUEST_REGISTRY_HPP
 
 // 系统头文件
 #include <string>

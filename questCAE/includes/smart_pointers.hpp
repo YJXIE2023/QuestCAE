@@ -2,8 +2,8 @@
 包含智能指针代码的头文件
 ------------------------------------*/
 
-#ifndef SMART_POINTERS_HPP
-#define SMART_POINTERS_HPP
+#ifndef QUEST_SMART_POINTERS_HPP
+#define QUEST_SMART_POINTERS_HPP
 
 
 // 标准头文件

@@ -2,8 +2,8 @@
 定义与Boost库相关的接口
 -------------------------------------------*/
 
-#ifndef UBLAS_INTERFACE_HPP
-#define UBLAS_INTERFACE_HPP
+#ifndef QUEST_UBLAS_INTERFACE_HPP
+#define QUEST_UBLAS_INTERFACE_HPP
 
 //系统头文件
 #include <string>

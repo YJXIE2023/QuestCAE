@@ -3,8 +3,8 @@
 删除GetDefault方法
 -------------------------------------*/
 
-#ifndef DATA_COMMUNICATOR_HPP
-#define DATA_COMMUNICATOR_HPP
+#ifndef QUEST_DATA_COMMUNICATOR_HPP
+#define QUEST_DATA_COMMUNICATOR_HPP
 
 // 系统头文件
 #include <string>

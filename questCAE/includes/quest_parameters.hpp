@@ -2,8 +2,8 @@
 通过实现 JSON 数据结构，使得可以方便地进行数据的输入、输出和配置
 ============================================================*/
 
-#ifndef QUEST_PARAMETERS_HPP
-#define QUEST_PARAMETERS_HPP
+#ifndef QUEST_QUEST_PARAMETERS_HPP
+#define QUEST_QUEST_PARAMETERS_HPP
 
 // 系统头文件
 #include <filesystem>

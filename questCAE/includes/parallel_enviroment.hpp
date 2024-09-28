@@ -3,8 +3,8 @@
 删除CreateFillCommunicator函数
 -----------------------------------*/
 
-#ifndef PARALLEL_ENVIROMENT_HPP
-#define PARALLEL_ENVIROMENT_HPP
+#ifndef QUEST_PARALLEL_ENVIROMENT_HPP
+#define QUEST_PARALLEL_ENVIROMENT_HPP
 
 // 系统头文件
 #include <string>

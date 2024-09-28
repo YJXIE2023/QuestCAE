@@ -2,8 +2,8 @@
 提供序列化和反序列化的接口
 ------------------------------------*/
 
-#ifndef SERIALIZER_HPP
-#define SERIALIZER_HPP
+#ifndef QUEST_SERIALIZER_HPP
+#define QUEST_SERIALIZER_HPP
 
 // 系统头文件
 #include <map>

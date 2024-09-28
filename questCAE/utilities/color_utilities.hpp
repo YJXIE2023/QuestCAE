@@ -2,8 +2,8 @@
 控制字体颜色的宏
 ----------------------------------------*/
 
-#ifndef COLOR_UTILITIES_HPP
-#define COLOR_UTILITIES_HPP
+#ifndef QUEST_COLOR_UTILITIES_HPP
+#define QUEST_COLOR_UTILITIES_HPP
 
 #ifndef _WIN32
     #define RST "\x1B[0m"

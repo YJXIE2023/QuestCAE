@@ -2,8 +2,8 @@
 多进程或多线程环境下实现数据通信和同步
 -------------------------------------*/
 
-#ifndef FILL_COMMUNICATOR_HPP
-#define FILL_COMMUNICATOR_HPP
+#ifndef QUEST_FILL_COMMUNICATOR_HPP
+#define QUEST_FILL_COMMUNICATOR_HPP
 
 // 项目头文件
 #include "includes/define.hpp"

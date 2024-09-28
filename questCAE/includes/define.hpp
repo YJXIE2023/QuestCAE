@@ -96,5 +96,11 @@ components
 #define QUEST_DEPRECATED [[deprecated]]
 #define QUEST_DEPRECATED_MSG(msg) [[deprecated(msg)]]
 
+#define QUEST_SERIALIZE_SAVE_BASE_CLASS(Serializer,BaseType) \
+    Serializer.save_base("BaseClass", *static_cast<const BaseType*>(this));
+
+#define QUEST_SERIALIZE_LOAD_BASE_CLASS(Serializer,BaseType) \
+    Serializer.load_base("BaseClass", *static_cast<BaseType*>(this));
+
 
 #endif // DEFINE_H

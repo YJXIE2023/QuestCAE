@@ -3,8 +3,8 @@
 用于追踪某种类型的实例创建、访问或其他相关操作的次数
 ----------------------------------------------*/
 
-#ifndef COUNTER_HPP
-#define COUNTER_HPP
+#ifndef QUEST_COUNTER_HPP
+#define QUEST_COUNTER_HPP
 
 // 系统头文件
 #include <string>

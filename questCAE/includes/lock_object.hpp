@@ -2,8 +2,8 @@
 封装互斥锁的类
 -----------------------------------------*/
 
-#ifndef LOCK_OBJECT_HPP
-#define LOCK_OBJECT_HPP
+#ifndef QUEST_LOCK_OBJECT_HPP
+#define QUEST_LOCK_OBJECT_HPP
 
 // 系统头文件
 #include <mutex>

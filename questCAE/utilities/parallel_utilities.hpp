@@ -2,8 +2,8 @@
 用于共享内存并行计算管理与调度的工具类
 -----------------------------------*/
 
-#ifndef PARALLEL_UTILITIES_HPP
-#define PARALLEL_UTILITIES_HPP
+#ifndef QUEST_PARALLEL_UTILITIES_HPP
+#define QUEST_PARALLEL_UTILITIES_HPP
 
 // 系统头文件
 #include <iostream>

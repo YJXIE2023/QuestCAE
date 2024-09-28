@@ -3,8 +3,8 @@
 管理变量的名称、键值（key），以及为变量的组件提供适配器类型
 -----------------------------------------------------*/
 
-#ifndef VARIABLE_DATA_HPP
-#define VARIABLE_DATA_HPP
+#ifndef QUEST_VARIABLE_DATA_HPP
+#define QUEST_VARIABLE_DATA_HPP
 
 // 系统头文件
 #include <string>
@@ -62,7 +62,7 @@ namespace Quest{
             virtual void Save(Serializer& rSerializer, void* pData) const;
 
             // 从流中反序列化类的数据
-            virtual void Load(Serializer& rSerializer, void* pData);
+            virtual void Load(Serializer& rSerializer, void* pData) const;
 
             KeyType HashKey() const {
                 KeyType key = mKey;

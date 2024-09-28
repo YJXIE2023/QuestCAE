@@ -2,8 +2,8 @@
 将对象序列化为字符串
 ------------------------------------------*/
 
-#ifndef STREAM_SERIALIZER_HPP
-#define STREAM_SERIALIZER_HPP
+#ifndef QUEST_STREAM_SERIALIZER_HPP
+#define QUEST_STREAM_SERIALIZER_HPP
 
 // 系统头文件
 #include <string>

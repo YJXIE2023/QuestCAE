@@ -2,8 +2,8 @@
 mpi中将对象序列化为字符串
 ------------------------------------*/
 
-#ifndef MPI_SERIALIZER_HPP
-#define MPI_SERIALIZER_HPP
+#ifndef QUEST_MPI_SERIALIZER_HPP
+#define QUEST_MPI_SERIALIZER_HPP
 
 // 系统头文件
 #include <string>

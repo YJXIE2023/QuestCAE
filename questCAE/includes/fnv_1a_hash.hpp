@@ -3,8 +3,8 @@
 适用于生成字符串、数据块等的唯一标识符
 ---------------------------------------*/
 
-#ifndef FNV_1A_HASH_HPP
-#define FNV_1A_HASH_HPP
+#ifndef QUEST_FNV_1A_HASH_HPP
+#define QUEST_FNV_1A_HASH_HPP
 
 // 系统头文件
 #include <cstdint>

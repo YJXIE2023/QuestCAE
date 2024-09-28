@@ -2,8 +2,8 @@
 用于定义在不同编译器和操作系统环境下导出和导入符号的宏
 ---------------------------------------------------*/
 
-#ifndef QUEST_EXPORT_API_H
-#define QUEST_EXPORT_API_H
+#ifndef QUEST_QUEST_EXPORT_API_H
+#define QUEST_QUEST_EXPORT_API_H
 
 #undef QUEST_API_EXPORT
 #undef QUEST_API_IMPORT

@@ -3,8 +3,8 @@
 用于标记特定的边界条件、求解器状态和节点或元素的特殊属性
 ----------------------------------------------------------*/
 
-#ifndef FLAGES_HPP
-#define FLAGES_HPP
+#ifndef QUEST_FLAGES_HPP
+#define QUEST_FLAGES_HPP
 
 //系统头文件
 #include <string>
@@ -70,7 +70,7 @@ namespace Quest{
 
             virtual ~Flags(){}
 
-            static Flags Creat(IndexType ThisPosition, bool Value=true){
+            static Flags Create(IndexType ThisPosition, bool Value=true){
                 Flags flags;
                 flags.SetPosition(ThisPosition, Value);
                 return flags;

@@ -3,8 +3,8 @@
 删除常量版resize函数
 -----------------------*/
 
-#ifndef WEAK_POINTER_VECTOR_HPP
-#define WEAK_POINTER_VECTOR_HPP
+#ifndef QUEST_WEAK_POINTER_VECTOR_HPP
+#define QUEST_WEAK_POINTER_VECTOR_HPP
 
 // 系统头文件
 #include <functional>

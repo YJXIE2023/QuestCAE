@@ -2,8 +2,8 @@
 用于存储和管理注册信息的基础类
 ----------------------------------*/
 
-#ifndef REGISTRY_ITEM_HPP
-#define REGISTRY_ITEM_HPP
+#ifndef QUEST_REGISTRY_ITEM_HPP
+#define QUEST_REGISTRY_ITEM_HPP
 
 // 系统头文件
 #include <string>

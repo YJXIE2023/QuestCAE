@@ -2,8 +2,8 @@
 弱指针向量迭代器
 ----------------------------------*/
 
-#ifndef WEAK_POINTER_VECTOR_ITERATOR_HPP
-#define WEAK_POINTER_VECTOR_ITERATOR_HPP
+#ifndef QUEST_WEAK_POINTER_VECTOR_ITERATOR_HPP
+#define QUEST_WEAK_POINTER_VECTOR_ITERATOR_HPP
 
 // 系统头文件
 #include <string>

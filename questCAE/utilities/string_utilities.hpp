@@ -2,8 +2,8 @@
 字符串操作相关的工具函数
 --------------------------------*/
 
-#ifndef STRING_UTILITIES_HPP
-#define STRING_UTILITIES_HPP
+#ifndef QUEST_STRING_UTILITIES_HPP
+#define QUEST_STRING_UTILITIES_HPP
 
 // 系统头文件
 #include <string>

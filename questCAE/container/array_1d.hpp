@@ -2,8 +2,8 @@
 #一维数组类
 -------------------------------------*/
 
-#ifndef ARRAY_1D_HPP
-#define ARRAY_1D_HPP
+#ifndef QUEST_ARRAY_1D_HPP
+#define QUEST_ARRAY_1D_HPP
 
 //系统头文件
 #include <string>

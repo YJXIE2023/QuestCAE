@@ -2,8 +2,8 @@
 复数向量与矩阵的接口
 --------------------------------------------*/
 
-#ifndef UBLAS_COMPLEX_INTERFACE_HPP
-#define UBLAS_COMPLEX_INTERFACE_HPP
+#ifndef QUEST_UBLAS_COMPLEX_INTERFACE_HPP
+#define QUEST_UBLAS_COMPLEX_INTERFACE_HPP
 
 // 系统依赖
 #include <string>
