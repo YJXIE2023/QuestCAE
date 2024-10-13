@@ -22,11 +22,19 @@
 #endif
 
 
-#ifdef LIBRARY_EXPORTS
-    #define QUEST_API QUEST_API_EXPORT
+#define QUEST_EXPAND(A) A
+
+#define QUEST_API_CALL(x,T1,T2,T3,...) T3
+
+#ifndef QUEST_API_NO_DLL
+    #define QUEST_API(...)    \
+        QUEST_EXPAND(QUEST_API_CALL(,##__VA_ARGS__,QUEST_API_EXPORT,QUEST_API_IMPORT))
+    #define QUEST_NO_EXPORT(...)
 #else
-    #define QUEST_API QUEST_API_IMPORT
+    #define QUEST_API(...)    
+    #define QUEST_NO_EXPORT(...)
 #endif
+
 
 #undef QUEST_API_EXTERN
 #ifdef __WIN32

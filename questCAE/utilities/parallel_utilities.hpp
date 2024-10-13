@@ -54,7 +54,7 @@ namespace Quest{
     //---------------------------------
     // 共享内存并行计算接口
     //---------------------------------
-    class QUEST_API ParallelUtilities{
+    class QUEST_API(QUEST_CORE) ParallelUtilities{
         public:
             [[nodiscard]] static int GetNumThreads();
 

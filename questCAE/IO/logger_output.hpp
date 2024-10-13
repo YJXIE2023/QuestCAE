@@ -17,7 +17,7 @@ LoggerOutput为日志消息输出类的基类
 
 namespace Quest{
 
-    class QUEST_API LoggerOutput{
+    class QUEST_API(QUEST_CORE) LoggerOutput{
         public:
             QUEST_DEFINE_LOCAL_FLAG(WARNING_PREFIX);
             QUEST_DEFINE_LOCAL_FLAG(INFO_PREFIX);

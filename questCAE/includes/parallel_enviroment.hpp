@@ -19,7 +19,7 @@
 namespace Quest{
 
     // 抽象基类，为其他管理类提供接口
-    class QUEST_API EnvironmentManager{
+    class QUEST_API(QUEST_CORE) EnvironmentManager{
         public:
             typedef std::unique_ptr<EnvironmentManager> Pointer;
 
@@ -38,7 +38,7 @@ namespace Quest{
 
     };
 
-    class QUEST_API ParallelEnvironment{
+    class QUEST_API(QUEST_CORE) ParallelEnvironment{
         public:
             constexpr static bool MakeDefault = true;
             constexpr static bool DoNotMakeDefault = false;

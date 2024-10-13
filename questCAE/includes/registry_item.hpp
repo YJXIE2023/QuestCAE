@@ -16,7 +16,7 @@
 
 namespace Quest{
 
-    class QUEST_API RegistryItem{
+    class QUEST_API(QUEST_CORE) RegistryItem{
         public:
             QUEST_CLASS_POINTER_DEFINITION(RegistryItem);
 

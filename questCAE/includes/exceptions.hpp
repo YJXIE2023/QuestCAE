@@ -21,7 +21,7 @@ where方法用于获取错误的位置
 
 namespace Quest{
     
-    class QUEST_API Exception:public std::exception
+    class QUEST_API(QUEST_CORE) Exception:public std::exception
     {
     public:
         
@@ -96,7 +96,7 @@ namespace Quest{
 
     std::istream& operator>>(std::istream& rIstream, Exception& rException);
 
-    QUEST_API std::ostream& operator<<(std::ostream& rOstream, const Exception& rException);
+    QUEST_API(QUEST_CORE) std::ostream& operator<<(std::ostream& rOstream, const Exception& rException);
 }
 
 

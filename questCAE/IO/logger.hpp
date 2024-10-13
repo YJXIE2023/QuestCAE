@@ -17,7 +17,7 @@ logger类负责将消息写入输出流中
 
 namespace Quest{
     
-    class QUEST_API Logger{
+    class QUEST_API(QUEST_CORE) Logger{
         public:
             using LoggerOutputContainerType = std::vector<LoggerOutput::Pointer>;
             using Severity = LoggerMessage::Severity;

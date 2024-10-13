@@ -21,7 +21,7 @@
 namespace Quest{
 
     template<typename TComponentType>
-    class QUEST_API QuestComponents{
+    class QUEST_API(QUEST_CORE) QuestComponents{
         public:
             QUEST_CLASS_POINTER_DEFINITION(QuestComponents);
             using ComponentsContainerType = std::map<std::string, const TComponentType*>;
@@ -95,7 +95,7 @@ namespace Quest{
 
 
     template<>
-    class QUEST_API QuestComponents<VariableData>{
+    class QUEST_API(QUEST_CORE) QuestComponents<VariableData>{
         public:
             QUEST_CLASS_POINTER_DEFINITION(QuestComponents);
             using ComponentsContainerType = std::map<std::string, VariableData*>;
@@ -179,21 +179,21 @@ namespace Quest{
     template<typename TComponentType>
     typename QuestComponents<TComponentType>::ComponentsContainerType QuestComponents<TComponentType>::msComponents;
 
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<bool>>;  
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<int>>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<double>>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<unsigned int>>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<Array1d<double, 3>>>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<Array1d<double, 4>>>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<Array1d<double, 6>>>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<Array1d<double, 9>>>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<Quaternion<double>>>;    
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<Vector>>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<Matrix>>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<std::string>>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Variable<Flags>>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<Flags>;
-    QUEST_API_EXTERN template class QUEST_API QuestComponents<DataCommunicator>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<bool>>;  
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<int>>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<double>>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<unsigned int>>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<Array1d<double, 3>>>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<Array1d<double, 4>>>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<Array1d<double, 6>>>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<Array1d<double, 9>>>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<Quaternion<double>>>;    
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<Vector>>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<Matrix>>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<std::string>>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Variable<Flags>>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<Flags>;
+    QUEST_API_EXTERN template class QUEST_API(QUEST_CORE) QuestComponents<DataCommunicator>;
 
     template<typename TComponentType>
     inline std::ostream& operator << (std::ostream& rOstream, const QuestComponents<TComponentType>& rComponents){
@@ -203,20 +203,20 @@ namespace Quest{
         return rOstream;
     }
 
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<bool>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<int>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<double>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<unsigned int>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<Array1d<double, 3>>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<Array1d<double, 4>>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<Array1d<double, 6>>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<Array1d<double, 9>>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<Quaternion<double>>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<Vector>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<Matrix>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<std::string>& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Flags& rComponent);
-    void QUEST_API AddQuestComponent(const std::string& rName, const Variable<Flags>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<bool>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<int>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<double>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<unsigned int>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<Array1d<double, 3>>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<Array1d<double, 4>>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<Array1d<double, 6>>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<Array1d<double, 9>>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<Quaternion<double>>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<Vector>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<Matrix>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<std::string>& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Flags& rComponent);
+    void QUEST_API(QUEST_CORE) AddQuestComponent(const std::string& rName, const Variable<Flags>& rComponent);
 
     template<typename TComponentType>
     void AddQuestComponent(const std::string& rName, const TComponentType& rComponent){}

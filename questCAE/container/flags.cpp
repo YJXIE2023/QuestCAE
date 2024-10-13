@@ -37,13 +37,13 @@ namespace Quest{
         return (Left.mFlags !=  Right.mFlags);
     }
 
-    Flags QUEST_API operator|(const Flags& Left, const Flags& Right){
+    Flags QUEST_API(QUEST_CORE) operator|(const Flags& Left, const Flags& Right){
         Flags result(Left);
         result |= Right;
         return result;
     }
 
-    Flags QUEST_API operator&(const Flags& Left, const Flags& Right){
+    Flags QUEST_API(QUEST_CORE) operator&(const Flags& Left, const Flags& Right){
         Flags result(Left);
         result &= Right;
         return result;

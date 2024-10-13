@@ -15,7 +15,7 @@ CodeLocation类保存了代码的位置，包括文件名、函数名和行号
 
 namespace Quest{
 
-    class QUEST_API CodeLocation
+    class QUEST_API(QUEST_CORE) CodeLocation
     {
     public:
 

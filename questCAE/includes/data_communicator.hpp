@@ -242,7 +242,7 @@
 
 namespace Quest{
 
-    class QUEST_API DataCommunicator{
+    class QUEST_API(QUEST_CORE) DataCommunicator{
         private:
             template<typename T>
             class serialization_is_required{

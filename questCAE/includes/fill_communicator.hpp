@@ -11,7 +11,7 @@
 
 namespace Quest{
 
-    class QUEST_API FillCommunicator{
+    class QUEST_API(QUEST_CORE) FillCommunicator{
         public:
             enum class FillCommunicatorEchoLevel{
                 NO_PRINTING = 0,

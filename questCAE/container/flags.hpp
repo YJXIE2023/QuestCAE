@@ -17,7 +17,7 @@ namespace Quest{
 
     class Serializer;
 
-    class QUEST_API Flags{
+    class QUEST_API(QUEST_CORE) Flags{
         public:
             
             QUEST_CLASS_POINTER_DEFINITION(Flags);
@@ -187,13 +187,13 @@ namespace Quest{
                     rOStream << bool(mFlags & (BlockType(1) << i));
             }
 
-            friend bool QUEST_API operator==(const Flags& rLeft, const Flags& rRight);
+            friend bool QUEST_API(QUEST_CORE) operator==(const Flags& rLeft, const Flags& rRight);
 
-            friend bool QUEST_API operator!=(const Flags& rLeft, const Flags& rRight);
+            friend bool QUEST_API(QUEST_CORE) operator!=(const Flags& rLeft, const Flags& rRight);
 
-            friend Flags QUEST_API operator|(const Flags& rLeft, const Flags& rRight);
+            friend Flags QUEST_API(QUEST_CORE) operator|(const Flags& rLeft, const Flags& rRight);
 
-            friend Flags QUEST_API operator&(const Flags& rLeft, const Flags& rRight);
+            friend Flags QUEST_API(QUEST_CORE) operator&(const Flags& rLeft, const Flags& rRight);
 
             const Flags& operator|=(const Flags& Other);
 

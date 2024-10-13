@@ -16,7 +16,7 @@
 
 namespace Quest{
 
-    class QUEST_API FilesystemExtensions{
+    class QUEST_API(QUEST_CORE) FilesystemExtensions{
         public:
             FilesystemExtensions() = delete;
 

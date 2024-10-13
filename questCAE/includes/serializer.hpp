@@ -71,7 +71,7 @@ namespace Quest{
     class VariableData;
     template<typename TDataType> class Variable;
 
-    class QUEST_API Serializer{
+    class QUEST_API(QUEST_CORE) Serializer{
         public:
             enum PointerType{SP_INVALID_POINTER, SP_BASE_CLASS_POINTER, SP_DERIVED_CLASS_POINTER};
             enum TraceType{SERIALIZER_NO_TRACE=0, SERIALIZER_TRACE_ERROR=1, SERIALIZER_TRACE_ALL=2};
@@ -593,6 +593,12 @@ namespace Quest{
             void save_base(const std::string& rTag,const Array1d<TDataType,TDimension>& rObject){
                 save_trace_point(rTag);
                 save(rTag,rObject);
+            }
+
+            template<typename TDataType>
+            void save_base(const std::string& rTag,const TDataType& rObject){
+                load_trace_point(rTag);
+                rObject.save(rTag,rObject);
             }
 
             void save_trace_point(const std::string& rTag){

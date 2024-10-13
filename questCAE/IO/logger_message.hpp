@@ -21,7 +21,7 @@ namespace Quest{
 
     class DataCommunicator;
 
-    class QUEST_API LoggerMessage{
+    class QUEST_API(QUEST_CORE) LoggerMessage{
         public:
             using TimePointType = std::chrono::system_clock::time_point;
 

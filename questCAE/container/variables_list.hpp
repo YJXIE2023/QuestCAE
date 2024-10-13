@@ -24,7 +24,7 @@
 
 namespace Quest{
 
-    class QUEST_API VariablesList final{
+    class QUEST_API(QUEST_CORE) VariablesList final{
         public:
             QUEST_CLASS_INTRUSIVE_POINTER_DEFINITION(VariablesList);
 

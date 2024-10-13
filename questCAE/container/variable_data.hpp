@@ -18,7 +18,7 @@
 
 namespace Quest{
 
-    class QUEST_API VariableData{
+    class QUEST_API(QUEST_CORE) VariableData{
         public:
             QUEST_CLASS_POINTER_DEFINITION(VariableData);
             using KeyType = std::size_t;

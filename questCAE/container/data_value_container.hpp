@@ -23,7 +23,7 @@
 
 namespace Quest{
 
-    class QUEST_API DataValueContainer{
+    class QUEST_API(QUEST_CORE) DataValueContainer{
         public:
             QUEST_DEFINE_LOCAL_FLAG(OVERWRITE_OLD_VALUES);
             QUEST_CLASS_POINTER_DEFINITION(DataValueContainer);
@@ -109,7 +109,7 @@ namespace Quest{
 
 
             DataValueContainer& operator=(const DataValueContainer& rOther){
-                clear();
+                Clear();
 
                 for(const_iterator i = rOther.mData.begin(); i!= rOther.mData.end(); ++i)
                     mData.push_back(ValueType(i->first, i->first->Clone(i->second)));
@@ -178,7 +178,7 @@ namespace Quest{
             }
 
 
-            void clear(){
+            void Clear(){
                 for(ContainerType::iterator i = mData.begin(); i != mData.end(); ++i)
                     i->first->Delete(i->second);
 

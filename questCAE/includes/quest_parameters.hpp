@@ -17,10 +17,10 @@
 
 namespace Quest{
     
-    class QUEST_API Parameters{
+    class QUEST_API(QUEST_CORE) Parameters{
         private:
 
-            class QUEST_API iterator_adaptor{
+            class QUEST_API(QUEST_CORE) iterator_adaptor{
                 public:
                     using itertor_category = std::forward_iterator_tag;
                     using difference_type  = std::ptrdiff_t;
@@ -58,7 +58,7 @@ namespace Quest{
 
             };
 
-            class QUEST_API const_iterator_adaptor{
+            class QUEST_API(QUEST_CORE) const_iterator_adaptor{
                 public:
                     using iterator_category = std::forward_iterator_tag;
                     using difference_type   = std::ptrdiff_t;
