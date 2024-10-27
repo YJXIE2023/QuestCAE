@@ -141,7 +141,7 @@ namespace Quest{
                 
                 return *(std::any_cast<std::shared_ptr<TdataType>>(mpValue));
 
-                QUEST_CATCH("");
+                QUEST_CATCH("")
             }
 
             template<typename TDataType, typename TCastType>
@@ -150,7 +150,7 @@ namespace Quest{
 
                 return *std::dynamic_pointer_cast<TCastType>(std::any_cast<std::shared_ptr<TDataType>>(mpValue));
 
-                QUEST_CATCH("");
+                QUEST_CATCH("")
             }
 
             void RemoveItem(const std::string& rItemName);

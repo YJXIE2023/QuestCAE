@@ -16,7 +16,7 @@ namespace Quest{
     
     void FillCommunicator::Execute(){
         QUEST_TRY
-        QUEST_CATCH("");
+        QUEST_CATCH("")
     }
 
 
@@ -42,7 +42,7 @@ namespace Quest{
         QUEST_ERROR_IF_NOT(r_communicator.GhostMesh().NumberOfNodes() == 0) << "There are not expected nodes in the ghost mesh" << std::endl;
         QUEST_ERROR_IF_NOT(r_communicator.InterfaceMesh().NumberOfNodes() == 0) << "There are not expected nodes in the interface mesh" << std::endl;
 
-        QUEST_CATCH("");
+        QUEST_CATCH("")
     }
 
 

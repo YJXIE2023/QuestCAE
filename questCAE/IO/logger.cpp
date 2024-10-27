@@ -41,7 +41,7 @@ namespace Quest{
             }
         }
 
-        QUEST_CATCH("");
+        QUEST_CATCH("")
     }
 
     void Logger::Flush(){

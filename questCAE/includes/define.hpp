@@ -507,6 +507,11 @@ Flags
     const Quest::Flags class_name::name(Quest::Flags::Create(position));
 
 
+#ifdef QUEST_CREATE_LOCAL_FLAG
+#undef QUEST_CREATE_LOCAL_FLAG
+#endif
+#define QUEST_CREATE_LOCAL_FLAG(class_name, name, position)   \
+    const Quest::Flags class_name::name(Quest::Flags::Create(position));
 
 /*---------------------------------------------------
 components
@@ -528,6 +533,17 @@ components
 
 #define QUEST_SERIALIZE_LOAD_BASE_CLASS(Serializer,BaseType)  \
     Serializer.load_base("BaseClass", *static_cast<BaseType*>(this));
+
+
+namespace Quest{
+
+
+    // 用于调试和输出变量值的工具，方便在程序运行时打印变量的值和信息
+    #define QUEST_WATCH(variable) std::cout << #variable << " : " << variable << std::endl;
+    #define QUEST_WAATCH_CERR(variable) std::cerr << #variable << " : " << variable << std::endl;
+    #define QUEST_WATCH_MPI(variable, mpi_data_comm) std::cout << "RANK " << mpi_data_comm.Rank() << "/" << mpi_data_comm.Size() << " : "; QUEST_WATCH(variable);
+    
+}
 
 
 #endif // DEFINE_H
