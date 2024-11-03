@@ -357,7 +357,7 @@ namespace Quest{
 
 
             template<typename TInputIterator>
-            void insert(InputIterator first, InputIterator last){
+            void insert(TInputIterator first, TInputIterator last){
                 for(; first!= last; ++first){   
                     insert(begin(), *first);
                 }
