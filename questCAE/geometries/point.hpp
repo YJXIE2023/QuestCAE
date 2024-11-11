@@ -62,12 +62,12 @@ namespace Quest{
             }
 
             double SquaredDistance(const Point& rOther) const{
-                const Array1d<double, 3> diff_vector = this->Coordiantes() - rOther.Coordiantes();
+                const Array1d<double, 3> diff_vector = this->Coordinates() - rOther.Coordinates();
                 return (std::pow(diff_vector[0],2)+std::pow(diff_vector[1],2)+std::pow(diff_vector[2],2));
             }
 
             double Distance(const Point& rOther) const{
-                return norm_2(this->Coordiantes() - rOther.Coordiantes());
+                return norm_2(this->Coordinates() - rOther.Coordinates());
             }
 
             static constexpr IndexType Dimension(){
@@ -98,11 +98,11 @@ namespace Quest{
                 return this->operator[](2);
             }
 
-            const CoordinatesArrayType& Coordiantes() const{
+            const CoordinatesArrayType& Coordinates() const{
                 return *this;
             }
 
-            CoordinatesArrayType& Coordiantes(){
+            CoordinatesArrayType& Coordinates(){
                 return *this;
             }
 

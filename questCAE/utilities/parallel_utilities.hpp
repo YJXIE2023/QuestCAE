@@ -199,57 +199,81 @@ namespace Quest{
     };
 
 
-    template<typename TIterator, typename TFunction>
-    std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,typename std::iterator_traits<TIterator>::iterator_category>,void>
-    block_for_each(TIterator it_begin, TIterator it_end, TFunction&& f){
+    template<
+        typename TIterator, 
+        typename TFunction,
+        std::enable_if_t<std::is_base_of_v<std::input_iterator_tag,typename std::iterator_traits<TIterator>::iterator_category>,bool> = true>
+    void block_for_each(TIterator it_begin, TIterator it_end, TFunction&& f){
         BlockPartition<TIterator>(it_begin, it_end).for_each(std::forward<TFunction>(f));
     }
 
 
-    template<typename TReduction, typename TIterator, typename TFunction,
-            std::enable_if_t<std::is_base_of_v<std::input_iterator_tag, typename std::iterator_traits<TIterator>::iterator_Category>,bool> = true>
+    template<
+        typename TReduction, 
+        typename TIterator, 
+        typename TFunction,
+        std::enable_if_t<std::is_base_of_v<std::input_iterator_tag, typename std::iterator_traits<TIterator>::iterator_Category>,bool> = true>
     [[nodiscard]] typename TReduction::return_type block_for_each(TIterator it_begin, TIterator it_end, TFunction&& f){
         return BlockPartition<TIterator>(it_begin, it_end).template for_each<TReduction>(std::forward<TFunction>(std::forward<TFunction>(f)));
     }
 
 
-    template<typename TIterator, typename TTLS, typename TFunction,
-            std::enable_if_t<std::is_base_of_v<std::input_iterator_tag, typename std::iterator_traits<TIterator>::iterator_category>,bool> = true>
+    template<
+        typename TIterator, 
+        typename TTLS, 
+        typename TFunction,
+        std::enable_if_t<std::is_base_of_v<std::input_iterator_tag, typename std::iterator_traits<TIterator>::iterator_category>,bool> = true>
     void block_for_each(TIterator it_begin, TIterator it_end, const TTLS& rTLS, TFunction&& f){
         BlockPartition<TIterator>(it_begin, it_end).for_each(rTLS, std::forward<TFunction>(f));
     }
 
 
-    template<typename TReduction, typename TIterator, typename TTLS, typename TFunction,
-            std::enable_if_t<std::is_base_of_v<std::input_iterator_tag, typename std::iterator_traits<TIterator>::iterator_category>,bool> = true>
+    template<
+        typename TReduction, 
+        typename TIterator, 
+        typename TTLS, 
+        typename TFunction,
+        std::enable_if_t<std::is_base_of_v<std::input_iterator_tag, typename std::iterator_traits<TIterator>::iterator_category>,bool> = true>
     [[nodiscard]] typename TReduction::return_type block_for_each(TIterator it_begin, TIterator it_end, const TTLS& rTLS, TFunction&& f){
-        return BlockPartition<TIterator>(it_begin, it_end).template for_each<TReduction>(rTLS, std::forward<TFunction>(f));
+        return BlockPartition<TIterator>(it_begin, it_end).template for_each<TReduction>(rTLS, std::forward<TFunction>(std::forward<TFunction>(f)));
     }
 
 
-    template<typename TContainerType,typename TFunctionType,
-            std::enable_if_t<!std::is_same_v<std::iterator_traits<typename decltype(std::declval<std::remove_cv_t<TContainerType>>().begin())::value_type>,void>,bool> = true>
+    template<
+        typename TContainerType,
+        typename TFunctionType,
+        std::enable_if_t<!std::is_same_v<std::iterator_traits<typename decltype(std::declval<std::remove_cv_t<TContainerType>>().begin())::value_type>,void>,bool> = true>
     void block_for_each(TContainerType&& v,TFunctionType&& f){
         block_for_each(v.begin(),v.end(),std::forward<TFunctionType>(f));
     }
 
 
-    template<typename TReduction,typename TContainerType,typename TFunctionType,
-            std::enable_if_t<!std::is_same_v<std::iterator_traits<typename decltype(std::declval<std::remove_cv_t<TContainerType>>().begin())::value_type>,void>,bool> = true>
+    template<
+        typename TReduction,
+        typename TContainerType,
+        typename TFunctionType,
+        std::enable_if_t<!std::is_same_v<std::iterator_traits<typename decltype(std::declval<std::remove_cv_t<TContainerType>>().begin())::value_type>,void>,bool> = true>
     [[nodiscard]] typename TReduction::return_type block_for_each(TContainerType&& v,TFunctionType&& f){
         return block_for_each<TReduction>(v.begin(),v.end(),std::forward<TFunctionType>(f));
     }
 
 
-    template<typename TContainerType,typename TTLS,typename TFunctionType,
-            std::enable_if_t<!std::is_same_v<std::iterator_traits<typename decltype(std::declval<std::remove_cv_t<TContainerType>>().begin())::value_type>,void>,bool> = true>
+    template<
+        typename TContainerType,
+        typename TTLS,
+        typename TFunctionType,
+        std::enable_if_t<!std::is_same_v<std::iterator_traits<typename decltype(std::declval<std::remove_cv_t<TContainerType>>().begin())::value_type>,void>,bool> = true>
     void block_for_each(TContainerType&& v,const TTLS& rTLS,TFunctionType&& f){
         block_for_each(v.begin(),v.end(),rTLS,std::forward<TFunctionType>(f));
     }
 
 
-    template<typename TReduction,typename TContainerType,typename TTLS,typename TFunctionType,
-            std::enable_if_t<!std::is_same_v<std::iterator_traits<typename decltype(std::declval<std::remove_cv_t<TContainerType>>().begin())::value_type>,void>,bool> = true>
+    template<
+        typename TReduction,
+        typename TContainerType,
+        typename TTLS,
+        typename TFunctionType,
+        std::enable_if_t<!std::is_same_v<std::iterator_traits<typename decltype(std::declval<std::remove_cv_t<TContainerType>>().begin())::value_type>,void>,bool> = true>
     [[nodiscard]] typename TReduction::return_type block_for_each(TContainerType&& v,const TTLS& rTLS,TFunctionType&& f){    
         return block_for_each<TReduction>(v.begin(),v.end(),rTLS,std::forward<TFunctionType>(f));
     }

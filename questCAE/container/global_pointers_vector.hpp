@@ -17,9 +17,9 @@
 namespace Quest{
 
     template<typename TDataType>
-    class GlobalPointerVector final{
+    class GlobalPointersVector final{
         public:
-            QUEST_CLASS_POINTER_DEFINITION(GlobalPointerVector);
+            QUEST_CLASS_POINTER_DEFINITION(GlobalPointersVector);
 
             using TContainerType = std::vector<GlobalPointer<TDataType>>;
             using TPointerType = GlobalPointer<TDataType>;
@@ -44,11 +44,11 @@ namespace Quest{
             using difference_type = typename TContainerType::difference_type;
 
 
-            GlobalPointerVector(): mData(){}
+            GlobalPointersVector(): mData(){}
 
-            GlobalPointerVector(const std::initializer_list<GlobalPointer<TDataType>>& rList): mData(rList){}
+            GlobalPointersVector(const std::initializer_list<GlobalPointer<TDataType>>& rList): mData(rList){}
 
-            ~GlobalPointerVector(){}
+            ~GlobalPointersVector(){}
 
             template<typename TContainerType>
             void FillFromContainer(TContainerType& rContainer){
@@ -73,7 +73,7 @@ namespace Quest{
                 mData.shrink_to_fit();
             }
 
-            GlobalPointerVector& operator = (const GlobalPointerVector& rOther){
+            GlobalPointersVector& operator = (const GlobalPointersVector& rOther){
                 mData = rOther.mData;
                 return *this;
             }
@@ -94,7 +94,7 @@ namespace Quest{
                 return mData[rIndex];
             }
 
-            bool operator == (const GlobalPointerVector& rOther) const{
+            bool operator == (const GlobalPointersVector& rOther) const{
                 if(this->size()!= rOther.size()){
                     return false;
                 } else {
@@ -194,7 +194,7 @@ namespace Quest{
                 return mData.max_size();
             }
 
-            void swap(GlobalPointerVector& rOther){
+            void swap(GlobalPointersVector& rOther){
                 mData.swap(rOther.mData);
             }
 
@@ -243,7 +243,7 @@ namespace Quest{
 
             std::string Info() const{
                 std::stringstream buffer;
-                buffer << "GlobalPointerVector";
+                buffer << "GlobalPointersVector";
                 return buffer.str();
             }
 
@@ -289,15 +289,15 @@ namespace Quest{
             TContainerType mData;
 
 
-    }; // class GlobalPointerVector
+    }; // class GlobalPointersVector
 
     template<typename TDataType>
-    inline std::istream& operator >> (std::istream& rIstream, GlobalPointerVector<TDataType>& rVector){
+    inline std::istream& operator >> (std::istream& rIstream, GlobalPointersVector<TDataType>& rVector){
         return rIstream;
     }
 
     template<typename TDataType>
-    inline std::ostream& operator << (std::ostream& rOstream, const GlobalPointerVector<TDataType>& rVector){
+    inline std::ostream& operator << (std::ostream& rOstream, const GlobalPointersVector<TDataType>& rVector){
         rVector.PrintInfo(rOstream);
         rOstream << std::endl;
         rVector.PrintData(rOstream);

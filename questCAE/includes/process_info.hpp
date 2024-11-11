@@ -20,7 +20,7 @@ namespace Quest{
 
     class QUEST_API(QUEST_CORE) ProcessInfo: public DataValueContainer, public Flags{
         public:
-            QUEST_CLASS_INTRUSIVE_POINTER_DEFINITION(ProcessInfo);
+            QUEST_CLASS_POINTER_DEFINITION(ProcessInfo);
             using BaseType = DataValueContainer;
             using SizeType = std::size_t;
             using IndexType = std::size_t;

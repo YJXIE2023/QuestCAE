@@ -609,7 +609,7 @@ namespace Quest{
             virtual bool IsIncremental();
 
 
-            virtual void InitializeMeterial(
+            virtual void InitializeMaterial(
                 const Properties& rMaterialProperties,
                 const GeometryType& rElementGeometry,
                 const Vector& rShapeFunctionsValues
@@ -619,13 +619,13 @@ namespace Quest{
             void CalculateMaterialResponse(Parameters& rValues, const StressMeasure& rStressMeasure);
 
 
-            virtual void CalculateMatrialResponsePK1(Parameters& rValues);
+            virtual void CalculateMaterialResponsePK1(Parameters& rValues);
 
 
-            virtual void CalculateMatrialResponsePK2(Parameters& rValues);
+            virtual void CalculateMaterialResponsePK2(Parameters& rValues);
 
 
-            virtual void CalculateMatrialResponseKirchhoff(Parameters& rValues);
+            virtual void CalculateMaterialResponseKirchhoff(Parameters& rValues);
 
 
             virtual void CalculateMaterialResponseCauchy(Parameters& rValues);
@@ -797,7 +797,7 @@ namespace Quest{
 
         protected:
             static const unsigned int msIndexVoigt3D6C[6][2];
-            static const unsigned int msIndexVoigt2D3C[3][2];
+            static const unsigned int msIndexVoigt2D4C[4][2];
             static const unsigned int msIndexVoigt2D3C[3][2];
 
 

@@ -930,7 +930,7 @@ namespace Quest{
 
 
             template<typename TMatrixType, typename TVector = Vector>
-            static inline Vector strainTensorToVector(
+            static inline Vector StrainTensorToVector(
                 const TMatrixType& rstrainTensor,
                 SizeType rSize = 0
             ){

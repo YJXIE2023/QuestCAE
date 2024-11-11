@@ -20,7 +20,7 @@ namespace Quest{
                     const std::size_t& operator()(const TGeometryType& rGeometry) const{
                         return rGeometry.Id();
                     } 
-            }
+            };
 
         public:
             QUEST_CLASS_POINTER_DEFINITION(GeometryContainer);
