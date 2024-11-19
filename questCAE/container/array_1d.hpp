@@ -22,27 +22,91 @@
 
 namespace Quest{
 
-    //一维数组类
+    /**
+     * @class Array1d
+     * @brief 1维数组类
+     * 
+     * 该数组继承自boost::numeric::ublas::vector_expression<Array1d<T, N> >，因此可以作为向量表达式使用。
+     * 
+     * @tparam T 数组元素类型
+     * @tparam N 数组长度
+     * 
+    */
     template<typename T, std::size_t N>
     class Array1d:public boost::numeric::ublas::vector_expression<Array1d<T, N> >{
-        
         public:
-            //一维数组类中类型别名
+            /**
+             * @typedef Pointer 共享指针类型
+             */
             QUEST_CLASS_POINTER_DEFINITION(Array1d);
+
             typedef std::size_t size_type;
-            typedef std::ptrdiff_t difference_type;  //指针之间的差值
+
+            typedef std::ptrdiff_t difference_type;  
+
+            /**
+             * @typedef value_type 数组元素类型
+             */
             typedef T value_type;
+
+            /**
+             * @typedef const_reference 常量引用类型
+             * 
+             * @brief 常量引用类型，来自boost::numeric::ublas::type_traits<T>::const_reference
+             */
             typedef typename boost::numeric::ublas::type_traits<T>::const_reference const_reference;
+
+            /**
+             * @typedef reference 数组元素的引用类型
+             */
             typedef T& reference;
+
+            /**
+             * @typedef array_type 标准库中数组类型，用于兼容性
+             */
             typedef std::array<T,N> array_type;
+
+            /**
+             * @typedef pointer 数组元素的指针类型
+             */
             typedef T* pointer;
+
+            /**
+             * @typedef self_type 自身类型
+             */
             typedef Array1d<T,N> self_type;
+
+            /**
+             * @typedef const_closure_type 常量向量引用类型
+             * 
+             * @brief 常量向量引用类型，基于boost库的封装
+             */
             typedef const boost::numeric::ublas::vector_reference<const self_type> const_closure_type;
+
+            /**
+             * @typedef closure_type 向量引用类型
+             * 
+             * @brief 向量引用类型，基于boost库的封装
+             */
             typedef boost::numeric::ublas::vector_reference<self_type> closure_type;
+
+            /**
+             * @typedef vector_temporary_type 临时向量类型
+             */
             typedef self_type vector_temporary_type;
+
+            /**
+             * @typedef storage_category 存储方式
+             * 
+             * @brief dense_tag为boost库中存储方式的标签，表示该数组是密集存储的
+             */
             typedef boost::numeric::ublas::dense_tag storage_category;
 
-            //只读迭代器和迭代器的声明
+            /**
+             * @typedef iterator 迭代器类型
+             * 
+             * @brief 定义了BOOST_UBLAS_USE_INDEXED_ITERATOR宏时，使用boost库的索引迭代器，否则使用自定义的迭代器
+             */
             #ifdef BOOST_UBLAS_USE_INDEXED_ITERATOR
                 typedef indexed_iterator<self_type, dense_random_access_iterator_tag> iterator;
                 typedef indexed_const_iterator<self_type, dense_random_access_iterator_tag> const_iterator;
@@ -51,7 +115,11 @@ namespace Quest{
                 class iterator;
             #endif // BOOST_UBLAS_USE_INDEXED_ITERATOR
 
-            //反向迭代器
+            /**
+             * @typedef reverse_iterator 反向迭代器类型
+             * 
+             * @brief 定义了BOOST_MSVC_STD_ITERATOR宏时，使用标准库中的反向迭代器，否则使用boost库中的反向迭代器
+             */
             #ifdef BOOST_MSVC_STD_ITERATOR
                 typedef reverse_iterator_base<const_iterator,value_type,const_reference> const_reverse_iterator;
                 typedef reverse_iterator_base<iterator,value_type,reference> reverse_iterator;
@@ -60,13 +128,22 @@ namespace Quest{
                 typedef boost::numeric::ublas::reverse_iterator_base<iterator> reverse_iterator;
             #endif // BOOST_MSVC_STD_ITERATOR
 
-            //只读迭代器的实现
+
             #ifndef BOOST_UBLAS_USE_INDEXED_ITERATOR
+            /**
+             * @class const_iterator 常量迭代器类
+             * 
+             * @brief 继承自boost库中的迭代器类container_const_iterator，表示容器的常量迭代器
+             *  继承自boost库中的random_access_iterator_base，表示该迭代器支持随机访问
+             * 
+             */
             class const_iterator:public container_const_iterator<Array1d>,
                 public random_access_iterator_base<dense_random_access_iterator_tag,const_iterator,value_type,difference_type>
             {
                 public:
-                    //类型别名
+                    /**
+                     * @typedef iterator_category 密集存储的随机访问迭代器
+                     */
                     typedef dense_random_access_iterator_tag iterator_category;
                     #ifdef BOOST_MSVC_STD_ITERATOR
                         typedef const_reference reference;
@@ -77,44 +154,71 @@ namespace Quest{
                         typedef const typename Array1d::const_pointer pointer;
                     #endif
 
+                    /**
+                     * @brief 默认构造函数
+                     */
                     BOOST_UBLAS_INLINE
                     const_iterator():container_const_iterator<Array1d>(),it_(){}
 
+                    /**
+                     * @brief 构造函数
+                     * 
+                     * @param v Array1d对象
+                     * @param it 常量迭代器对象
+                     */
                     BOOST_UBLAS_INLINE
                     const_iterator(const self_type& v,const_iterator_type it_):
                         container_const_reference<self_type>(v),it_(it){}
 
+                    /**
+                     * @brief 复制构造函数
+                     */
                     #ifdef BOOST_UBALS_QUALIFIED_TYPENAME
                         const_iterator(const iterator& it):
                     #else
-                        cosnt_iterator(const typename slef_type::iterator& it):
+                        cosnt_iterator(const typename self_type::iterator& it):
                     #endif
                         container_const_reference<self_type>(it()),it_(it.it_){}
 
+                    /**
+                     * @brief 迭代器递增
+                     */
                     BOOST_UBLAS_INLINE
                     const_iterator& operator++(){
                         ++it_;
                         return *this;
                     }
 
+                    /**
+                     * @brief 迭代器递减
+                     */
                     BOOST_UBLAS_INLINE
                     const_iterator& operator--(){
                         --it_;
                         return *this;
                     }
 
+                    /**
+                     * @brief 迭代器向右移动n个位置
+                     */
                     BOOST_UBLAS_INLINE
                     const_iterator& operator+=(difference_type n){
                         it_ += n;
                         return *this;
                     }
 
+                    /**
+                     * @brief 迭代器向左移动n个位置
+                     */
                     BOOST_UBLAS_INLINE
                     const_iterator& operator-=(difference_typee n){
                         it_ -= n;
                         return *this;
                     }
 
+                    /**
+                     * @brief 两个迭代器的差值
+                     */
                     BOOST_UBLAS_INLINE
                     difference_type operator-(const const_iterator& it) const{
                         BOOST_UBLAS_CHECK(&(*this)()==&it(), external_logic());
@@ -154,6 +258,9 @@ namespace Quest{
                 protected:
 
                 private:
+                    /**
+                     * @brief 常量迭代器对象
+                     */
                     const_iterator_type it_;
                     friend class iterator;
             };
