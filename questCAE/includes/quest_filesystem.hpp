@@ -16,6 +16,9 @@
 
 namespace Quest{
 
+    /**
+     * @brief 处理与文件系统相关操作的工具类
+     */
     class QUEST_API(QUEST_CORE) FilesystemExtensions{
         public:
             FilesystemExtensions() = delete;
@@ -24,13 +27,26 @@ namespace Quest{
 
             FilesystemExtensions& operator=(const FilesystemExtensions&) = delete;
 
-            //该函数接受一个路径 rPath，并返回该路径下所有文件和目录的列表
+
+            /**
+             * @brief 展开路径
+             * @details 该函数接受一个路径 rPath，并返回该路径的绝对路径
+             */
             [[nodiscard]] static std::vector<std::filesystem::path> ListDirectory(const std::filesystem::path& rPath);
             
-            //该函数用于在分布式计算环境（如 MPI 中）安全地创建目录
+
+            /**
+             * @brief 分布式计算环境安全地创建目录
+             */
             static void MPISafeCreateDirectories(const std::filesystem::path& rPath);
 
-            //该函数用于递归解析符号链接（symlink）。如果 rPath 是一个符号链接，函数将一直解析该链接，直到找到实际的文件路径
+
+            /**
+             * @brief 递归解析目录
+             * @details 如果 rPath 是一个符号链接，函数将一直解析该链接，直到找到实际的文件路径（定位symlink标志）
+             * ln -s /home/user/documents/project /shortcut/project
+             * lrwxrwxrwx 1 user group 11 Nov 24 12:00 symlink -> /target/path （转换后的信息，symlink后指向的路径才为实际路径）
+             */
             [[nodiscard]] static std::filesystem::path ResolveSymlinks(const std::filesystem::path& rPath);
 
         protected:

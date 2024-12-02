@@ -27,6 +27,11 @@ namespace Quest{
             using IndexType = std::size_t;
             using SizeType = std::size_t;
 
+
+            /**
+             * @brief 构造函数
+             * @param NewQueueSize 分析步的数量
+             */
             explicit VariablesListDataValueContainer(SizeType NewQueueSize = 1):
                 mQueueSize(NewQueueSize),
                 mpCurrentPosition(0),
@@ -50,6 +55,11 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 复制构造函数
+             * @param rOther 被复制的对象
+             */
             VariablesListDataValueContainer(const VariablesListDataValueContainer& rOther):
                 mQueueSize(rOther.mQueueSize),
                 mpCurrentPosition(0),
@@ -74,6 +84,12 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 构造函数
+             * @param pVariablesList 变量列表对象
+             * @param NewQueueSize 分析步的数量
+             */
             VariablesListDataValueContainer(VariablesList::Pointer pVariablesList, SizeType NewQueueSize = 1):
                 mQueueSize(NewQueueSize),
                 mpCurrentPosition(0),
@@ -97,6 +113,13 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 构造函数
+             * @param pVariablesList 变量列表对象的指针
+             * @param ThsData 存储数据的块的头指针
+             * @param NewQueueSize 分析步的数量
+             */
             VariablesListDataValueContainer(VariablesList::Pointer pVariablesList, const BlockType* ThisData, SizeType NewQueueSize = 1):
                 mQueueSize(NewQueueSize),
                 mpCurrentPosition(0),
@@ -121,40 +144,80 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 析构函数
+             */
             ~VariablesListDataValueContainer(){
                 Clear();
             }
 
+
+            /**
+             * @brief 获取变量的值
+             * @param rThisVariable 变量对象
+             */
             template<typename TDataType>
             TDataType& operator()(const Variable<TDataType>& rThisVariable){
                 return GetValue(rThisVariable);
             }
 
+
+            /**
+             * @brief 获取变量的值
+             * @param rThisVariable 变量对象
+             * @param QueueIndex 分析步的索引
+             */
             template<typename TDataType>
             TDataType& operator()(const Variable<TDataType>& rThisVariable, SizeType QueueIndex){
                 return GetValue(rThisVariable, QueueIndex);
             }
 
+
+            /**
+             * @brief 获取变量的值
+             * @param rThisVariable 变量对象
+             */
             template<typename TDataType>
             const TDataType& operator()(const Variable<TDataType>& rThisVariable) const{
                 return GetValue(rThisVariable);
             }
 
+
+            /**
+             * @brief 获取变量的值
+             * @param rThisVariable 变量对象
+             * @param QueueIndex 分析步的索引
+             */
             template<typename TDataType>
             const TDataType& operator()(const Variable<TDataType>& rThisVariable, SizeType QueueIndex) const{
                 return GetValue(rThisVariable, QueueIndex);
             }
 
+
+            /**
+             * @brief 下标访问
+             * @param rThisVariable 变量对象
+             */
             template<typename TDataType>
             TDataType& operator[](const Variable<TDataType>& rThisVariable){
                 return GetValue(rThisVariable);
             }
 
+
+            /**
+             * @brief 下标常量访问
+             * @param rThisVariable 变量对象
+             */
             template<typename TDataType>
             const TDataType& operator[](const Variable<TDataType>& rThisVariable) const{
                 return GetValue(rThisVariable);
             }
 
+
+            /**
+             * @brief 赋值运算符重载
+             */
             VariablesListDataValueContainer& operator=(const VariablesListDataValueContainer& rOther){
                 if(rOther.mpVariablesList == 0){
                     Clear();
@@ -191,6 +254,11 @@ namespace Quest{
                 return *this;
             }
 
+
+            /**
+             * @brief 获取变量的值
+             * @param rThisVariable 变量对象
+             */
             template<typename TDataType>
             TDataType& GetValue(const Variable<TDataType>& rThisVariable){
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
@@ -198,6 +266,12 @@ namespace Quest{
                 return *(reinterpret_cast<TDataType*>(Position(rThisVariable))+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 获取变量的值
+             * @param rThisVariable 变量对象
+             * @param QueueIndex 分析步的索引
+             */
             template<typename TDataType>
             TDataType& GetValue(const Variable<TDataType>& rThisVariable, SizeType QueueIndex){
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
@@ -205,6 +279,11 @@ namespace Quest{
                 return *(reinterpret_cast<TDataType*>(Position(rThisVariable, QueueIndex))+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 获取变量的常量引用
+             * @param rThisVariable 变量对象
+             */
             template<typename TDataType>
             const TDataType& GetValue(const Variable<TDataType>& rThisVariable) const{
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
@@ -212,6 +291,12 @@ namespace Quest{
                 return *(reinterpret_cast<const TDataType*>(Position(rThisVariable))+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 获取变量的常量引用
+             * @param rThisVariable 变量对象
+             * @param QueueIndex 分析步的索引
+             */
             template<typename TDataType>
             const TDataType& GetValue(const Variable<TDataType>& rThisVariable, SizeType QueueIndex) const{
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
@@ -219,21 +304,48 @@ namespace Quest{
                 return *(reinterpret_cast<const TDataType*>(Position(rThisVariable, QueueIndex))+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 快速获取变量的值
+             * @details 该函数不进行检查，直接返回变量的值的引用，因此效率较高，但不安全，仅在确保变量的有效性时使用
+             * @param rThisVariable 变量对象
+             */
             template<typename TDataType>
             TDataType& FastGetValue(const Variable<TDataType>& rThisVariable){
                 return *(reinterpret_cast<TDataType*>(Position(rThisVariable))+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 快速获取变量的值
+             * @details 该函数不进行检查，直接返回变量的值的指针，因此效率较高，但不安全，仅在确保变量的有效性时使用
+             * @param rThisVariable 变量对象
+             */
             template<typename TDataType>
             TDataType* pFastGetValue(const Variable<TDataType>& rThisVariable){
                 return reinterpret_cast<TdataType*>(Position(rThisVariable))+rThisVariable.GetComponentIndex();
             }
 
+
+            /**
+             * @brief 快速获取变量的常量引用
+             * @details 该函数不进行检查，直接返回变量的值的引用，因此效率较高，但不安全，仅在确保变量的有效性时使用
+             * @param rThisVariable 变量对象
+             * @param QueueIndex 分析步的索引
+             */
             template<typename TDataType>
             TDataType& FastGetValue(const Variable<TDataType>& rThisVariable, SizeType QueueIndex){
                 return *(reinterpret_cast<TDataType*>(Position(rThisVariable, QueueIndex))+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 快速获取变量的常量引用
+             * @details 基于变量的位置的指针，快速获取变量的值
+             * @param rThisVariable 变量对象
+             * @param QueueIndex 分析步的索引
+             * @param ThisPosition 指向变量数据的指针
+             */
             template<typename TDataType>
             TDataType& FastGetValue(const Variable<TDataType>& rThisVariable, SizeType QueueIndex, SizeType ThisPosition){
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
@@ -242,6 +354,13 @@ namespace Quest{
                 return *(reinterpret_cast<TDataType*>(Position(rThisVariable, QueueIndex))+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 快速获取当前位置的变量的值
+             * @details 基于变量的位置的指针，快速获取变量的值
+             * @param rThisVariable 变量对象
+             * @param ThisPosition 指向变量数据的指针
+             */
             template<typename TDataType>
             TDataType& FastGetCurrentValue(const Variable<TDataType>& rThisVariable, SizeType ThisPosition){
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
@@ -249,31 +368,69 @@ namespace Quest{
                 return *(reinterpret_cast<TDataType*>(mpCurrentPosition+ThisPosition)+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 快速获取变量的常量引用
+             * @details 该函数不进行检查，直接返回变量的值的指针，因此效率较高，但不安全，仅在确保变量的有效性时使用
+             * @param rThisVariable 变量对象
+             */
             template<typename TDataType>
             const TDataType& FastGetValue(const Variable<TDataType>& rThisVariable) const{
                 return *(reinterpret_cast<const TDataType*>(Position(rThisVariable))+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 快速获取变量的常量指针引用
+             * @details 该函数不进行检查，直接返回变量的值的指针，因此效率较高，但不安全，仅在确保变量的有效性时使用
+             * @param rThisVariable 变量对象
+             */
             template<typename TDataType>
             const TDataType* pFastGetValue(const Variable<TDataType>& rThisVariable) const{
                 return reinterpret_cast<const TdataType*>(Position(rThisVariable))+rThisVariable.GetComponentIndex();
             }
 
+
+            /**
+             * @brief 快速获取变量的常量引用
+             * @details 该函数不进行检查，直接返回变量的值的指针，因此效率较高，但不安全，仅在确保变量的有效性时使用
+             * @param rThisVariable 变量对象
+             * @param QueueIndex 分析步的索引
+             */
             template<typename TDataType>
             const TDataType& FastGetValue(const Variable<TDataType>& rThisVariable, SizeType QueueIndex) const{
                 return *(reinterpret_cast<const TDataType*>(Position(rThisVariable, QueueIndex))+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 快速获取变量的常量引用
+             * @details 基于变量的位置的指针，快速获取变量的值
+             * @param rThisVariable 变量对象
+             * @param QueueIndex 分析步的索引
+             * @param ThisPosition 变量的位置
+             */
             template<typename TDataType>
             const TDataType& FastGetValue(const Variable<TDataType>& rThisVariable, SizeType QueueIndex, SizeType ThisPosition) const{
                 return *(reinterpret_cast<const TDataType*>(Position(QueueIndex)+ThisPosition)+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 快速获取变量的常量引用
+             * @details 基于变量的位置的指针，快速获取变量的值
+             * @param rThisVariable 变量对象
+             * @param ThisPosition 变量值的位置与当前位置的偏移量
+             */
             template<typename TDataType>
             const TDataType& FastGetCurrentValue(const Variable<TDataType>& rThisVariable, SizeType ThisPosition) const{
                 return *(reinterpret_cast<const TDataType*>(mpCurrentPosition+ThisPosition)+rThisVariable.GetComponentIndex());
             }
 
+
+            /**
+             * @brief 变量的数量
+             */
             SizeType Size() const{
                 if(!mpVariablesList){
                     return 0;
@@ -282,10 +439,18 @@ namespace Quest{
                 return mpVariablesList->DataSize();
             }
 
+
+            /**
+             * @brief 获取分析步的数量
+             */
             SizeType QueueSize() const{
                 return mQueueSize;
             }
 
+
+            /**
+             * @brief 变量数量*分析步的数量
+             */
             SizeType TotalSize() const{
                 if(!mpVariablesList){
                     return 0;
@@ -294,16 +459,33 @@ namespace Quest{
                 return mpVariablesList->DataSize() * mQueueSize;
             }
 
+
+            /**
+             * @brief 设置变量的值
+             * @param rThisVariable 变量对象
+             * @param rValue 变量的值
+             */
             template<typename TDataType>
             void SetValue(const Variable<TDataType>& rThisVariable, const TDataType& rValue){
                 GetValue(rThisVariable) = rValue;
             }
 
+
+            /**
+             * @brief 设置变量的值
+             * @param rThisVariable 变量对象
+             * @param rValue 变量的值
+             * @param QueueIndex 分析步的索引
+             */
             template<typename TDataType>
             void SetValue(const Variable<TDataType>& rThisVariable, const TDataType& rValue, SizeType QueueIndex){
                 GetValue(rThisVariable, QueueIndex) = rValue;
             }
 
+
+            /**
+             * @brief 销毁所有元素并释放空间
+             */
             void Clear(){
                 DestructAllElements();
                 if(mpData){
@@ -313,22 +495,42 @@ namespace Quest{
                 mpData = 0;
             }
 
+
+            /**
+             * @brief 获取变量列表对象的指针
+             */
             VariablesList::Pointer pGetVariablesList(){
                 return mpVariablesList;
             }
 
+
+            /**
+             * @brief 获取变量列表对象的常量指针
+             */
             const VariablesList::Pointer pGetVariablesList() const{
                 return mpVariablesList;
             }
 
+
+            /**
+             * @brief 获取变量列表对象的引用
+             */
             VariablesList& GetVariablesList(){
                 return *mpVariablesList;
             }
 
+
+            /**
+             * @brief 获取变量列表对象的常量引用
+             */
             const VariablesList& GetVariablesList() const{
                 return *mpVariablesList;
             }
 
+
+            /**
+             * @brief 设置变量列表对象
+             */
             void SetVariablesList(VariablesList::Pointer pVariablesList){
                 DestructAllElements();
 
@@ -350,6 +552,11 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 设置变量列表对象
+             * @param ThisQueueSize 分析步的数量
+             */
             void SetVariablesList(VariablesList::Pointer pVariablesList, SizeType ThisQueueSize){
                 DestructAllElements();
 
@@ -372,6 +579,10 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 重新设置分析步的数量
+             */
             void Resize(SizeType NewSize){
                 if(NewSize == mQueueSize){
                     return;
@@ -421,23 +632,43 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 获取指向数据内存块的头指针
+             */
             BlockType* Data(){
                 return mpData;
             }
 
+
+            /**
+             * @brief 获取指向数据内存块的头指针
+             */
             const BlockType* Data() const{
                 return mpData;
             }
 
+
+            /**
+             * @brief 获取指向指定分析步的数据内存块的头指针
+             */
             BlockType* Data(SizeType QueueIndex){
                 return Position(QueueIndex);
             }
 
+
+            /**
+             * @brief 获取指向特定变量的数据内存的指针
+             */
             BlockType* Data(const VariableData& rThisVariable){
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList->Has(rThisVariable)) << "Variable " << rThisVariable.Name() << " is not in the variables list." << std::endl;
                 return Position(rThisVariable);
             }
 
+
+            /**
+             * @brief 每个分析步所有数据所需的内存大小
+             */
             SizeType DataSize(){
                 if(!mpVariablesList){
                     return 0;
@@ -446,6 +677,10 @@ namespace Quest{
                 return mpVariablesList->DataSize()*sizeof(BlockType);
             }
 
+
+            /**
+             * @brief 所有分析步所有数据所需的内存大小
+             */
             SizeType TotalDataSize(){
                 if(!mpVariablesList){
                     return 0;
@@ -454,10 +689,20 @@ namespace Quest{
                 return mpVariablesList->DataSize()*sizeof(BlockType)*mQueueSize;
             }
 
+
+            /**
+             * @brief 将数据分配到某分析步的位置
+             * @param Source 数据源
+             * @param QueueIndex 目标分析步的索引
+             */
             void AssignData(BlockType* Source, SizeType QueueIndex){
                 AssignData(Source, Position(QueueIndex));
             }
 
+
+            /**
+             * @brief 从头开始复制数据
+             */
             void CloneFront(){
                 if(mQueueSize == 0){
                     Resize(1);
@@ -475,6 +720,10 @@ namespace Quest{
                 mpCurrentPosition = position;
             }
 
+
+            /**
+             * @brief 将数据插入到头部
+             */
             void PushFront(){
                 if(mQueueSize == 0){
                     Resize(1);
@@ -491,6 +740,10 @@ namespace Quest{
                 AssignZero();
             }
 
+
+            /**
+             * @brief 将数据分配为零值
+             */
             void AssignZero(){
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
                 for(VariablesList::const_iterator iVariables = mpVariablesList->begin(); iVariables != mpVariablesList->end(); ++iVariables){
@@ -498,6 +751,10 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 将数据分配为零值
+             */
             void AssignZero(const SizeType QueueIndex){
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
                 BlockType* position = Position(QueueIndex);
@@ -506,6 +763,10 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 变量是否存在
+             */
             bool Has(const VariableData& rThisVariable) const{
                 if(!mpVariablesList){
                     return false;
@@ -514,6 +775,10 @@ namespace Quest{
                 return mpVariablesList->Has(rThisVariable);
             }
 
+
+            /**
+             * @brief 是否存在变量
+             */
             bool IsEmpty() const{
                 if(!mpVariablesList){
                     return true;
@@ -552,16 +817,27 @@ namespace Quest{
         protected:
 
         private:
+            /**
+             * @brief 分配内存
+             */
             inline void Allocate(){
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
                 mpData = (BlockType*) malloc(mpVariablesList->DataSize() * sizeof(BlockType) * mQueueSize);
             }
 
+
+            /**
+             * @brief 重新分配内存
+             */
             inline void Reallocate(){
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
                 mpData = (BlockType*) realloc(mpData, mpVariablesList->DataSize() * sizeof(BlockType) * mQueueSize);
             }
 
+
+            /**
+             * @brief 销毁所有某个元素
+             */
             void DestructElements(SizeType ThisIndex){
                 if(!mpVariablesList){
                     return;
@@ -576,6 +852,10 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 销毁所有元素
+             */
             void DestructAllElements(){
                 if(!mpVariablesList){
                     return;
@@ -594,6 +874,12 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 将数据从源位置分配到目标位置
+             * @param Source 源位置
+             * @param Destination 目标位置
+             */
             void AssignData(BlockType* Source, BlockType* Destination){
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
                 for(VariablesList::const_iterator iVariables = mpVariablesList->begin(); iVariables != mpVariablesList->end(); ++iVariables){
@@ -602,17 +888,34 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 获取变量在内存块中的偏移量
+             * @param rThisVariable 变量对象
+             */
             inline SizeType LocalOffset(const VariableData& rThisVariable) const{
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
                 return mpVariablesList->Index(rThisVariable.SourceKey());
             }
 
+
+            /**
+             * @brief 获取变量在内存中的位置
+             * @param rThisVariable 变量对象
+             * @param QueueIndex 分析步的索引
+             */
             inline BlockType* Position(const VariableData& rThisVariable) const{
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
                 QUEST_DEBUG_ERROR_IF_NOT(mpVariablesList->Has(rThisVariable)) << "This container don't have this variable: " << rThisVariable << std::endl;
                 return mpCurrentPosition + mpVariablesList->Index(rThisVariable.SourceKey());
             }
 
+
+            /**
+             * @brief 获取某分析步中变量在内存中的位置
+             * @param rThisVariable 变量对象
+             * @param ThisIndex 分析步的索引
+             */
             inline BlockType* Position(const VariableData& rThisVariable, SizeType ThisIndex) const{
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
                 QUEST_DEBUG_ERROR_IF_NOT(mpVariablesList->Has(rThisVariable)) << "This container don't have this variable: " << rThisVariable << std::endl;
@@ -620,10 +923,19 @@ namespace Quest{
                 return Position(ThisIndex)+mpVariablesList->Index(rThisVariable.SourceKey());
             }
 
+
+            /**
+             * @brief 返回指针当前位置
+             */
             inline BlockType* Position() const{
                 return mpCurrentPosition;
             }
 
+
+            /**
+             * @brief 基于分析步索引获取变量在内存中的位置
+             * @param ThisIndex 变量的索引
+             */
             inline BlockType* Position(SizeType ThisIndex) const{
                 QUEST_DEBUG_ERROR_IF(!mpVariablesList) << "This container don't have a variables list assigned." << std::endl;
                 const SizeType total_size = TotalSize();
@@ -682,12 +994,28 @@ namespace Quest{
             }
 
         private:
+            /**
+             * @brief 分析步的数量
+             */
             SizeType mQueueSize;
 
+
+            /**
+             * @brief 当前指针指向的位置
+             */
             BlockType* mpCurrentPosition;
 
+
+            /**
+             * @brief 存储所有变量的数据的内存块的头指针
+             */
             ContainerType mpData;
 
+
+            /**
+             * @brief 变量列表
+             * @details 变量列表对象负责管理变量数量及变量在内存块中的偏移量
+             */
             VariablesList::Pointer mpVariablesList;
 
     };

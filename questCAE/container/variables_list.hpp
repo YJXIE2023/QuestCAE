@@ -1,7 +1,3 @@
-/*---------------------------------------------------------------
-管理和操作变量列表及其在 VariablesListDataValueContainer 中的位置
----------------------------------------------------------------*/
-
 #ifndef QUEST_VARIABLES_LIST_HPP
 #define QUEST_VARIABLES_LIST_HPP
 
@@ -12,7 +8,12 @@
 #include <atomic>
 
 // 第三方头文件
-#include <boost/iterator/indirect_iterator.hpp>    // indirect_iterator为迭代器适配器，用于间接地访问容器或数据结构中存储的指针或智能指针指向的元素
+/**
+ * @brief 简介迭代器
+ * @details boost::indirect_iterator<std::vector<std::shared_ptr<MyClass>>::iterator>：
+ * 这是一个间接迭代器，它包装了一个普通的迭代器（指向存储智能指针的容器），并允许你访问智能指针指向的 MyClass 对象
+ */
+#include <boost/iterator/indirect_iterator.hpp> 
 
 // 项目头文件
 #include "includes/define.hpp"
@@ -24,6 +25,10 @@
 
 namespace Quest{
 
+    /**
+     * @class VariablesList
+     * @brief 存储变量列表及其在 VariablesListDataValueContainer 中的位置
+     */
     class QUEST_API(QUEST_CORE) VariablesList final{
         public:
             QUEST_CLASS_INTRUSIVE_POINTER_DEFINITION(VariablesList);
@@ -48,6 +53,10 @@ namespace Quest{
             using ptr_const_reverse_iterator = VariablesContainerType::const_reverse_iterator;
             using difference_type = VariablesContainerType::difference_type;
 
+
+            /**
+             * @brief 构造函数
+             */
             VariablesList(){}
 
             template<typename TInputIteratorType>
@@ -186,6 +195,11 @@ namespace Quest{
                 mPositions = {static_cast<IndexType>(-1)};
             }
 
+
+            /**
+             * @brief 增加变量到列表中
+             * @param ThisVariable 要增加的变量
+             */
             void Add(const VariableData& ThisVariable){
                 if (ThisVariable.SourceKey() == 0){
                     QUEST_THROW_ERROR(std::logic_error,"Adding uninitialize variable to this variable list","");
@@ -206,7 +220,12 @@ namespace Quest{
                 mDataSize += static_cast<SizeType>(((block_size - 1)+ThisVariable.Size())/block_size);
             }
 
-            int AddDog(const VariableData* pThisDofVariable){
+
+            /**
+             * @brief 添加自由度变量及其反力变量到列表中
+             * @param pThisDofVariable 要增加的自由度变量
+             */
+            int AddDof(const VariableData* pThisDofVariable){
                 for(std::size_t dof_index = 0; dof_index < pThisDofVariable->Size(); ++dof_index){
                     if(*mDofVariables[dof_index] == *pThisDofVariable){
                         return static_cast<int>(dof_index);
@@ -227,6 +246,11 @@ namespace Quest{
             }
 
 
+            /**
+             * @brief 添加自由度变量及其反力变量到列表中
+             * @param pThisDofVariable 要增加的自由度变量
+             * @param pThisDofReaction 要增加的反力变量
+             */
             int AddDof(const VariableData* pThisDofVariable, const VariableData* pThisDofReaction){
                 for(std::size_t dof_index = 0; dof_index < pThisDofVariable->Size(); ++dof_index){
                     if(*mDofVariables[dof_index] == *pThisDofVariable){
@@ -249,48 +273,84 @@ namespace Quest{
             }
 
 
+            /**
+             * @brief 获取自由度变量
+             * @param DofIndex 自由度变量在 mDofVariables 中的索引
+             */
             const VariableData& GetDofVariable(int DofIndex) const{
                 return *mDofVariables[DofIndex];
             }
 
 
+            /**
+             * @brief 获取自由度反力变量
+             * @param DofIndex 自由度变量在 mDofReactions 中的索引
+             */
             const VariableData* pGetDofReaction(int DofIndex) const{
                 return mDofReactions[DofIndex];
             }
 
 
-            void SetDofReaaction(const VariableData* pThisDofReaction, int DofIndex){
+            /**
+             * @brief 设置自由度反力变量
+             * @param pThisDofReaction 要设置的自由度反力变量
+             * @param DofIndex 源自由度反力变量在 mDofReactions 中的索引
+             */
+            void SetDofReaction(const VariableData* pThisDofReaction, int DofIndex){
                 QUEST_DEBUG_ERROR_IF(static_cast<std::size_t>(DofIndex) >= mDofReactions.size()) << "The given dof with index = " << DofIndex  << " is not stored in this variables list" << std::endl;
                 mDofReactions[DofIndex] = pThisDofReaction;
             }
 
 
+            /**
+             * @brief 获取变量在 VariablesListDataValueContainer 中的位置
+             * @param VariableKey 变量的键值
+             */
             IndexType Index(IndexType VariableKey) const{
                 return GetPosition(VariableKey);
             }
 
 
+            /**
+             * @brief 获取变量在 VariablesListDataValueContainer 中的位置
+             * @param ThisVariable 要获取的变量
+             */
             template<typename TDataType>
             IndexType Index(const Variable<TDataType>& ThisVariable) const{
                 return GetPosition(ThisVariable.SourceKey());
             }
 
 
+            /**
+             * @brief 获取变量在 VariablesListDataValueContainer 中的位置
+             * @param pThisVariable 要获取的变量的指针
+             */
             IndexType Index(const VariableData* pThisVariable) const{
                 return GetPosition(pThisVariable->SourceKey());
             }
 
 
+            /**
+             * @brief 获取变量数量
+             */
             SizeType DataSize() const{
                 return mDataSize;
             }
 
 
+            /**
+             * @brief 获取存储全部变量的容器
+             * @details VariablesContainerType 为 std::vector<const VariableData*>
+             */
             const VariablesContainerType& Variables(){
                 return mVariables;
             }
 
 
+            /**
+             * @brief 判断变量是否存在
+             * @param rThisVariable 要判断的变量
+             */
             bool Has(const VariableData& rThisVariable) const{
                 if(rThisVariable.IsComponent()){
                     return Has(rThisVariable.GetSourceVariable());
@@ -308,6 +368,9 @@ namespace Quest{
             }
 
 
+            /**
+             * @brief 判断是否有变量
+             */
             bool IsEmpty() const{
                 return mVariables.empty();
             }
@@ -349,6 +412,12 @@ namespace Quest{
                 }
             }
 
+
+            /**
+             * @brief 设置变量在 mKeys 和 mPositions 中的位置
+             * @param Key 变量的键值
+             * @param ThePosition 变量在 mPositions 中的位置
+             */
             void SetPosition(IndexType Key,SizeType ThePosition){
                 if(mPositions.empty()){
                     ResizePositions();
@@ -362,15 +431,32 @@ namespace Quest{
                 mPositions[GetHashIndex(Key,mPositions.size(),mHashFunctionIndex)] = ThePosition;
             }
 
+
+            /**
+             * @brief 获取变量在 mKeys 和 mPositions 中的位置
+             * @param Key 变量的键值
+             * @param TableSize mKeys 和 mPositions 的大小
+             * @param HashFunctionIndex 哈希函数的索引
+             */
             SizeType GetHashIndex(std::size_t Key, std::size_t TableSize, std::size_t HashFunctionIndex) const{
                 return (Key >> HashFunctionIndex) & (TableSize - 1);
             }
 
+
+            /**
+             * @brief 获取变量在 VariablesListDataValueContainer 中的位置
+             * @param Key 变量的键值
+             */
             SizeType GetPosition(IndexType Key) const{
                 SizeType index = GetHashIndex(Key,mPositions.size(),mHashFunctionIndex);
                 return mPositions[index];
             }
 
+
+            /**
+             * @brief 调整 mKeys 和 mPositions 的大小
+             * @details 当哈希表的大小不够，或者哈希函数导致冲突时，通过调整哈希函数或增加容量来重新组织数据，确保哈希表性能和数据一致性
+             */
             void ResizePositions(){
                 bool size_is_ok = false;
                 std::size_t new_size = mPositions.size();
@@ -410,12 +496,47 @@ namespace Quest{
             virtual void load(Serializer& rSerializer);
 
         private:
+            /**
+             * @brief 变量数量
+             */
             SizeType mDataSize = 0;
+
+            /**
+             * @brief 哈希函数的索引
+             */
             SizeType mHashFunctionIndex = 0;
+
+            /**
+             * @brief 存储变量键值的Vector
+             * @details std::vector<std::size_t> mKeys;
+             * 用于判断变量是否存在，mKeys[i] 与 mVariables[i] 对应
+             */
             KeysContainerType mKeys = {static_cast<IndexType>(-1)};
+
+            /**
+             * @brief 存储变量在 VariablesListDataValueContainer 中的位置的Vector
+             * @details std::vector<std::size_t> mPositions;
+             * mKeys[i] 与 mPositions[i] 对应
+             */
             PositionsContanerType mPositions = {static_cast<IndexType>(-1)};
+
+            /**
+             * @brief 存储变量的Vector
+             * @details std::vector<const VariableData*> mVariables;
+             */
             VariablesContainerType mVariables;
+
+            /**
+             * @brief 存储自由度变量的Vector
+             * @details std::vector<const VariableData*> mDofVariables;
+             */
             VariablesContainerType mDofVariables;
+
+            /**
+             * @brief 存储自由度反力变量的Vector
+             * @details std::vector<const VariableData*> mDofReactions;
+             * 例如自由度为节点x方向位移，自由度反力变量即为对应的约束反力Fx
+             */
             VariablesContainerType mDofReactions;
 
             mutable std::atomic<int> mReferenceCounter{0};

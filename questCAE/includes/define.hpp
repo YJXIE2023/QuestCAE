@@ -487,6 +487,17 @@ catch(...) { Block QUEST_THROW_ERROR(std::runtime_error,"Unknown exception",More
 /*---------------------------------------------------
 Flags
 ----------------------------------------------------*/
+#ifdef QUEST_DEFINE_FLAG
+#undef QUEST_DEFINE_FLAG
+#endif
+#define QUEST_DEFINE_FLAG(name) \
+    extern const Quest::Flags name;
+
+#ifndef QUEST_ADD_FLAG_TO_QUEST_COMPONENTS
+#undef QUEST_ADD_FLAG_TO_QUEST_COMPONENTS
+#endif
+#define QUEST_ADD_FLAG_TO_QUEST_COMPONENTS(name) \
+    Quest::QuestComponent<Quest::Flags>::Add(#name, name)
 
 #ifndef QUEST_CREATE_FLAG
 #undef QUEST_CREATE_FLAG
@@ -494,17 +505,25 @@ Flags
 #define QUEST_CREATE_FLAG(name, positon)        \
     const Quest::Flags name(Quest::Flags::Create(positon));
 
+#ifndef QUEST_REGISTER_FLAG
+#undef QUEST_REGISTER_FLAG
+#endif
+#define QUEST_REGISTER_FLAG(name) \
+    QUEST_ADD_FLAG_TO_QUEST_COMPONENTS(name);
+
+
+
 #ifdef QUEST_DEFINE_LOCAL_FLAG
 #undef QUEST_DEFINE_LOCAL_FLAG
 #endif 
 #define QUEST_DEFINE_LOCAL_FLAG(name) \
     static const Quest::Flags name;
 
-#ifdef QUEST_CREATE_LOCAL_FLAG
-#undef QUEST_CREATE_LOCAL_FLAG
+#ifdef QUEST_DEFINE_LOCAL_APPLICATION_FLAG
+#undef QUEST_DEFINE_LOCAL_APPLICATION_FLAG
 #endif
-#define QUEST_CREATE_LOCAL_FLAG(class_name, name, position)   \
-    const Quest::Flags class_name::name(Quest::Flags::Create(position));
+#define QUEST_DEFINE_LOCAL_APPLICATION_FLAG(application, name)   \
+    static QUEST_API(application) const Quest::Flags name;
 
 
 #ifdef QUEST_CREATE_LOCAL_FLAG

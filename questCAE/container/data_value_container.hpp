@@ -1,7 +1,3 @@
-/*------------------------------------------------------------
-提供一个高效、灵活的数据存储解决方案，以支持各种变量的管理和操作
--------------------------------------------------------------*/
-
 #ifndef QUEST_DATA_VALUE_CONTAINER_HPP
 #define QUEST_DATA_VALUE_CONTAINER_HPP
 
@@ -23,6 +19,11 @@
 
 namespace Quest{
 
+    /**
+     * @class DataValueContainer
+     * @brief 用于存储与变量关联的数据值容器
+     * @details 该类提供了一个容器，用于存储存储与变量关联的数据值
+     */
     class QUEST_API(QUEST_CORE) DataValueContainer{
         public:
             QUEST_DEFINE_LOCAL_FLAG(OVERWRITE_OLD_VALUES);
@@ -34,80 +35,136 @@ namespace Quest{
             using const_iterator = ContainerType::const_iterator;
             using SizeType = ContainerType::size_type;
 
+
+            /**
+             * @brief 默认构造函数
+             */
             DataValueContainer() {}
 
+
+            /**
+             * @brief 复制构造函数
+             */
             DataValueContainer(const DataValueContainer& rOther){
                 for(const_iterator i = rOther.mData.begin(); i!= rOther.mData.end(); ++i)
                     mData.push_back(*i);
             }
 
+
+            /**
+             * @brief 析构函数
+             */
             virtual ~DataValueContainer() {
                 for(iterator i = mData.begin(); i!= mData.end(); ++i)
                     i->first->Delete(i->second);
             }
 
+
+            /**
+             * @brief 函数调用运算符重载
+             * @param rThisVariable 类型为VariableData的变量
+             */
             template<typename TDataType>
             const TDataType& operator()(const VariableData& rThisVariable) const{
                 return GetValue<TDataType>(rThisVariable);
             }
 
 
+            /**
+             * @brief 函数调用运算符重载
+             * @param rThisVariable 类型为Variable<TDataType>的变量
+             */
             template<typename TDataType>
             TDataType& operator()(const Variable<TDataType>& rThisVariable){
                 return GetValue<TDataType>(rThisVariable);
             }
 
 
+            /**
+             * @brief 函数调用运算符重载
+             * @param rThisVariable 类型为Variable<TDataType>的变量
+             */
             template<typename TDataType>
             const TDataType& operator() (const Variable<TDataType>& rThisVariable) const{
                 return GetValue<TDataType>(rThisVariable);
             }
 
 
+            /**
+             * @brief 下标运算符重载
+             * @param rThisVariable 类型为VariableData的变量
+             */
             template<typename TDataType>
             TDataType& operator[](const VariableData& rThisVariable){
                 return GetValue<TDataType>(rThisVariable);
             }
 
 
+            /**
+             * @brief 下标运算符重载
+             * @param rThisVariable 类型为VariableData的变量
+             */
             template<typename TDataType>
             const TDataType& operator[] (const VariableData& rThisVariable) const{
                 return GetValue<TDataType>(rThisVariable);
             }
 
             
+            /**
+             * @brief 下标运算符重载
+             * @param rThisVariable 类型为Variable<TDataType>的变量
+             */
             template<typename TDataType>
             TDataType& operator[](const Variable<TDataType>& rThisVariable){
                 return GetValue<TDataType>(rThisVariable);
             }
 
 
+            /**
+             * @brief 下标运算符重载
+             * @param rThisVariable 类型为Variable<TDataType>的变量
+             */
             template<typename TDataType>
             const TDataType& operator[] (const Variable<TDataType>& rThisVariable) const{
                 return GetValue<TDataType>(rThisVariable);
             }
 
 
+            /**
+             * @brief 返回容器的第一个元素的迭代器
+             */
             iterator begin(){
                 return mData.begin();
             }
 
 
+            /**
+             * @brief 返回容器的第一个元素的常量迭代器
+             */
             const_iterator begin() const{   
                 return mData.begin();
             }
 
 
+            /**
+             * @brief 返回容器的最后一个元素的迭代器
+             */
             iterator end(){
                 return mData.end();
             }
 
 
+            /**
+             * @brief 返回容器的最后一个元素的常量迭代器
+             */
             const_iterator end() const{
                 return mData.end();
             }
 
 
+            /**
+             * @brief 赋值运算符重载
+             */
             DataValueContainer& operator=(const DataValueContainer& rOther){
                 Clear();
 
@@ -118,6 +175,9 @@ namespace Quest{
             }
 
 
+            /**
+             * @brief 获取变量对应的数据值
+             */
             template<typename TDataType>
             TDataType& GetValue(const Variable<TDataType>& rThisVariable){
                 typename ContainerType::iterator i;
@@ -137,6 +197,9 @@ namespace Quest{
             }
 
 
+            /**
+             * @brief 获取变量对应的数据值
+             */
             template<typename TDataType>
             const TDataType& GetValue(const Variable<TDataType>& rThisVariable) const{
                 typename ContainerType::const_iterator i;
@@ -148,11 +211,18 @@ namespace Quest{
             }
 
 
+            /**
+             * @brief 返回容器的大小
+             */
             SizeType Size(){
                 return mData.size();
             }
 
 
+            /**
+             * @brief 设置变量的值
+             * @details 如果变量不存在于容器中，则创建变量及其关联的数据值
+             */
             template<typename TDataType>
             void SetValue(const Variable<TDataType>& rThisVariable, const TDataType& rValue){
                 typename ContainerType::iterator i;
@@ -167,6 +237,9 @@ namespace Quest{
             }
 
 
+            /**
+             * @brief 删除变量及其关联的数据值
+             */
             template<typename TDataType>
             void Erase(const Variable<TDataType>& rThisVariable){
                 typename ContainerType::iterator i;
@@ -178,6 +251,9 @@ namespace Quest{
             }
 
 
+            /**
+             * @brief 清空容器
+             */
             void Clear(){
                 for(ContainerType::iterator i = mData.begin(); i != mData.end(); ++i)
                     i->first->Delete(i->second);
@@ -186,15 +262,24 @@ namespace Quest{
             }
 
 
+            /**
+             * @brief 合并两个容器
+             */
             void Merge(const DataValueContainer& rOther, const Flags Options);
 
 
+            /**
+             * @brief 检查变量是否存在于容器中
+             */
             template<typename TDataType>
             bool Has(const Variable<TDataType>& rThisVariable) const{
                 return std::find_if(mData.begin(), mData.end(), IndexCheck(rThisVariable.SourceKey())) != mData.end();
             }
 
 
+            /**
+             * @brief 检查容器是否为空
+             */
             bool IsEmpty() const{
                 return mData.empty();
             }
@@ -221,6 +306,9 @@ namespace Quest{
         protected:
 
         private:
+            /**
+             * @brief 用于检查变量索引是否匹配的函数对象
+             */
             class IndexCheck{
                 public:
                     explicit IndexCheck(std::size_t I):mI(I){}
@@ -240,6 +328,10 @@ namespace Quest{
             virtual void load(Serializer& rSerializer);
 
         private:
+            /**
+             * @brief 存储变量及其关联的数据值的容器
+             * @details std::vector< std::pair<const VariableData*, void*> >
+             */
             ContainerType mData;
 
     };

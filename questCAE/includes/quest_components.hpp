@@ -20,6 +20,13 @@
 
 namespace Quest{
 
+    /**
+     * @class QuestComponents
+     * @brief 将组件按照唯一名称进行存储和管理的机制
+     * @details 类中提供了一个通用查找表，用于存储和管理组件。每个组件都有一个唯一的名称，通过名称可以找到对应的组件。
+     *          采用模板类，对于不同的组件，可以生成不同的类，并提供对于该组件的静态管理
+     * @param TComponentType 组件的类型，可以是单元、条件、变量等。
+     */
     template<typename TComponentType>
     class QUEST_API(QUEST_CORE) QuestComponents{
         public:
@@ -27,27 +34,53 @@ namespace Quest{
             using ComponentsContainerType = std::map<std::string, const TComponentType*>;
             using ValueType = typename ComponentsContainerType::value_type;
 
+
+            /**
+             * @brief 默认构造函数
+             */
             QuestComponents() = default;
 
+
+            /**
+             * @brief 析构函数
+             */
             virtual ~QuestComponents() = default;
 
+
+            /**
+             * @brief 添加组件
+             * @param rName 组件名称
+             * @param rComponent 组件对象
+             */
             static void Add(const std::string& rName, const TComponentType& rComponent){
                 auto it_comp = msComponents.find(rName);
                 QUEST_ERROR_IF(it_comp != msComponents.end() && typeid(*(it_comp->second)) != typeid(rComponent)) << "The component \"" << rName << "\" has already been registered with a different type." << std::endl;
                 msComponenets.insert(ValueType(rName, &rComponent));
             }
 
+
+            /**
+             * @brief 移除组件
+             * @param rName 组件名称
+             */
             static void Remove(const std::string& rName){
                 std::size_t num_erased = msComponents.erase(rName);
                 QUEST_ERROR_IF(num_erased == 0) << "Trying to remove a non-existent component \"" << rName << "\"." << std::endl;
             }
 
+
+            /**
+             * @brief 通过组件名称获取某个组件
+             * @param rName 组件名称
+             */
             static const TComponentType& Get(const std::string& rName){
                 auto it_comp = msComponents.find(rName);
                 QUEST_ERROR_IF(it_comp == msComponents.end()) << GetMessageUnregisteredComponent(rName) << std::endl;
                 return *(it_comp->second);
             }
 
+
+            
             static void Register() {}
 
             static ComponentsContainerType& GetComponents(){
@@ -89,6 +122,10 @@ namespace Quest{
             }
 
         private:
+            /**
+             * @brief 有序map, 用于存储和管理组件
+             * @details std::map<std::string, const TComponentType*>
+             */
             static ComponentsContainerType msComponents;
 
     };

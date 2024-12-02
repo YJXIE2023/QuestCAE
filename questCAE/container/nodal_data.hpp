@@ -1,7 +1,3 @@
-/*----------------------------------
-管理与节点相关的各种信息
-----------------------------------*/
-
 #ifndef QUEST_NODAL_DATA_HPP
 #define QUEST_NODAL_DATA_HPP
 
@@ -14,6 +10,7 @@
 
 namespace Quest{
 
+    
     class QUEST_API(QUEST_CORE) NodalData{
         public:
             QUEST_CLASS_POINTER_DEFINITION(NodalData);

@@ -1,9 +1,3 @@
-/*-----------------------------------------------
-定义一个恒等函数，提供一种方式来直接返回输入的对象
-通常用于集合（set）或其他需要对象比较的容器中，
-避免手动定义自定义的比较函数或操作符。
------------------------------------------------*/
-
 #ifndef QUEST_SET_IDENTITY_FUNCTION_HPP
 #define QUEST_SET_IDENTITY_FUNCTION_HPP
 
@@ -12,6 +6,12 @@
 
 namespace Quest{
 
+    /**
+     * @class SetIdentityFunction
+     * @brief 一个作为恒等函数的函数对象
+     * @details 这个函数对象的目的是使对象能做做诶几何或其他需要比较的容器中的键使用
+     * 当对象本身可以作为比较标准时，可以直接使用这个函数对象，而不需要自定义比较函数或操作符。
+     */
     template<typename TDataType>
     class SetIdentityFunction{
         public:

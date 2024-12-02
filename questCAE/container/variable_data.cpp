@@ -62,7 +62,7 @@ namespace Quest{
 
     void VariableData::Save(Serializer& rSerializer, void* pData) const{}
 
-    void VariableData::Load(Serializer& rSerializer, void* pData){}
+    void VariableData::Load(Serializer& rSerializer, void* pData) const{}
 
     void VariableData::SetKey(KeyType NewKey){
         mKey = NewKey;
