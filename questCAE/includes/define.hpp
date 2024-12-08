@@ -231,7 +231,7 @@ catch(...) { Block QUEST_THROW_ERROR(std::runtime_error,"Unknown exception",More
 #ifdef QUEST_CREATE_VARIABLE
 #undef QUEST_CREATE_VARIABLE
 #endif
-#define QUEST_CREATE_VARIABLE(name, value) \
+#define QUEST_CREATE_VARIABLE(type,name) \
     Quest::Variable<type> name(#name);
 
 #ifdef QUEST_CREATE_VARIABLE_WITH_ZERO

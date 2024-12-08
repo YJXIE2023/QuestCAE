@@ -56,7 +56,7 @@ namespace Quest{
             using PointType = TPointType;
             using IndexType = std::size_t;
             using SizeType = std::size_t;
-            using CoordinaatesArrayType = typename PointType::CoordinatesArrayType;
+            using CoordinatesArrayType = typename PointType::CoordinatesArrayType;
             using IntegrationPointType = IntegrationPoint<3>;
             using IntegrationPointsArrayType = std::vector<IntegrationPointType>;
             using IntegrationPointsContainerType = std::array<IntegrationPointsArrayType, static_cast<int>(GeometryData::IntegrationMethod::NumberOfIntegrationMethods)>;

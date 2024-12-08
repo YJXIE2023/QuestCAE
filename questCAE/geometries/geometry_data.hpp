@@ -13,8 +13,13 @@
 
 namespace Quest{
 
+    /**
+     * @brief class GeometryData
+     * @details 存储单元几何数据，如维度和形函数信息
+     */
     class GeometryData{
         public:
+            
             enum class IntegrationMethod{
                 GI_GAUSS_1,
                 GI_GAUSS_2,
@@ -110,6 +115,9 @@ namespace Quest{
             using ShapeFunctionsThirdDerivativesType = DenseVector<DenseVector<Matrix>>;
 
         public:
+            /**
+             * @brief 构造函数
+             */
             GeometryData(const GeometryDimension* pThisGeometryDimension,
                 IntegrationMethod ThisDefaultMethod,
                 const IntegrationPointsContainerType& ThisIntegrationPoints,
@@ -119,14 +127,18 @@ namespace Quest{
                 mGeometryShapeFunctionContainer(ThisDefaultMethod, ThisIntegrationPoints, ThisShapeFunctionsValues, ThisShapeFunctionsLocalGradients)
             {}
 
-
+            /**
+             * @brief 构造函数
+             */
             GeometryData(const GeometryDimension* pThisGeometryDimension,
                 const GeometryShapeFunctionContainer<IntegrationMethod>& ThisGeometryShapeFunctionContainer):
                 mpGeometryDimension(pThisGeometryDimension),
                 mGeometryShapeFunctionContainer(ThisGeometryShapeFunctionContainer)
             {}
 
-
+            /**
+             * @brief 复制构造函数
+             */
             GeometryData(const GeometryData& rOther):
                 mpGeometryDimension(rOther.mpGeometryDimension),
                 mGeometryShapeFunctionContainer(rOther.mGeometryShapeFunctionContainer)
@@ -135,7 +147,9 @@ namespace Quest{
 
             virtual ~GeometryData(){}
 
-
+            /**
+             * @brief 赋值运算符重载
+             */
             GeometryData& operator = (const GeometryData& rOther){
                 mpGeometryDimension = rOther.mpGeometryDimension;
                 mGeometryShapeFunctionContainer = rOther.mGeometryShapeFunctionContainer;
@@ -143,107 +157,149 @@ namespace Quest{
                 return *this;
             }
 
-
+            /**
+             * @brief 设置几何维度对象指针
+             */
             void SetGeometryDimension(const GeometryDimension* pGeometryDimension){
                 mpGeometryDimension = pGeometryDimension;
             }
 
-
+            /**
+             * @brief 设置形函数容器对象
+             */
             void SetGeometryShapeFunctionContainer(const GeometryShapeFunctionContainer<IntegrationMethod>& rGeometryShapeFunctionContainer){
                 mGeometryShapeFunctionContainer = rGeometryShapeFunctionContainer;
             }
 
-
+            /**
+             * @brief 获取形函数数据容器对象
+             */
             const GeometryShapeFunctionContainer<IntegrationMethod>& GetGeometryShapeFunctionContainer() const{
                 return mGeometryShapeFunctionContainer;
             }
 
-
+            /**
+             * @brief 设置整体空间维度
+             */
             SizeType WorkingSpaceDimension() const{
                 return mpGeometryDimension->WorkingSpaceDimension();
             }
 
-
+            /**
+             * @brief 设置局部空间维度
+             */
             SizeType LocalSpaceDimension() const{
                 return mpGeometryDimension->LocalSpaceDimension();
             }
 
-
+            /**
+             * @brief 是否有指定积分方法
+             */
             bool HasIntegrationMethod(IntegrationMethod ThisMethod) const{
                 return mGeometryShapeFunctionContainer.HasIntegrationMethod(ThisMethod);
             }
 
-
+            /**
+             * @brief 获取默认积分方法
+             */
             IntegrationMethod DefaultIntegrationMethod() const{
                 return mGeometryShapeFunctionContainer.DefaultIntegrationMethod();
             }
 
-
+            /**
+             * @brief 获取默认积分方法的积分点数
+             */
             SizeType IntegrationPointsNumber() const{
                 return mGeometryShapeFunctionContainer.IntegrationPointsNumber();
             }
 
-
+            /**
+             * @brief 获取默认积分方法的积分点数
+             */
             SizeType IntegrationPointsNumber(IntegrationMethod ThisMethod) const{
                 return mGeometryShapeFunctionContainer.IntegrationPointsNumber(ThisMethod);
             }
 
-
+            /**
+             * @brief 获取默认积分方法的积分点
+             */
             const IntegrationPointsArrayType& IntegrationPoints() const{
                 return mGeometryShapeFunctionContainer.IntegrationPoints();
             }
 
-
+            /**
+             * @brief 获取指定积分方法的积分点
+             */
             const IntegrationPointsArrayType& IntegrationPoints(IntegrationMethod ThisMethod) const{
                 return mGeometryShapeFunctionContainer.IntegrationPoints(ThisMethod);
             }
 
-
+            /**
+             * @brief 获取默认积分方法的形函数在所有积分点的计算值
+             */
             const Matrix& ShapeFunctionsValues() const{
                 return mGeometryShapeFunctionContainer.ShapeFunctionsValues();
             }
 
-
+            /**
+             * @brief 获取指定积分方法的形函数在所有积分点的计算值
+             */
             const Matrix& ShapeFunctionsValues(IntegrationMethod ThisMethod) const{
                 return mGeometryShapeFunctionContainer.ShapeFunctionsValues(ThisMethod);
             }
 
-
+            /**
+             * @brief 获取默认积分方法的形函数在指定积分点的计算值
+             */
             double ShapeFunctionValue(IndexType IntegrationPointIndex, IndexType ShapeFunctionIndex) const{
                 return mGeometryShapeFunctionContainer.ShapeFunctionValue(IntegrationPointIndex, ShapeFunctionIndex);
             }
 
-
+            /**
+             * @brief 获取指定积分方法的形函数在指定积分点的计算值
+             */
             double ShapeFunctionValue(IndexType IntegrationPointIndex, IndexType ShapeFunctionIndex, IntegrationMethod ThisMethod) const{
                 return mGeometryShapeFunctionContainer.ShapeFunctionValue(IntegrationPointIndex, ShapeFunctionIndex, ThisMethod);
             }
 
-
+            /**
+             * @brief 获取默认积分方法的形函数在所有积分点的B矩阵
+             */
             const ShapeFunctionsGradientsType& ShapeFunctionsLocalGradients() const{
                 return mGeometryShapeFunctionContainer.ShapeFunctionsLocalGradients();
             }
 
-
+            /**
+             * @brief 获取指定积分方法的形函数在所有积分点的B矩阵
+             */
             const ShapeFunctionsGradientsType& ShapeFunctionsLocalGradients(IntegrationMethod ThisMethod) const{
                 return mGeometryShapeFunctionContainer.ShapeFunctionsLocalGradients(ThisMethod);
             }
 
-
+            /**
+             * @brief 获取默认积分方法的形函数在指定积分点的B矩阵
+             */
             const Matrix& ShapeFunctionLocalGradient(IndexType IntegrationPointIndex) const{
                 return mGeometryShapeFunctionContainer.ShapeFunctionLocalGradient(IntegrationPointIndex);
             }
 
-
+            /**
+             * @brief 获取指定积分方法的形函数在指定积分点的B矩阵
+             */
             const Matrix& ShapeFunctionLocalGradient(IndexType IntegrationPointIndex, IntegrationMethod ThisMethod) const{
                 return mGeometryShapeFunctionContainer.ShapeFunctionLocalGradient(IntegrationPointIndex, ThisMethod);
             }
 
-
+            /**
+             * @brief 获取默认积分方法的指定形函数在指定积分点的二阶导数
+             */
             const Matrix& ShapeFunctionLocalGradient(IndexType IntegrationPointIndex, IndexType ShapeFunctionIndex, IntegrationMethod ThisMethod) const{
                 return mGeometryShapeFunctionContainer.ShapeFunctionLocalGradient(IntegrationPointIndex, ThisMethod);
             }
 
-
+            /**
+             * @brief 获取形函数在指定积分点、指定导数阶的导数值
+             */
             const Matrix& ShapeFunctionDerivatives(IndexType DerivativeOrderIndex, IndexType IntegrationPointIndex, IntegrationMethod ThisMethod) const{
                 return mGeometryShapeFunctionContainer.ShapeFunctionDerivatives(DerivativeOrderIndex, IntegrationPointIndex, ThisMethod);
             }
@@ -282,8 +338,14 @@ namespace Quest{
             }
 
         private:
+            /**
+             * @brief 几何维度对象指针
+             */
             const GeometryDimension* mpGeometryDimension;
 
+            /**
+             * @brief 形函数容器对象
+             */
             GeometryShapeFunctionContainer<IntegrationMethod> mGeometryShapeFunctionContainer;
 
     };

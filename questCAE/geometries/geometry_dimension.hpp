@@ -1,7 +1,3 @@
-/*---------------------------------
-与几何维度的定义和管理相关
----------------------------------*/
-
 #ifndef QUEST_GEOMETRY_DIMENSION_HPP
 #define QUEST_GEOMETRY_DIMENSION_HPP
 
@@ -18,10 +14,20 @@ namespace Quest{
             using IndexType = std::size_t;
             using SizeType = std::size_t;
 
+            /**
+             * @brief 构造函数
+             * @param ThisWorkingSpaceDimension 整体坐标系维度
+             * @param ThisLocalSpaceDimension 局部坐标系维度
+             */
             GeometryDimension(SizeType ThisWorkingSpaceDimension, SizeType ThisLocalSpaceDimension):
                 mWorkingSpaceDimension(ThisWorkingSpaceDimension),
                 mLocalSpaceDimension(ThisLocalSpaceDimension){}
 
+
+            /**
+             * @brief 复制构造函数  
+             * @param rOther 待复制的对象
+             */
             GeometryDimension(const GeometryDimension& rOther):
                 mWorkingSpaceDimension(rOther.mWorkingSpaceDimension),
                 mLocalSpaceDimension(rOther.mLocalSpaceDimension){}
@@ -35,10 +41,18 @@ namespace Quest{
                 return *this;
             }
 
+
+            /**
+             * @brief 获取整体坐标系维度
+             */
             inline SizeType WorkingSpaceDimension() const{
                 return mWorkingSpaceDimension;
             }
 
+
+            /**
+             * @brief 获取局部坐标系维度
+             */
             inline SizeType LocalSpaceDimension() const{
                 return mLocalSpaceDimension;
             }
@@ -76,7 +90,14 @@ namespace Quest{
             GeometryDimension(){}
 
         private:
+            /**
+             * @brief 整体坐标系维度
+             */
             SizeType mWorkingSpaceDimension;
+
+            /**
+             * @brief 局部坐标系维度
+             */
             SizeType mLocalSpaceDimension;
 
     };

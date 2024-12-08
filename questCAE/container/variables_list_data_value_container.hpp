@@ -701,7 +701,7 @@ namespace Quest{
 
 
             /**
-             * @brief 从头开始复制数据
+             * @brief 复制数据
              */
             void CloneFront(){
                 if(mQueueSize == 0){

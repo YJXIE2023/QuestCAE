@@ -1,7 +1,3 @@
-/*------------------------------------
-为需要索引的对象提供通用的基础功能
-------------------------------------*/
-
 #ifndef QUEST_INDEXED_OBJECT_HPP
 #define QUEST_INDEXED_OBJECT_HPP
 
@@ -13,7 +9,11 @@
 #include "includes/serializer.hpp"
 
 namespace Quest{
-
+    /**
+     * @class IndexedObject
+     * @brief 具有索引的随想
+     * @details 可被用作任何需要被索引的类的基类
+     */
     class IndexedObject{
         public:
             QUEST_CLASS_POINTER_DEFINITION(IndexedObject);
@@ -33,25 +33,36 @@ namespace Quest{
                 return *this;
             }
 
+            /**
+             * @brief 函数调用运算符重载
+             * @details 返回对象的索引号
+             * @param rObject 对象
+             */
             template<typename TObjectType>
             IndexType operator() (const TObjectType& rObject) const{
                 return rObject.Id();
             }
 
+            /**
+             * @brief 获取此对象的索引号
+             */
             IndexType Id() const{
                 return mId;
             }
 
+            /**
+             * @brief 获取此对象的索引号
+             */
             IndexType GetId() const{
                 return mId;
             }
 
+            /**
+             * @brief 设置此对象的索引号
+             * @param NewId 新的索引号
+             */
             virtual void SetId(IndexType NewId){
                 mId = NewId;
-            }
-
-            IndexType& DepricatedIdAccess(){
-                return mId;
             }
 
             virtual std::string Info() const{
@@ -80,6 +91,9 @@ namespace Quest{
             }
 
         private:
+            /**
+             * @brief 索引号
+             */
             IndexType mId;
 
     };
