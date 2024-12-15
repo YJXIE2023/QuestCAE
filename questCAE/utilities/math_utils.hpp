@@ -1,8 +1,3 @@
-/*-----------------------------------------------------
-提供了各种数学工具函数，主要用于执行常见的数学操作和计算
-1、删除BoundedMatrix
------------------------------------------------------*/
-
 #ifndef QUEST_MATH_UTILS_HPP
 #define QUEST_MATH_UTILS_HPP
 
@@ -16,7 +11,11 @@
 #include "includes/global_variables.hpp"
 
 namespace Quest{
-
+    
+    /**
+     * @class MathUtils
+     * @brief 数学工具类,提供常用数学计算功能
+     */
     template<typename TDataType = double>
     class QUEST_API(QUEST_API) MathUtils{
         public:
@@ -29,11 +28,19 @@ namespace Quest{
             static constexpr double ZeroTolerance = std::numeric_limits<double>::epsilon();
 
         public:
+            /**
+             * @brief 获取容差
+             */
             static inline double GetZeroTolerance() {
                 return ZeroTolerance;
             }
 
-
+            /**
+             * @brief Heron 三角形面积计算
+             * @param a 第一边长
+             * @param b 第二边长
+             * @param c 第三边长
+             */
             template<bool TCheck>
             static inline double Heron(double a, double b, double c){
                 const double s = (a + b + c) / 2.0;
@@ -49,9 +56,12 @@ namespace Quest{
                 }
             }
 
-            /*
-            计算余子式
-            */
+            /**
+             * @brief 计算矩阵的代数余子式
+             * @param rMat 矩阵
+             * @param i 行索引
+             * @param j 列索引
+             */
             template<typename TMatrixType>
             static double Cofactor(const TMatrixType& rMat, IndexType i, IndexType j){
                 static_assert(std::is_same<typename TMatrixType::value_type, double>::value, "Bad value type.");
@@ -83,7 +93,10 @@ namespace Quest{
                 return ((i + j) % 2)? -first_minor : first_minor;
             }
 
-
+            /**
+             * @brief 计算矩阵的伴随矩阵（即矩阵的代数余子式矩阵）
+             * @param rMat 矩阵
+             */
             template<typename TMatrixType>
             static MatrixType CofactorMatrix(const TMatrixType& rMat){
                 static_assert(std::is_same<typename TMatrixType::value_type, double>::value, "Bad value type.");
@@ -99,7 +112,13 @@ namespace Quest{
                 return cofactor_mat;
             }
 
-
+            /**
+             * @brief 用于检查矩阵的条件数（判断矩阵是否接近奇异）
+             * @param rInputMatrix 输入矩阵（不会被修改）
+             * @param rInvertedMatrix 逆矩阵
+             * @param Tolerance 容差
+             * @param ThrowError 条件数不满足要求时为false
+             */
             template<typename TMatrix1, typename TMatrix2>
             static inline bool CheckConditionNumber(
                 const TMatrix1& rInputMatrix,
@@ -125,7 +144,15 @@ namespace Quest{
                 return false;
             }
 
-
+            /**
+             * @brief 计算非方阵的逆矩阵
+             * @param rInputMatrix 输入矩阵（不会被修改）
+             * @param rInvertedMatrix 输出矩阵，即输入矩阵的逆矩阵
+             * @param rInputMatrixDet 输入矩阵的行列式
+             * @param Tolerance 容差
+             * @tparam TMatrix1 输入矩阵类型
+             * @tparam TMatrix2 输出矩阵类型
+             */
             template<typename TMatrix1, typename TMatrix2>
             static void GeneralizedInvertMatrix(
                 const TMatrix1& rInputMatrix,
@@ -159,14 +186,27 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 求解稠密线性方程组
+             * @param A 系数矩阵
+             * @param rX 解向量，也可为迭代求解器的初始猜测值
+             * @param rB 右端常数
+             */
             static void Solve(
                 MatrixType A,
                 VectorType& rX,
                 const VectorType& rB
             );
 
-
+            /**
+             * @brief 用于求解2阶、3阶、4阶矩阵的逆矩阵
+             * @param rInputMatrix 输入矩阵（不会被修改）
+             * @param rInvertedMatrix 输出矩阵，即输入矩阵的逆矩阵
+             * @param rInputMatrixDet 输入矩阵的行列式
+             * @param Tolerance 容差
+             * @tparam TMatrix1 输入矩阵类型
+             * @tparam TMatrix2 输出矩阵类型
+             */
             template<typename TMatrix1, typename TMatrix2>
             static void InvertMatrix(
                 const TMatrix1& rInputMatrix,
@@ -244,7 +284,14 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 用于求解2阶矩阵的逆矩阵
+             * @param rInputMatrix 输入矩阵（不会被修改）
+             * @param rInvertedMatrix 输出矩阵，即输入矩阵的逆矩阵
+             * @param rInputMatrixDet 输入矩阵的行列式
+             * @tparam TMatrix1 输入矩阵类型
+             * @tparam TMatrix2 输出矩阵类型
+             */
             template<typename TMatrix1, typename TMatrix2>
             static void InvertMatrix2(
                 const TMatrix1& rInputMatrix,
@@ -271,7 +318,12 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 用于求解 3 阶矩阵的逆矩阵
+             * @param rInputMatrix 输入矩阵（在输出时保持不变）
+             * @param rInvertedMatrix 计算得到的逆矩阵
+             * @param rInputMatrixDet 输入矩阵的行列式
+             */
             template<typename TMatrix1, typename TMatrix2>
             static void InvertMatrix3(
                 const TMatrix1& rInputMatrix,   
@@ -305,7 +357,12 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 用于求解 4 阶矩阵的逆矩阵
+             * @param rInputMatrix 输入矩阵（在输出时保持不变）
+             * @param rInvertedMatrix 计算得到的逆矩阵
+             * @param rInputMatrixDet 输入矩阵的行列式
+             */
             template<typename TMatrix1, typename TMatrix2>
             static void InvertMatrix4(
                 const TMatrix1& rInputMatrix,
@@ -370,7 +427,10 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 计算2阶方阵的行列式（未检查矩阵大小）
+             * @param rInputMatrix 输入矩阵
+             */
             template<typename TMatrixType>
             static inline double Det2(const TMatrixType& rA){
                 QUEST_DEBUG_ERROR_IF_NOT(rA.size1() == rA.size2()) << "Matrix provived is non-squaare" << std::endl;
@@ -378,7 +438,10 @@ namespace Quest{
                 return (rA(0,0)*rA(1,1)-rA(0,1)*rA(1,0));
             }
 
-
+            /**
+             * @brief 计算3阶方阵的行列式（未检查矩阵大小）
+             * @param rInputMatrix 输入矩阵
+             */
             template<typename TMatrixType>
             static inline double Det3(const TMatrixType& rA){
                 QUEST_DEBUG_ERROR_IF_NOT(rA.size1() == rA.size2()) << "Matrix provived is non-squaare" << std::endl;
@@ -390,7 +453,10 @@ namespace Quest{
                 return rA(0,0)*a - rA(0,1)*b + rA(0,2)*c;
             }
 
-
+            /**
+             * @brief 计算4阶方阵的行列式（未检查矩阵大小）
+             * @param rInputMatrix 输入矩阵
+             */
             template<class TMatrixType>
             static inline double Det4(const TMatrixType& rA)
             {
@@ -402,7 +468,10 @@ namespace Quest{
                 return det;
             }
 
-
+            /**
+             * @brief 计算任意阶方阵的行列式（未检查矩阵大小）
+             * @param rInputMatrix 输入矩阵
+             */
             template<typename TMatrixType>
             static inline double Det(const TMatrixType& rA){
                 QUEST_DEBUG_ERROR_IF_NOT(rA.size1() == rA.size2()) << "Matrix provided is non-square" << std::endl;
@@ -434,7 +503,10 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 计算任意矩阵的行列式（未检查矩阵大小）
+             * @param rInputMatrix 输入矩阵
+             */
             template<typename TMatrixType>
             static inline double GeneralizedDet(const TMatrixType& rA){
                 if (rA.size1() == rA.size2()){
@@ -448,12 +520,20 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 计算两个三维向量的点积（未检查向量大小）
+             * @param a 向量a
+             * @param b 向量b
+             */
             static inline double Dot3(const Vector& a, const Vector& b){
                 return a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
             }
 
-
+            /**
+             * @brief 计算任意两个大小相同的向量的点积（未检查向量大小）
+             * @param rFirstVector 向量a
+             * @param rSecondVector 向量b
+             */
             static inline double Dot(const Vector& rFirstVector, const Vector& rSecondVector){
                 Vector::const_iterator i = rFirstVector.begin();
                 Vector::const_iterator j = rSecondVector.begin();
@@ -464,7 +544,9 @@ namespace Quest{
                 return temp;
             }
 
-
+            /**
+             * @brief 计算三维向量的2范数（未检查向量大小）
+             */
             template<typename TVectorType>
             static inline double Norm3(const TVectorType& a){
                 double temp = std::pow(a[0],2) + std::pow(a[1],2) + std::pow(a[2],2);
@@ -472,7 +554,10 @@ namespace Quest{
                 return temp;
             }
 
-
+            /**
+             * @brief 计算任意大小的向量的2范数（未检查向量大小）
+             * @param a 向量
+             */
             static inline double Norm(const Vector& a){
                 Vector::const_iterator i = a.begin();
                 double temp = 0.0;
@@ -483,7 +568,10 @@ namespace Quest{
                 return std::sqrt(temp);
             }
 
-
+            /**
+             * @brief 计算向量"a"的范数，同时避免下溢和上溢
+             * @param a 向量
+             */
             static inline double StableNorm(const Vector& a){
                 if (a.size() == 0.0){
                     return 0.0;
@@ -517,7 +605,11 @@ namespace Quest{
                 return scale * std::sqrt(sqr_sum_scaled);
             }
 
-
+            /**
+             * @brief 计算输入向量a和b的向量积（不检查向量大小）
+             * @param a 向量a
+             * @param b 向量b
+             */
             template<typename T>
             static inline T CrossProduct(const T& a, const T& b){
                 T c(a);
@@ -529,19 +621,32 @@ namespace Quest{
                 return c;
             }
 
-
+            /**
+             * @brief 检查是否存在别名
+             * @param value1 第一个值
+             * @param value2 第二个值
+             */
             template<typename T1, typename T2>
             static inline typename std::enable_if<std::is_same<T1,T2>::value, bool>::type CheckIsAlias(T1& value1, T2& value2){
                 return value1 == value2;
             }
 
-
+            /**
+             * @brief 检查是否存在别名
+             * @param value1 第一个值
+             * @param value2 第二个值
+             */
             template<typename T1, typename T2>
             static inline typename std::enable_if<!std::is_same<T1,T2>::value, bool>::type CheckIsAlias(T1& value1, T2& value2){
                 return false;
             }
 
-
+            /**
+             * @brief 计算两个输入向量a和b的向量积（仅在调试模式下检查向量大小）
+             * @param a 向量a
+             * @param b 向量b
+             * @param c 结果向量
+             */
             template<typename T1, typename T2, typename T3>
             static inline void CrossProduct(T1& c, const T2& a, const T3& b){
                 if(c.size() != 3)
@@ -560,7 +665,12 @@ namespace Quest{
                 c[2] = a[0]*b[1] - a[1]*b[0];
             }
 
-
+            /**
+             * @brief 计算两个输入向量a和b的单位向量积
+             * @param a 向量a
+             * @param b 向量b
+             * @param c 结果向量
+             */
             template<typename T1, typename T2, typename T3>
             static inline void UnitCrossProduct(T1& c, const T2& a, const T3& b){
                 CrossProduct(c, a, b);
@@ -571,7 +681,13 @@ namespace Quest{
                 c /= norm;
             }
 
-
+            /**
+             * @brief 计算给定向量的正交归一基
+             * @param c 输入向量
+             * @param a 第一个结果向量
+             * @param b 第二个结果向量
+             * @param Type 算法类型（0：Hughes-Moeller，1：Frisvad，2：Naive）
+             */
             template<typename T1, typename T2, typename T3>
             static inline void OrthonormalBasis(const T1& c, T2& a, T3& b, const IndexType = 0){
                 if(Type == 0){
@@ -583,7 +699,12 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 计算给定向量的正交归一基（Hughes-Moeller算法）
+             * @param c 输入向量
+             * @param a 第一个结果向量
+             * @param b 第二个结果向量
+             */
             template<typename T1, typename T2, typename T3>
             static inline void OrthonormalBasisHughesMoeller(const T1& c, T2& a, T3& b){
                 QUEST_DEBUG_ERROR_IF(norm_2(c) < (1.0-1.0e-6) || norm_2(c) > (1.0+1.0e-6)) << "Input should be a normal vector" << std::endl;
@@ -601,7 +722,12 @@ namespace Quest{
                 UnitCrossProduct(a, b, c);
             }
 
-
+            /**
+             * @brief 计算给定向量的正交归一基（Frisvad算法）
+             * @param c 输入向量
+             * @param a 第一个结果向量
+             * @param b 第二个结果向量
+             */
             template<typename T1, typename T2, typename T3>
             static inline void OrthonomalBasisFrisvad(const T1& c, T2& a, T3& b){
                 QUEST_DEBUG_ERROR_IF(norm_2(c) < (1.0-1.0e-3) || norm_2(c) > (1.0+1.0e-3)) << "Input should be a normal vector" << std::endl;
@@ -626,7 +752,12 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 计算给定向量的正交归一基（Naive算法）
+             * @param c 输入向量
+             * @param a 第一个结果向量
+             * @param b 第二个结果向量
+             */
             template<typename T1, typename T2, typename T3>
             static inline void OrthonormalBasisNaive(const T1& c, T2& a, T3& b){
                 QUEST_DEBUG_ERROR_IF(norm_2(c) < (1.0-1.0e-3) || norm_2(c) > (1.0+1.0e-3)) << "Input should be a normal vector" << std::endl;
@@ -644,7 +775,11 @@ namespace Quest{
                 UnitCrossProduct(b,c,a);
             }
 
-
+            /**
+             * @brief 计算三维空间中两个向量的夹角（弧度制）
+             * @param rV1 向量1
+             * @param rV2 向量2
+             */
             template<typename T1,typename T2>
             static inline double VectorsAngle(const T1& rV1, const T2& rV2){
                 const T1 aux_1 = rV1*norm_2(rV2);
@@ -654,7 +789,11 @@ namespace Quest{
                 return 2.0*std::atan2(num, denom);
             }
 
-
+            /**
+             * @brief 计算两个三阶张量的张量积（不检查向量大小）
+             * @param a 向量a
+             * @param b 向量b
+             */
             static inline MatrixType TensorProduct3(const Vector& a, const Vector& b){
                 MatrixType A(3,3);
 
@@ -671,7 +810,13 @@ namespace Quest{
                 return A;
             }
 
-
+            /**
+             * @brief 将 "rInputMatrix" 添加到 "Destination" 矩阵，从目标矩阵的初始行和初始列开始
+             * @param rDestination 目标矩阵
+             * @param rInputMatrix 输入矩阵
+             * @param InitialRow 目标矩阵的初始行
+             * @param InitialCol 目标矩阵的初始列
+             */
             template<typename TMatrixType1, typename TMatrixType2>
             static inline void AddMatrix(
                 TMatrixType1& rDestination,
@@ -689,7 +834,12 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 将 "rInputVector" 添加到 "Destination" 向量，从目标向量的初始索引开始
+             * @param rDestination 目标向量
+             * @param rInputVector 输入向量
+             * @param InitialIndex 目标向量的初始索引
+             */
             template<typename TVectorType1, typename TVectorType2>
             static inline void AddVector(
                 TVectorType1& rDestination,
@@ -704,7 +854,13 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 将 "rInputMatrix" 减去 "Destination" 矩阵，从目标矩阵的初始行和初始列开始
+             * @param rDestination 目标矩阵
+             * @param rInputMatrix 输入矩阵
+             * @param InitialRow 目标矩阵的初始行
+             * @param InitialCol 目标矩阵的初始列
+             */
             static inline void SubtractMatrix(
                 MatrixType& rDestination,
                 const MatrixType& rInputMatrix,
@@ -722,7 +878,14 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 将 "rInputMatrix" 写入 "rDestination" 矩阵，从目标矩阵的初始行和初始列开始
+             * @warning 目标矩阵将被覆盖!!
+             * @param rDestination 目标矩阵
+             * @param rInputMatrix 输入矩阵
+             * @param InitialRow 目标矩阵的初始行
+             * @param InitialCol 目标矩阵的初始列
+             */
             static inline void WriteMatrix(
                 MatrixType& rDestination,
                 const MatrixType& rInputMatrix,
@@ -740,7 +903,12 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 执行缩减矩阵与大小为 "dimension" 的单位矩阵的 Kronecker 乘积
+             * @param rDestination 目标矩阵
+             * @param rReducedMatrix 要进行计算的缩减矩阵
+             * @param Dimension 计算时使用的维度
+             */
             static inline void ExpandReducedMatrix(
                 MatrixType& rDestination,
                 const MatrixType& rReducedMatrix,
@@ -764,7 +932,12 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 执行缩减矩阵与大小为 "dimension" 的单位矩阵的 Kronecker 乘积，并将结果加到目标矩阵中
+             * @param rDestination 目标矩阵
+             * @param rReducedMatrix 要加到目标矩阵中的缩减矩阵
+             * @param Dimension 计算时使用的维度
+             */
             static inline void ExpandAndAddReducedMatrix(
                 MatrixType& rDestination,
                 const MatrixType& rReducedMatrix,
@@ -788,7 +961,12 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 执行 rX += coeff*rY, 没有进行边界检查
+             * @param rX 目标向量
+             * @param rY 要加的向量
+             * @param coeff 系数
+             */
             static inline void VecAdd(Vector& rX, const double coeff, Vector& rY){
                 QUEST_TRY
                 SizeType size = rX.size();
@@ -799,7 +977,16 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 将应力向量转换为矩阵。假设应力以以下方式存储：
+             * \f$ [ s11, s22, s33, s12, s23, s13 ] \f$ 对于三维情况，
+             * \f$ [ s11, s22, s33, s12 ] \f$ 对于二维情况，
+             * \f$ [ s11, s22, s12 ] \f$ 对于二维情况。
+             * @param rStressVector 给定的应力向量
+             * @return 对应的应力张量矩阵形式
+             * @tparam TVector 考虑的向量类型
+             * @tparam TMatrixType 返回的矩阵类型
+             */
             template<typename TVector, typename TMatrixType = MatrixType>
             static inline TMatrixType StressVectorToTensor(const TVector& rStressVector){
                 QUEST_TRY
@@ -839,7 +1026,17 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 将向量转换为对称矩阵。
+             * @details 假设分量以以下方式存储：
+             * \f$ [ s11, s22, s33, s12, s23, s13 ] \f$ 对于三维情况，
+             * \f$ [ s11, s22, s33, s12 ] \f$ 对于二维情况，
+             * \f$ [ s11, s22, s12 ] \f$ 对于二维情况。
+             * @param rVector 给定的应力向量
+             * @return 对应的张量矩阵形式
+             * @tparam TVector 考虑的向量类型
+             * @tparam TMatrixType 返回的矩阵类型
+             */
             template<typename TVector, typename TMatrixType = MatrixType>
             static inline TMatrixType VectorToSymmetricTensor(const TVector& rVector){
                 QUEST_TRY
@@ -879,7 +1076,10 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 提取一个值的符号
+             * @param ThisDataType 给定的数值
+             */
             static inline int Sign(const double& ThisDataType){
                 QUEST_TRY
 
@@ -888,7 +1088,17 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 将应变向量转换为矩阵。假设应变按照以下方式存储：
+             * \f$ [ e11, e22, e33, 2*e12, 2*e23, 2*e13 ] \f$ 对于 3D 情况，和
+             * \f$ [ e11, e22, e33, 2*e12 ] \f$ 对于 2D 情况。
+             * \f$ [ e11, e22, 2*e12 ] \f$ 对于 2D 情况。
+             * @details 因此，应变向量的偏差分量在存储到矩阵时会除以 2。
+             * @param rStrainVector 给定的应变向量
+             * @return 对应的应变张量矩阵形式
+             * @tparam TVector 所考虑的向量类型
+             * @tparam TMatrixType 返回的矩阵类型
+             */
             template<typename TVector, typename TMatrixType = MatrixType>
             static inline TMatrixType StrainVectorToTensor(const TVector& rStrainVector){
                 QUEST_TRY
@@ -928,7 +1138,20 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 将给定的对称应变张量转换为 Voigt 符号表示法：
+             * @details 以下情况：
+             *  - 在 3D 情况下：从一个二阶张量 (3*3) 矩阵转换为对应的 (6*1) 向量
+             *    \f$ [ e11, e22, e33, 2*e12, 2*e23, 2*e13 ] \f$ 对于 3D 情况
+             *  - 在 2D 情况下：从一个二阶张量 (3*3) 矩阵转换为对应的 (4*1) 向量
+             *    \f$ [ e11, e22, e33, 2*e12 ] \f$ 对于 2D 情况
+             *  - 在 2D 情况下：从一个二阶张量 (2*2) 矩阵转换为对应的 (3*1) 向量
+             *    \f$ [ e11, e22, 2*e12 ] \f$ 对于 2D 情况
+             * @param rStrainTensor 给定的对称二阶应变张量
+             * @return 对应的应变张量向量形式
+             * @tparam TMatrixType 所考虑的矩阵类型
+             * @tparam TVector 返回的向量类型
+             */
             template<typename TMatrixType, typename TVector = Vector>
             static inline Vector StrainTensorToVector(
                 const TMatrixType& rstrainTensor,
@@ -969,7 +1192,20 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 将给定的对称应力张量转换为 Voigt 符号表示法：
+             * @details 组件假设按以下方式存储：
+             * \f$ [ s11, s22, s33, s12, s23, s13 ] \f$ 对于 3D 情况，
+             * \f$ [ s11, s22, s33, s12 ] \f$ 对于 2D 情况，
+             * \f$ [ s11, s22, s12 ] \f$ 对于 2D 情况。
+             * 在 3D 情况下：从一个二阶张量 (3*3) 矩阵转换为对应的 (6*1) 向量，
+             * 在 2D 情况下：从一个二阶张量 (3*3) 矩阵转换为对应的 (4*1) 向量，
+             * 在 2D 情况下：从一个二阶张量 (2*2) 矩阵转换为对应的 (3*1) 向量。
+             * @param rStressTensor 给定的对称二阶应力张量
+             * @return 对应的应力张量向量形式
+             * @tparam TMatrixType 所考虑的矩阵类型
+             * @tparam TVector 返回的向量类型
+             */
             template<typename TMatrixType, typename TVector = Vector>
             static inline TVector StressTensorToVector(
                 const TMatrixType& rStressTensor,
@@ -1010,7 +1246,17 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 将给定的对称张量转换为 Voigt 符号表示法：
+             * @details 以下是不同的情况：
+             *  - 在 3D 情况下：从一个二阶张量 (3*3) 矩阵转换为对应的 (6*1) 向量
+             *  - 在 3D 情况下：从一个二阶张量 (3*3) 矩阵转换为对应的 (4*1) 向量
+             *  - 在 2D 情况下：从一个二阶张量 (2*2) 矩阵转换为对应的 (3*1) 向量
+             * @param rTensor 给定的对称二阶张量
+             * @return 对应的张量向量形式
+             * @tparam TMatrixType 所考虑的矩阵类型
+             * @tparam TVector 返回的向量类型
+             */
             template<typename TMatrixType, typename TVector = Vector>
             static inline TVector SymmetrixTensorToVector(
                 const TMatrixType& rTensor,
@@ -1051,7 +1297,15 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 计算乘积操作 BT*D*B
+             * @param rA 结果矩阵
+             * @param rD "中心"矩阵
+             * @param rB 需要转置的矩阵
+             * @tparam TMatrixType1 所考虑的矩阵类型（1）
+             * @tparam TMatrixType2 所考虑的矩阵类型（2）
+             * @tparam TMatrixType3 所考虑的矩阵类型（3）
+             */
             template<typename TMatrixType1, typename TMatrixType2, typename TMatrixType3>
             static inline void BtDBProductOperator(
                 TMatrixType1& rA,
@@ -1079,7 +1333,15 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 计算乘积操作 B*D*BT
+             * @param rA 结果矩阵
+             * @param rD "中心"矩阵
+             * @param rB 需要转置的矩阵
+             * @tparam TMatrixType1 所考虑的矩阵类型（1）
+             * @tparam TMatrixType2 所考虑的矩阵类型（2）
+             * @tparam TMatrixType3 所考虑的矩阵类型（3）
+             */
             template<typename TMatrixType1, typename TMatrixType2, typename TMatrixType3>
             static inline void BDBtProductOperation(
                 TMatrixType1& rA,
@@ -1107,7 +1369,17 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 计算给定对称矩阵的特征向量和特征值
+             * @details 使用迭代的高斯-赛德尔方法计算特征向量和特征值。结果分解为 LDLT
+             * @param rA 给定的对称矩阵，计算特征向量
+             * @param rEigenVectorsMatrix 结果矩阵（将被覆盖为特征向量）
+             * @param rEigenValuesMatrix 结果对角矩阵，包含特征值
+             * @param Tolerance 认为是零的最大值
+             * @param MaxIterations 最大迭代次数
+             * @tparam TMatrixType1 所考虑的矩阵类型（1）
+             * @tparam TMatrixType2 所考虑的矩阵类型（2）
+             */
             template<typename TMatrixType1, typename TMatrixType2>
             static inline bool GuassSeideEigenSystem(
                 const TMatrixType1& rA,
@@ -1217,7 +1489,21 @@ namespace Quest{
                 return is_converged;
             }
 
-
+            /**
+             * @brief 计算矩阵的平方根
+             * @details 此函数通过进行特征值分解来计算矩阵的平方根
+             * 矩阵 A 的平方根定义为 A = V*S*inv(V)，其中 A 是特征向量矩阵，
+             * S 是包含特征值平方根的对角矩阵。注意，前述表达式可以重写为 A = V*S*trans(V)，
+             * 因为 V 是正交矩阵。
+             * @tparam TMatrixType1 输入矩阵类型
+             * @tparam TMatrixType2 输出矩阵类型
+             * @param rA 输入矩阵
+             * @param rMatrixSquareRoot 输出矩阵的平方根
+             * @param Tolerance 特征值分解的容差
+             * @param MaxIterations 特征值分解的最大迭代次数
+             * @return true 特征值分解问题收敛
+             * @return false 特征值分解问题未收敛
+             */
             template<typename TMatrixType1, typename TMatrixType2>
             static inline bool MatrixSquareRoot(
                 const TMatrixType1& rA,
@@ -1240,7 +1526,10 @@ namespace Quest{
                 return is_converged;
             }
 
-
+            /**
+             * @brief 计算一个数字 k 的阶乘，阶乘 = k!
+             * @tparam Number 需要计算阶乘的数字
+             */
             template<typename TIntegerType>
             static inline TIntegerType Factorial(const TIntegerType Number){
                 if(Number == 0){
@@ -1253,7 +1542,11 @@ namespace Quest{
                 return k;
             }
 
-
+            /**
+             * @brief 计算矩阵的指数
+             * @tparam rMatrix：要计算指数的矩阵 A
+             * @tparam rExponentialMatrix：矩阵 A 的指数 exp(A)
+             */
             template<typename TMatrixType>
             static inline void CalculateExponentialOfMatrix(
                 const TMatrixType& rMatrix,
@@ -1282,7 +1575,10 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 计算角度的弧度值
+             * @param AngleInDegrees 角度值（单位：度）
+             */
             static double DegreesToRadians(double AngleInDegrees){
                 return (AngleInDegrees*Globals::Pi)/180.0;
             }

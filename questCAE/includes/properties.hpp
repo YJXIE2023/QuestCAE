@@ -1,7 +1,3 @@
-/*----------------------------------------------------
-用于封装多个 Element 或 Condition 对象之间共享的数据
-----------------------------------------------------*/
-
 #ifndef QUEST_PROPERTOES_HPP
 #define QUEST_PROPERTOES_HPP
 
@@ -23,6 +19,12 @@
 
 namespace Quest{
 
+    /**
+     * @class Properties
+     * @brief 封装了由不同的Element或Condition共享的数据，通过基于变量的方式访问
+     * @details 如一组单元的材料参数、一组边界条件/荷载条件的参数，这些数据由Properties类持有，并在单元和条件之间共享。
+     * Properties可以用于访问节点数据，其流程是先从Properties数据容器中查找该变量，如果没有找到，则从节点中查找。
+     */
     class Properties: public IndexedObject{
         public:
             QUEST_CLASS_POINTER_DEFINITION(Properties);
@@ -43,6 +45,10 @@ namespace Quest{
             using SubPropertiesContainerType = PointerVectorSet<Properties, IndexedObject>;
 
         public:
+            /**
+             * @brief 构造函数
+             * @param NewId 对象的ID
+             */
             explicit Properties(IndexType NewId = 0):
                 BaseType(NewId),
                 mData(),
@@ -50,7 +56,11 @@ namespace Quest{
                 mSubPropertiesList(),
                 mAccessors() {}
 
-
+            /**
+             * @brief 构造函数
+             * @param NewId 对象的ID
+             * @param rSubPropertiesList 子Properties列表
+             */
             explicit Properties(IndexType NewId, const SubPropertiesContainerType& rSubPropertiesList):
                 BaseType(NewId),
                 mData(),
@@ -58,7 +68,10 @@ namespace Quest{
                 mSubPropertiesList(rSubPropertiesList),
                 mAccessors() {}
 
-
+            /**
+             * @brief 拷贝构造函数
+             * @param rOther 待拷贝的对象
+             */
             Properties(const Properties& rOther):
                 BaseType(rOther),
                 mData(rOther.mData),
@@ -72,10 +85,14 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 析构函数
+             */
             ~Properties() override {}
 
-
+            /**
+             * @brief 赋值运算符重载
+             */
             Properties& operator = (const Properties& rOther){
                 BaseType::operator=(rOther);
                 mData = rOther.mData;
@@ -89,85 +106,115 @@ namespace Quest{
                 return *this;
             }
 
-
+            /**
+             * @brief 函数调用运算符重载，获取变量的值
+             */
             template<typename TVariableType>
             typename TVariableType::Type& operator()(const TVariableType& rV){
                 return GetValue(rV);
             }
 
-
+            /**
+             * @brief 函数调用运算符重载，获取变量的值
+             */
             template<typename TVariableType>
             const typename TVariableType::Type& operator()(const TVariableType& rV) const{
                 return GetValue(rV);
             }
 
-
+            /**
+             * @brief 下标运算符重载，获取变量的值
+             */
             template<typename TVariableType>
             typename TVariableType::Type& operator[](const TVariableType& rV){
                 return GetValue(rV);
             }
 
-
+            /**
+             * @brief 下标运算符重载，获取变量的值
+             */
             template<typename TVariableType>
             const typename TVariableType::Type& operator[](const TVariableType& rV) const{
                 return GetValue(rV);
             }
 
-
+            /**
+             * @brief 函数调用运算符重载，获取指定节点的变量的值
+             */
             template<typename TVariableType>
             typename TVariableType::Type& operator()(const TVariableType& rV, Node& rThisNode){
                 return GetValue(rV, rThisNode);
             }
 
-
+            /**
+             * @brief 函数调用运算符重载，获取指定节点的变量的值
+             */
             template<typename TVariableType>
             const typename TVariableType::Type& operator()(const TVariableType& rV, const Node& rThisNode) const{
                 return GetValue(rV, rThisNode);
             }
 
-
+            /**
+             * @brief 函数调用运算符重载，获取指定节点的变量的指定分析步的值
+             */
             template<typename TVariableType>
             typename TVariableType::Type& operator()(const TVariableType& rV, Node& rThisNode, IndexType SolutionStepIndex){
                 return GetValue(rV, rThisNode, SolutionStepIndex);
             }
 
-
+            /**
+             * @brief 函数调用运算符重载，获取指定节点的变量的指定分析步的值
+             */
             template<typename TVariableType>
             const typename TVariableType::Type& operator()(const TVariableType& rV, const Node& rThisNode, IndexType SolutionStepIndex) const{
                 return GetValue(rV, rThisNode, SolutionStepIndex);
             }
 
-
+            /**
+             * @brief 函数调用运算符重载，获取指定节点的变量的指定分析步的值
+             * @param rCurrentProcessInfo 求解过程信息
+             */
             template<typename TVariableType>
             typename TVariableType::Type& operator()(const TVariableType& rV, Node& rThisNode, const ProcessInfo& rCurrentProcessInfo){
                 return GetValue(rV, rThisNode, rCurrentProcessInfo.GetSolutionStepIndex());
             }
 
-
+            /**
+             * @brief 函数调用运算符重载，获取指定节点的变量的指定分析步的值
+             * @param rCurrentProcessInfo 求解过程信息
+             */
             template<typename TVariableType>
             const typename TVariableType::Type& operator()(const TVariableType& rV, const Node& rThisNode, const ProcessInfo& rCurrentProcessInfo) const{
                 return GetValue(rV, rThisNode, rCurrentProcessInfo.GetSolutionStepIndex());
             }
 
-
+            /**
+             * @brief 移除变量
+             */
             template<typename TVariableType>
             void Erase(const TVariableType& rV){
                 mData.Erase(rV);
             }
 
-
+            /**
+             * @brief 获取变量的值
+             */
             template<typename TVariableType>
             typename TVariableType::Type& GetValue(const TVariableType& rV){
                 return mData.GetValue(rV);
             }
 
-
+            /**
+             * @brief 获取变量的值
+             */
             template<typename TVariableType>
             const typename TVariableType::Type& GetValue(const TVariableType& rV) const{
                 return mData.GetValue(rV);
             }
 
-
+            /**
+             * @brief 获取指定节点的变量的值
+             */
             template<typename TVariableType>
             typename TVariableType::Type& GetValue(const TVariableType& rV, Node& rThisNode){
                 if(mData.Has(rV)){
@@ -176,7 +223,9 @@ namespace Quest{
                 return rThisNode.GetValue(rV);
             }
 
-
+            /**
+             * @brief 获取指定节点的变量的值
+             */
             template<typename TVariableType>
             const typename TVariableType::Type& GetValue(const TVariableType& rV, const Node& rThisNode) const{
                 if(mData.Has(rV)){
@@ -185,7 +234,9 @@ namespace Quest{
                 return rThisNode.GetValue(rV);
             }
 
-
+            /**
+             * @brief 获取指定节点的变量的指定分析步的值
+             */
             template<typename TVariableType>
             typename TVariableType::Type& GetValue(const TVariableType& rV, Node& rThisNode, IndexType SolutionStepIndex){
                 if(mData.Has(rV)){
@@ -194,7 +245,9 @@ namespace Quest{
                 return rThisNode.GetValue(rV, SolutionStepIndex);
             }
 
-
+            /**
+             * @brief 获取指定节点的变量的指定分析步的值
+             */
             template<typename TVariableType>
             const typename TVariableType::Type& GetValue(const TVariableType& rV, const Node& rThisNode, IndexType SolutionStepIndex) const{
                 if(mData.Has(rV)){
@@ -203,7 +256,9 @@ namespace Quest{
                 return rThisNode.GetValue(rV, SolutionStepIndex);
             }
 
-
+            /**
+             * @brief 获取变量的值
+             */
             template<typename TVariableType>
             typename TVariableType::Type GetValue(const TVariableType& rV, const GeometryType& rGeometry, const Vector& rShapeFunctionVector, const ProcessInfo& rProcessInfo) const{
                 auto it_value = mAccessors.find(rV.Key());
@@ -214,24 +269,33 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 设置变量的值
+             */
             template<typename TVariableType>
             void SetValue(const TVariableType& rV, const typename TVariableType::Type& rValue){
                 mData.SetValue(rV, rValue);
             }
 
-
+            /**
+             * @brief 判断是否有变量
+             */
             bool HasVariables() const{
                 return !mData.IsEmpty();
             }
 
-
+            /**
+             * @brief 设置Accessor对象
+             * @details 该方法在当前属性的accessor容器中设置一个变量-Accessor映射
+             */
             template<typename TVariableType>
             void SetAccessor(const TVariableType& rV, AccessorPointerType pAccessor){
                 mAccessors.emplace(rV.Key(), std::move(pAccessor));
             }
 
-
+            /**
+             * @brief 获取变量的Accessor对象
+             */
             template<typename TVariableType>
             Accessor& GetAccessor(const TVariableType& rV){
                 auto it_value = mAccessors.find(rV.Key());
@@ -240,7 +304,9 @@ namespace Quest{
                 return *(it_value->second);
             }
 
-
+            /**
+             * @brief 获取变量的Accessor对象
+             */
             template<typename TVariableType>
             Accessor& GetAccessor(const TVariableType& rV) const{
                 auto it_value = mAccessors.find(rV.Key());
@@ -249,7 +315,9 @@ namespace Quest{
                 return *(it_value->second);
             }
 
-
+            /**
+             * @brief 获取变量的Accessor对象指针
+             */
             template<typename TVariableType>
             AccessorPointerType& pGetAccessor(const TVariableType& rV){
                 const auto it_value = mAccessors.find(rV.Key());
@@ -258,41 +326,58 @@ namespace Quest{
                 return it_value->second;
             }
 
-
+            /**
+             * @brief 检查当前属性是否具有该变量的访问器
+             */
             template<typename TVariableType>
             bool HasAccessor(const TVariableType& rV) const{
                 return (mAccessors.find(rV.Key()) != mAccessors.end());
             }
 
-
+            /**
+             * @brief 获取指定的表格
+             * @details 该方法通过XVariable和YVariable的Key值获取指定的表格
+             */
             template<typename TXVariableType, typename TYVariableType>
             TableType& GetTable(const TXVariableType& XVariable, const TYVariableType& YVariable){
                 return mTables[Key(XVariable.Key(), YVariable.Key())];
             }
 
-
+            /**
+             * @brief 获取指定的表格
+             * @details 该方法通过XVariable和YVariable的Key值获取指定的表格
+             */
             template<typename TXVariableType, typename TYVariableType>
             const TableType& GetTable(const TXVariableType& XVariable, const TYVariableType& YVariable) const{
                 return mTables.at(Key(XVariable.Key(), YVariable.Key()));
             }
 
-
+            /**
+             * @brief 设置表格
+             * @details 该方法通过XVariable和YVariable的Key值设置指定的表格
+             */
             template<typename TXVariableType, typename TYVariableType>
             void SetTable(const TXVariableType& XVariable, const TYVariableType& YVariable, const TableType& rTable){
                 mTables[Key(XVariable.Key(), YVariable.Key())] = rTable;
             }
 
-
+            /**
+             * @brief 判断是否有表格
+             */
             bool HasTables() const{
                 return !mTables.empty();
             }
 
-
+            /**
+             * @brief 判断properties是否为空
+             */
             bool IsEmpty() const{
                 return !(HasVariables() || HasTables());
             }
 
-
+            /**
+             * @brief 输入x变量和y变量的Key值，获取表格的Key值
+             */
             int64_t Key(std::size_t XKey, std::size_t YKey) const{
                 int64_t result_key = XKey;
                 result_key = result_key << 32;
@@ -300,23 +385,31 @@ namespace Quest{
                 return result_key;
             }
 
-
+            /**
+             * @brief 获取子属性的数量
+             */
             std::size_t NumberOfSubproperties() const{
                 return mSubPropertiesList.size();
             }
 
-
+            /**
+             * @brief 添加子属性
+             */
             void AddSubProperties(Properties::Pointer pSubProperties){
                 QUEST_DEBUG_ERROR_IF(this->HasSubProperties(pSubProperties->Id())) << "Subproperties with ID: " << pSubProperties->Id() << " already exist in properties " << Id() << "." << std::endl;
                 mSubPropertiesList.insert(mSubPropertiesList.begin(), *pSubProperties);
             }
 
-
+            /**
+             * @brief 判断某一子属性是否存在
+             */
             bool HasSubProperties(const IndexType SubPropertyIndex) const{
                 return (mSubPropertiesList.find(SubPropertyIndex) != mSubPropertiesList.end());
             }
 
-
+            /**
+             * @brief 通过子属性的ID获取子属性指针
+             */
             Properties::Pointer pGetSubProperties(const IndexType SubPropertyIndex){
                 auto property_iterator = mSubPropertiesList.find(SubPropertyIndex);
                 if(property_iterator != mSubPropertiesList.end()){
@@ -327,7 +420,9 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 通过子属性的ID获取子属性指针
+             */
             const Properties::Pointer pGetSubProperties(const IndexType SubPropertyIndex) const{
                 auto property_iterator = mSubPropertiesList.find(SubPropertyIndex);
                 if(property_iterator != mSubPropertiesList.end()){
@@ -338,7 +433,9 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 通过子属性的ID获取子属性
+             */
             Properties& GetSubProperties(const IndexType SubPropertyIndex){
                 auto property_iterator = mSubPropertiesList.find(SubPropertyIndex);
                 if(property_iterator != mSubPropertiesList.end()){
@@ -349,7 +446,9 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 通过子属性的ID获取子属性
+             */
             const Properties& GetSubProperties(const IndexType SubPropertyIndex) const{
                 auto property_iterator = mSubPropertiesList.find(SubPropertyIndex);
                 if(property_iterator != mSubPropertiesList.end()){
@@ -360,48 +459,66 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 获取子属性容器
+             */
             SubPropertiesContainerType& GetSubProperties(){
                 return mSubPropertiesList;
             }
 
-
+            /**
+             * @brief 获取子属性容器
+             */
             const SubPropertiesContainerType& GetSubProperties() const{
                 return mSubPropertiesList;
             }
 
-
+            /**
+             * @brief 设置子属性容器
+             */
             void SetSubProperties(SubPropertiesContainerType& rSubPropertiesList){
                 mSubPropertiesList = rSubPropertiesList;
             }
 
-
+            /**
+             * @brief 获取变量存储容器
+             */
             ContainerType& Data(){
                 return mData;
             }
 
-
+            /**
+             * @brief 获取变量存储容器
+             */
             const ContainerType& Data() const{
                 return mData;
             }
 
-
+            /**
+             * @brief 获取表格存储容器
+             */
             TablesContainerType& Tables(){
                 return mTables;
             }
 
-
+            /**
+             * @brief 获取表格存储容器
+             */
             const TablesContainerType& Tables() const{
                 return mTables;
             }
 
-
+            /**
+             * @brief 判断变量存储容器中是否有指定变量
+             */
             template<typename TVariableType>
             bool Has(const TVariableType& rV) const{
                 return mData.Has(rV);
             }
 
-
+            /**
+             * @brief 判断表格存储容器中是否有指定表格
+             */
             template<typename TXVariableType, typename TYVariableType>
             bool HasTable(const TXVariableType& XVariable, const TYVariableType& YVariable) const{
                 return (mTables.find(Key(XVariable.Key(), YVariable.Key())) != mTables.end());
@@ -485,9 +602,28 @@ namespace Quest{
             }
 
         private:
+            /**
+             * @brief 存储变量值的容器
+             * @details DataValueContainer
+             */
             ContainerType mData;
+
+            /**
+             * @brief 存储表格数据的容器
+             * @details std::unordered_map<std::size_t, Table<double>>
+             */
             TablesContainerType mTables;
+
+            /**
+             * @brief 存储子属性的容器
+             * @details PointerVectorSet<Properties, IndexedObject>
+             */
             SubPropertiesContainerType mSubPropertiesList;
+
+            /**
+             * @brief 与子属性相关的访问器对象，Properties的键值与访问器对象一一对应
+             * @details std::unordered_map<KeyType, Accessor::UniquePointer>
+             */
             AccessorsContainerType mAccessors = {};
 
     };

@@ -1,7 +1,3 @@
-/*----------------------------------
-用于管理和访问分布在不同进程中的数据
-----------------------------------*/
-
 #ifndef QUEST_GLOBAL_POINTER_HPP
 #define QUEST_GLOBAL_POINTER_HPP
 
@@ -15,11 +11,19 @@
 
 namespace Quest{
 
+    /**
+     * @class GlobalPointer
+     * @brief 指针的封装，指向位域不同 rank 的数据
+     * @tparam TDataType 指针指向的数据类型
+     */
     template<typename TDataType>
     class GlobalPointer{
         public:
             using element_type = TDataType;
 
+            /**
+             * @brief 默认构造函数
+             */
             GlobalPointer(){
                 mDataPointer = nullptr;
                 #ifdef QUEST_USING_MPI
@@ -29,6 +33,11 @@ namespace Quest{
 
             GlobalPointer(TDataType Data) = delete;
 
+            /**
+             * @brief 构造函数
+             * @param DataPointer 指向的数据指针
+             * @param Rank 线程号
+             */
             GlobalPointer(TDataType* DataPointer, int Rank = 0): mDataPointer(DataPointer)
             #ifdef QUEST_USING_MPI
                 , mRank(Rank)
@@ -39,6 +48,11 @@ namespace Quest{
                 #endif
             }
 
+            /**
+             * @brief 构造函数
+             * @param DataPointer 指向的数据指针
+             * @param Rank 线程号
+             */
             GlobalPointer(Quest::shared_ptr<TDataType> DataPointer, int Rank = 0): mDataPointer(DataPointer.get())
             #ifdef QUEST_USING_MPI
                 , mRank(Rank)
@@ -49,6 +63,11 @@ namespace Quest{
                 #endif
             }
 
+            /**
+             * @brief 构造函数
+             * @param DataType 指向的数据指针
+             * @param Rank 线程号
+             */
             GlobalPointer(Quest::intrusive_ptr<TDataType> DataType, int Rank = 0): mDataPointer(DataType.get())
             #ifdef QUEST_USING_MPI
                 , mRank(Rank)
@@ -59,6 +78,11 @@ namespace Quest{
                 #endif
             }
 
+            /**
+             * @brief 构造函数
+             * @param DataPointer 指向的数据指针
+             * @param Rank 线程号
+             */
             GlobalPointer(Quest::weak_ptr<TDataType> DataPointer, int Rank = 0): mDataPointer(DataPointer.lock().get())
             #ifdef QUEST_USING_MPI
                 , mRank(Rank)
@@ -71,21 +95,32 @@ namespace Quest{
 
             GlobalPointer(std::unique_ptr<TDataType> DataPointer, int Rank = 0) = delete;
 
+            /**
+             * @brief 拷贝构造函数
+             */
             GlobalPointer(const GlobalPointer<TDataType>& rOther): mDataPointer(rOther.mDataPointer)
             #ifdef QUEST_USING_MPI
                 , mRank(rOther.mRank)
             #endif
             {}
 
+            /**
+             * @brief 移动构造函数
+             */
             GlobalPointer(GlobalPointer<TDataType>&& rOther): mDataPointer(std::move(rOther.mDataPointer))
             #ifdef QUEST_USING_MPI
                 , mRank(std::move(rOther.mRank))
             #endif
             {}
 
-
+            /**
+             * @brief 析构函数
+             */
             ~GlobalPointer() = default;
 
+            /**
+             * @brief 赋值运算符
+             */
             GlobalPointer<TDataType>& operator=(const GlobalPointer<TDataType>& rOther){
                 mDataPointer = rOther.mDataPointer;
                 #ifdef QUEST_USING_MPI
@@ -94,22 +129,37 @@ namespace Quest{
                 return *this;
             }
 
+            /**
+             * @brief 解引用运算符重载，返回指向的数据
+             */
             TDataType& operator*() {
                 return *mDataPointer;
             }
 
+            /**
+             * @brief 解引用运算符重载，返回指向的数据
+             */
             const TDataType& operator*() const {
                 return *mDataPointer;
             }
 
+            /**
+             * @brief 指针运算符重载，返回指向的数据指针
+             */
             TDataType* operator->() {
                 return mDataPointer;
             }
 
+            /**
+             * @brief 指针运算符重载，返回指向的数据指针
+             */
             const TDataType* operator->() const {
                 return mDataPointer;
             }
 
+            /**
+             * @brief 相等运算符重载
+             */
             bool operator==(const GlobalPointer& rOther){
                 #ifdef QUEST_USING_MPI
                     return this->get() == rOther.get() && this->GetRank() == rOther.GetRank();
@@ -118,14 +168,23 @@ namespace Quest{
                 #endif
             }
 
+            /**
+             * @brief 获取数据指针
+             */
             TDataType* get(){
                 return mDataPointer;
             }
 
+            /**
+             * @brief 获取数据指针
+             */
             const TDataType* get() const{
                 return mDataPointer;
             }
 
+            /**
+             * @brief 获取线程号
+             */
             int GetRank() const{
                 #ifdef QUEST_USING_MPI
                     return mRank;
@@ -134,16 +193,25 @@ namespace Quest{
                 #endif
             }
 
+            /**
+             * @brief 设置线程号
+             */
             void SetRank(const int Rank){
                 #ifdef QUEST_USING_MPI
                     this->mRank = Rank;
                 #endif
             }
 
+            /**
+             * @brief 将当前对象的数据（即 GlobalPointer 对象）保存到给定的内存缓冲区 buffer 中
+             */
             void save(char* buffer) const{
                 memcpy(buffer,this,sizeof(GlobalPointer));
             }
 
+            /**
+             * @brief 从给定的内存缓冲区 buffer 中加载数据到当前对象中
+             */
             void load(char* buffer){
                 memcpy(this,buffer,sizeof(GlobalPointer));
             }
@@ -195,9 +263,15 @@ namespace Quest{
             }
 
         private:
+            /**
+             * @brief 指向的数据指针
+             */
             TDataType* mDataPointer;
 
             #ifdef QUEST_USING_MPI
+                /**
+                 * @brief 线程号
+                 */
                 int mRank;
             #endif
     };

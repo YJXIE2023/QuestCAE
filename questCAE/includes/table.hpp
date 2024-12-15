@@ -1,9 +1,3 @@
-/*----------------------------------------
-用于定义一个变量值相对于另一个变量值的关系
-可以存储变量间的映射关系并提供插值/外推功能
-用于根据输入变量获取对应的输出变量值
-----------------------------------------*/
-
 #ifndef QUEST_TABLE_HPP
 #define QUEST_TABLE_HPP
 
@@ -18,6 +12,15 @@
 
 namespace Quest{
 
+    /**
+     * @class Table
+     * @brief 表格类
+     * @details 表示一个变量随另一个变量的变化关系
+     * 还提供了一个使用分段线性插值的 double到double类型的表，用于获取中间值
+     * @tparam TArgumentType 自变量类型
+     * @tparam TResultType 因变量类型
+     * @tparam TResultsColumns 因变量的列数
+     */
     template<typename TArgumentType, typename TResultType = TArgumentType, std::size_t TResultsColumns = 1>
     class Table{
         public:
@@ -33,37 +36,51 @@ namespace Quest{
 
             virtual ~Table() = default;
 
-
+            /**
+             * @brief 函数调用运算符重载，返回表中最接近自变量的第一个列的结果值
+             */
             const TResultType& operator()(const TArgumentType& X) const{
                 return GetNearestRow(X)[0];
             }
 
-
+            /**
+             * @brief 函数调用运算符重载，返回表中最接近自变量的第一个列的结果值
+             */
             TResultType& operator()(const TArgumentType& X){
                 return GetNearestRow(X)[0];
             }
 
-
+            /**
+             * @brief 函数调用运算符重载，返回表中最接近自变量的指定列的结果值
+             */
             const TResultType& operator()(const TArgumentType& X, std::size_t J) const{
                 return GetNearestRow(X)[J];
             }
 
-
+            /**
+             * @brief 函数调用运算符重载，返回表中最接近自变量的指定列的结果值
+             */
             TResultType& operator()(const TArgumentType& X, std::size_t J){
                 return GetNearestRow(X)[J];
             }
 
-
+            /**
+             * @brief 下标运算符重载，查找表中与指定变量值最接近的值，并返回整行值
+             */
             const result_row_type& operator[](const TArgumentType& X) const{
                 return GetNearestRow(X);
             }
 
-
+            /**
+             * @brief 下标运算符重载，查找表中与指定变量值最接近的值，并返回整行值
+             */
             result_row_type& operator[](const TArgumentType& X){
                 return GetNearestRow(X);
             }
 
-
+            /**
+             * @brief 查找表中与指定变量值最接近的值，并返回整行值
+             */
             TResultType& GetNearestRow(const TArgumentType& X){
                 std::size_t size = mData.size();
 
@@ -86,7 +103,9 @@ namespace Quest{
                 return mData[size-1].second;
             }
 
-
+            /**
+             * @brief 查找表中与指定变量值最接近的值，并返回整行值
+             */
             const TResultType& GetNearestRow(const TArgumentType& X) const{
                 std::size_t size = mData.size();
 
@@ -109,13 +128,17 @@ namespace Quest{
                 return mData[size-1].second;
             }
 
-
+            /**
+             * @brief 在排序位置插入一行，使得 Xi-1 < X < Xi+1，并将第一列填充为 Y
+             */
             void insert(const TArgumentType& X, const TResultType& Y){
                 result_row_type a = {{Y}};
                 insert(X, a);
             }
 
-
+            /**
+             * @brief 在排序位置插入一行，使得 Xi-1 < X < Xi+1，并将第一列填充为 Y
+             */
             template<typename TArrayType>
             void insert(const TArgumentType& X, const TArrayType& Y){
                 result_row_type a;
@@ -125,7 +148,9 @@ namespace Quest{
                 insert(X, a);
             }
 
-
+            /**
+             * @brief 在排序位置插入一行，使得 Xi-1 < X < Xi+1，并将该行填充为 Y
+             */
             void insert(const TArgumentType& X, const result_row_type& Y){
                 std::size_t size = mData.size();
 
@@ -145,13 +170,17 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 在表尾插入一行，并将第一列填充为 Y
+             */
             void PushBack(const TArgumentType& X, const TResultType& Y){
                 result_row_type a = {{Y}};
                 mData.push_back(RecordType(X, a));
             }
 
-
+            /**
+             * @brief 在表尾插入一行，并将第一列填充为 Y
+             */
             template<typename TArrayType>
             void PushBack(const TArgumentType& X, const TArrayType& Y){
                 result_row_type a;                
@@ -161,23 +190,31 @@ namespace Quest{
                 mData.push_back(RecordType(X, a));
             }
 
-
+            /**
+             * @brief 在表尾插入一行，并将该行填充为 Y
+             */
             template<typename TArrayType>
             void PushBack(const TArgumentType& X, const result_row_type& Y){
                 mData.push_back(RecordType(X, Y));
             }
 
-
+            /**
+             * @brief 清空表
+             */
             void Clear(){
                 mData.clear();
             }
 
-
+            /**
+             * @brief 获取表数据
+             */
             TableContainerType& Data(){
                 return mData;
             }
 
-
+            /**
+             * @brief 获取表数据
+             */
             const TableContainerType& Data() const{
                 return mData;
             }
@@ -252,8 +289,20 @@ namespace Quest{
             }
 
         private:
+            /**
+             * @brief 表格数据
+             * @details std::vector<std::pair<TArgumentType, std::array<TResultType, TResultsColumns>>>
+             */
             TableContainerType mData;
+
+            /**
+             * @brief 自变量名称
+             */
             std::string mNameOfX;
+
+            /**
+             * @brief 因变量名称
+             */
             std::string mNameOfY;
 
     };
@@ -576,8 +625,20 @@ namespace Quest{
             }
 
         private:
+            /**
+             * @brief 表格数据
+             * @details std::vector<std::pair<TArgumentType, std::array<TResultType, TResultsColumns>>>
+             */
             TableContainerType mData;
+
+            /**
+             * @brief 自变量名称
+             */
             std::string mNameOfX;
+
+            /**
+             * @brief 因变量名称
+             */
             std::string mNameOfY;
 
     };
