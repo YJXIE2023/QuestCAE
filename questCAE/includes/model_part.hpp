@@ -1,7 +1,3 @@
-/*--------------------------------------------------
-用于管理多物理场仿真中的网格、节点、单元、条件以及相关数据
---------------------------------------------------*/
-
 #ifndef QUEST_MODEL_PART_HPP
 #define QUEST_MODEL_PART_HPP
 
@@ -34,6 +30,10 @@ namespace Quest{
 
     class Model;
 
+    /**
+     * @class ModelPart
+     * @brief 管理多物理场仿真中的网格
+     */
     class QUEST_API(QUEST_CORE) ModelPart final : public DataValueContainer, public Flags{
         private:
             class GetModelPartName{
@@ -103,63 +103,98 @@ namespace Quest{
             using SubModelPartConstantIterator = SubModelPartsContainerType::const_iterator;
 
             QUEST_DEFINE_LOCAL_FLAG(ALL_ENTITIES);
-            QUEST_DEFINE_LOCAL_FLAG(OVERRITE_ENTITIES);
+            QUEST_DEFINE_LOCAL_FLAG(OVERWRITE_ENTITIES);
 
         public:
+            /**
+             * @brief 析构函数
+             */
             ~ModelPart() override;
 
-
+            /**
+             * @brief 赋值运算符
+             */
             ModelPart& operator = (const ModelPart& rOther) = delete;
 
-
+            /**
+             * @brief 清空模型部件，变量列表、缓冲区大小和进程信息会保留
+             */
             void Clear();
 
-
+            /**
+             * @brief 清空模型部件，变量列表和缓冲区大小不会被保留
+             */
             void Reset();
 
-
+            /**
+             * @brief 创建分析步
+             */
             IndexType CreateSolutionStep();
 
-
+            /**
+             * @brief 克隆分析步
+             */
             IndexType CloneSolutionStep();
 
-
+            /**
+             * @brief 克隆时间步
+             */
             IndexType CloneTimeStep();
 
-
+            /**
+             * @brief 创建时间步
+             */
             IndexType CreateTimeStep(double NewTime);
 
-
+            /**
+             * @brief 克隆时间步
+             */
             IndexType CloneTimeStep(double NewTime);
 
-
+            /**
+             * @brief 重写时间步数据
+             */
             void OverwriteSolutionStepData(IndexType SourceSolutionStepIndex, IndexType DestinationSourceSolutionStepIndex);
 
-
+            /**
+             * @brief 返回包含该模型部件的模型
+             */
             Model& GetModel(){
                 return mrModel;
             }
 
-
+            /**
+             * @brief 返回包含该模型部件的模型
+             */
             const Model& GetModel() const{
                 return mrModel;
             }
 
-
+            /**
+             * @brief 将数据库的值重置为时间步开始时的值
+             */
             void ReduceTimeStep(ModelPart& rModelPart, double NewTime);
 
-
+            /**
+             * @brief 返回指定索引的Mesh的节点数量
+             */
             SizeType NumberOfNodes(IndexType ThisIndex = 0) const{
                 return GetMesh(ThisIndex).NumberOfNodes();
             }
 
-
+            /**
+             * @brief 在已有Mesh中添加节点
+             */
             void AddNode(NodeType::Pointer pNewNode, IndexType ThisIndex = 0);
 
-
+            /**
+             * @brief 在已有Mesh中添加节点
+             */
             void AddNodes(const std::vector<IndexType>& NodeIds, IndexType ThisIndex = 0);
 
-
+            /**
+             * @brief 在已有Mesh中添加节点
+             */
             template<typename TIteratorType>
             void AddNodes(TIteratorType nodes_begin, TIteratorType nodes_end, IndexType ThisIndex = 0){
                 QUEST_TRY
@@ -200,19 +235,29 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            /**
+             * @brief 向当前Mesh中添加一个节点
+             */
             NodeType::Pointer CreateNewNode(int Id, double x, double y, double z, VariablesList::Pointer pNewVariablesList, IndexType ThisIndex = 0);
 
-
+            /**
+             * @brief 向当前Mesh中添加一个节点
+             */
             NodeType::Pointer CreateNewNode(IndexType Id, double x, double y, double z, IndexType ThisIndex = 0);
 
-
+            /**
+             * @brief 向当前Mesh中添加一个节点
+             */
             NodeType::Pointer CreateNewNode(IndexType Id, double x, double y, double z, double* pThisData, IndexType ThisIndex = 0);
 
-
+            /**
+             * @brief 向当前Mesh中添加一个节点
+             */
             NodeType::Pointer CreateNewNode(IndexType NodeId, const NodeType& rSourceNode, IndexType ThisIndex = 0);
 
-
+            /**
+             * @brief 将一个节点分配到ModelPart中，并为该节点指定一个索引
+             */
             void AssignNode(NodeType::Pointer pThisNode, IndexType ThisIndex = 0);
 
 
@@ -304,7 +349,7 @@ namespace Quest{
                 return GetMesh(ThisIndex).pNodes();
             }
 
-
+            // 1100
             void SetNodes(NodesContainerType::Pointer pOtherNodes, IndexType ThisIndex = 0){
                 GetMesh(ThisIndex).SetNodes(pOtherNodes);
             }
@@ -407,7 +452,7 @@ namespace Quest{
                 return mTables.end();
             }
 
-
+            // 1000
             TablesContainerType& Tables(){
                 return mTables;
             }
@@ -499,7 +544,7 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            // 900
             MasterSlaveConstraint::Pointer CreateNewMasterSlaveConstraint(
                 const std::string& ConstriantName,
                 IndexType Id,
@@ -600,7 +645,7 @@ namespace Quest{
 
             const PropertiesType& GetProperties(const std::string& rAddress, IndexType ThisIndex = 0) const;
 
-
+            // 800
             void RemoveProperties(IndexType PropertiesId, IndexType ThisIndex = 0);
 
 
@@ -710,7 +755,7 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            // 700
             ElementType::Pointer CreateNewElement(
                 std::string ElementName,
                 IndexType Id,
@@ -808,7 +853,7 @@ namespace Quest{
                 return GetMesh(ThisIndex).ElementsEnd();
             }
 
-
+            // 600
             ElementsContainerType& Elements(IndexType ThisIndex = 0){
                 return GetMesh(ThisIndex).Elements();
             }
@@ -914,7 +959,7 @@ namespace Quest{
             );
             
 
-
+            // 500
             bool HasCondition(IndexType ConditionId, IndexType ThisIndex = 0) const{
                 return GetMesh(ThisIndex).HasCondition(ConditionId);
             }
@@ -1003,7 +1048,7 @@ namespace Quest{
                 GetMesh(ThisIndex).SetConditions(pOtherConditions);
             }
 
-
+            // 400
             ConditionsContainerType::ContainerType& ConditionsArray(IndexType ThisIndex = 0){
                 return GetMesh(ThisIndex).ConditionsArray();
             }
@@ -1119,7 +1164,7 @@ namespace Quest{
                 QUEST_CATCH("")
             }
 
-
+            // 300
             typename GeometryType::Pointer pGetGeometry(IndexType GeometryId){
                 return mGeometries.pGetGeometry(GeometryId);
             }
@@ -1201,7 +1246,7 @@ namespace Quest{
                 return mGeometries.GeometriesEnd();
             }
 
-
+            // 200
             GeometriesMapType& Geometries(){
                 return mGeometries.Geometries();
             }
@@ -1303,7 +1348,7 @@ namespace Quest{
                 *mpProcessInfo = NewProcessInfo;
             }
 
-
+            // 100
             SizeType NumberOfMeshes(){
                 return mMeshes.size();
             }
@@ -1421,18 +1466,31 @@ namespace Quest{
         private:
             friend class Model;
 
+            /**
+             * @brief 构造函数
+             */
             ModelPart(VariablesList::Pointer pVariableList, Model& rOwnerModel);
 
-
+            /**
+             * @Brief 构造函数
+             */
             ModelPart(const std::string& NewName, VariablesList::Pointer pVariableList, Model& rOwnerModel);
 
-
+            /**
+             * @brief 构造函数
+             */
             ModelPart(const std::string& NewName, IndexType NewBufferSize, VariablesList::Pointer pVariableList, Model& rOwnerModel);
 
-
+            /**
+             * @brief 拷贝构造函数
+             */
             ModelPart(const ModelPart& rOther) = delete;
 
-
+            /**
+             * @brief 该方法修剪字符串的不同部分，以便递归地访问任何子属性
+             * @param rStringName 要修剪的给定名称
+             * @return 索引列表
+             */
             std::vector<IndexType> TrimComponentName(const std::string& rStringName) const{
                 std::vector<IndexType> list_indexes;
 
@@ -1446,21 +1504,31 @@ namespace Quest{
                 return list_indexes;
             }
 
-
+            /**
+             * @brief 该方法设置当前模型部分所属子模型部分的缓冲区大小（递归地）
+             * @param NewBufferSize 要设置的新缓冲区大小
+             */
             void SetBufferSizeSubModelParts(IndexType NewBufferSize);
 
-
+            /**
+             * @brief 设置当前模型部分的父模型
+             */
             void SetParentModelPart(ModelPart* pParentModelPart){
                 mpParentModelPart = pParentModelPart;
             }
 
-
+            /**
+             * @brief 将源容器中的实体（如节点、单元、条件等）添加到目标容器中
+             */
             template<typename TEntitiesContainerType>
             void AddEntities(const TEntitiesContainerType& Source, TEntitiesContainerType& rDestination, Flags Options){
 
             }
 
-
+            /**
+             * @brief 如果一个子模型部分不存在，则发出适当的错误信息
+             * @param rSubModelPartName 不存在的子模型部分的名称
+             */
             [[ noreturn ]] void ErrorNonExistingSubModelPart(const std::string& rSubModelPartName) const;
 
 
@@ -1473,16 +1541,63 @@ namespace Quest{
             void load(Serializer& rSerializer) override;
 
         private:
+            /**
+             * @brief 存储模型部件的名称
+             */
             std::string mName;
+
+            /**
+             * @brief 数据库的缓存区的大小
+             */
             IndexType mBufferSize;
+
+            /**
+             * @brief 指向存储当前模型部件进程信息的指针（如计算过程中的数值或参数设置）
+             */
             ProcessInfo::Pointer mpProcessInfo;
+
+            /**
+             * @brief 包含该模型部件的所有表格的容器
+             * @details PointerVectorMap<SizeType, TableType>
+             */
             TablesContainerType mTables;
+
+            /**
+             * @brief 存储该模型部件中所有Mesh对象的容器
+             * @details PointerVector<MeshType>
+             */
             MeshesContainerType mMeshes;
+
+            /**
+             * @brief 存储该模型部件中所有几何体的容器
+             * @details GeometryContainer<GeometryType>
+             */
             GeometryContainerType mGeometries;
+
+            /**
+             * @brief 变量列表
+             */
             VariablesList::Pointer mpVariablesList;
+
+            /**
+             * @brief 通信器
+             */
             Communicator::Pointer mpCommunicator;
+
+            /**
+             * @brief 当前模型部件的父模型部件
+             */
             ModelPart* mpParentModelPart = nullptr;
+
+            /**
+             * @brief 存储子模型部件的容器
+             * @details PointerHashMapSet<ModelPart, std::hash< std::string >, GetModelPartName, Kratos::shared_ptr<ModelPart> >
+             */
             SubModelPartsContainerType mSubModelParts;
+
+            /**
+             * @brief 包含该模型部件的模型
+             */
             Model& mrModel;
     };
 

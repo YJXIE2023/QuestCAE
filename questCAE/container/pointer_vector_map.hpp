@@ -1,8 +1,3 @@
-/*--------------------------------------
-提供类似于 STL map 的有序关联容器
-使用 vector 来存储指向其数据的指针
---------------------------------------*/
-
 #ifndef QUEST_POINTER_VECTOR_MAP_HPP
 #define QUEST_POINTER_VECTOR_MAP_HPP
 
@@ -20,6 +15,10 @@
 
 namespace Quest{
 
+    /**
+     * @class PointerVectorMap
+     * @brief 排序的关联容器，类似于 STL 的 map，但使用一个向量来存储指向其数据的指针
+     */
     template<typename TKeyType, typename TDataType,
             typename TCompareType = std::less<TKeyType>,
             typename TPointerType = Quest::shared_ptr<TDataType>,
@@ -49,18 +48,33 @@ namespace Quest{
             using pair_reverse_iterator = typename TContainerType::reverse_iterator;
             using pair_const_reverse_iterator = typename TContainerType::const_reverse_iterator;
 
-
+            /**
+             * @brief 默认构造函数
+             */
             PointerVectorMap(): mData(), mSortedPartSize(size_type()), mMaxBufferSize(100) {}
 
+            /**
+             * @brief 复制构造函数
+             */
             PointerVectorMap(const PointerVectorMap& rOther): mData(rOther.mData), mSortedPartSize(rOther.mSortedPartSize), mMaxBufferSize(rOther.mMaxBufferSize) {}
 
+            /**
+             * @brief 构造函数
+             * @brief rContainer 要拷贝的容器
+             */
             explicit PointerVectorMap(const TContainerType& rContainer): mData(rContainer), mSortedPartSize(size_type()), mMaxBufferSize(100) {
                 Sort();
                 std::unique(mData.begin(), mData.end(), EqualKeyTo());
             }
 
+            /**
+             * @brief 析构函数
+             */
             ~PointerVectorMap() {}
 
+            /**
+             * @brief 赋值运算符重载
+             */
             PointerVectorMap& operator = (const PointerVectorMap& rOther){
                 mData = rOther.mData;
                 mSortedPartSize = rOther.mSortedPartSize;
@@ -68,6 +82,9 @@ namespace Quest{
                 return *this;
             }
 
+            /**
+             * @brief 下标访问，返回键对应的数据引用
+             */
             TDataType& operator [] (const key_type& rKey){
                 pair_iterator sorted_part_end;
 
@@ -94,6 +111,9 @@ namespace Quest{
                 return *(i->second);
             }
 
+            /**
+             * @brief 下标访问，返回键对应的数据指针
+             */
             pointer operator [] (const key_type& Key){
                 pair_iterator sorted_part_end;
 
@@ -120,110 +140,190 @@ namespace Quest{
                 return i->second;
             }
 
+            /**
+             * @brief 返回指向第一个pair的迭代器
+             */
             iterator begin(){
                 return iterator(mData.beign());
             }
 
+            /**
+             * @brief 返回指向第一个pair的迭代器
+             */
             const_iterator begin() const{
                 return const_iterator(mData.beign());
             }
 
+            /**
+             * @brief 返回指向最后一个pair的迭代器
+             */
             iterator end(){
                 return iterator(mData.end());
             }
 
+            /**
+             * @brief 返回指向最后一个pair的迭代器
+             */
             const_iterator end() const{
                 return const_iterator(mData.end());
             }
 
+            /**
+             * @brief 返回指向第一个pair的逆向迭代器
+             */
             reverse_iterator rbegin(){
                 return reverse_iterator(mData.rbegin());
             }
 
+            /**
+             * @brief 返回指向第一个pair的逆向迭代器
+             */
             const_reverse_iterator rbegin() const{
                 return const_reverse_iterator(mData.rbegin());
             }
 
+            /**
+             * @brief 返回指向最后一个pair的逆向迭代器
+             */
             reverse_iterator rend(){
                 return reverse_iterator(mData.rend());
             }
 
+            /**
+             * @brief 返回指向最后一个pair的逆向迭代器
+             */
             const_reverse_iterator rend() const{
                 return const_reverse_iterator(mData.rend());
             }
 
+            /**
+             * @brief 返回第一个pair对象的迭代器
+             */
             pair_iterator pair_begin(){
                 return mData.begin();
             }
 
+            /**
+             * @brief 返回第一个pair对象的迭代器
+             */
             pair_const_iterator pair_begin() const{
                 return mData.begin();
             }
 
+            /**
+             * @brief 返回最后一个pair对象的迭代器
+             */
             pair_iterator pair_end(){
                 return mData.end();
             }
 
+            /**
+             * @brief 返回最后一个pair对象的迭代器
+             */
             pair_const_iterator pair_end() const{
                 return mData.end();
             }
 
+            /**
+             * @brief 返回反序第一个pair对象的反向迭代器
+             */
             pair_reverse_iterator pair_rbegin(){
                 return mData.rbegin();
             }
 
+            /**
+             * @brief 返回反序第一个pair对象的反向迭代器
+             */
             pair_const_reverse_iterator pair_rbegin() const{
                 return mData.rbegin();
             }
 
+            /**
+             * @brief 返回反序最后一个pair对象的反向迭代器
+             */
             pair_reverse_iterator pair_rend(){
                 return mData.rend();
             }
 
+            /**
+             * @brief 返回反序最后一个pair对象的反向迭代器
+             */
             pair_const_reverse_iterator pair_rend() const{
                 return mData.rend();
             }
 
+            /**
+             * @brief 返回第一个pair对象的指针的值
+             */
             reference front(){
                 assert(!empty());
                 return *(mData.front()->second);
             }   
 
+            /**
+             * @brief 返回第一个pair对象的指针的值
+             */
             const_reference front() const{
                 assert(!empty());
                 return *(mData.front()->second);
             }   
 
+            /**
+             * @brief 返回最后一个pair对象的指针的值
+             */
             reference back(){
                 assert(!empty());
                 return *(mData.back()->second);
             }   
 
+            /**
+             * @brief 返回最后一个pair对象的指针的值
+             */
             const_reference back() const{
                 assert(!empty());
                 return *(mData.back()->second);
             }   
 
+            /**
+             * @brief 返回键值对数量
+             */
             size_type size() const{
                 return mData.size();
             }
 
+            /**
+             * @brief 返回最大容量
+             */
             size_type max_size() const{
                 return mData.max_size();
             }
 
+            /**
+             * @brief 返回键值比较器
+             */
             key_compare key_comp() const{
                 return TCompareType();
             }
 
+            /**
+             * @brief 与另一个容器交换内容
+             */
             void swap(PointerVectorMap& rOther){
                 mData.swap(rOther.mData);
             }
 
+            /**
+             * @brief 在尾部插入一个pair
+             */
             void push_back(value_type x){
                 mData.push_back(x);
             }
 
+            /**
+             * @brief 在尾部插入元素
+             * @param Key 键
+             * @param rData 数据
+             */
             iterator insert(const key_type& Key, const TDataType& rData){
                 pair_iterator sorted_part_end;
 
@@ -251,6 +351,11 @@ namespace Quest{
                 return i;
             }
 
+            /**
+             * @brief 在尾部插入元素
+             * @param Key 键
+             * @param pData 数据指针
+             */
             iterator insert(const key_type& Key, const TPointerType pData){
                 pair_iterator sorted_part_end;
 
@@ -278,22 +383,37 @@ namespace Quest{
                 return i;
             }
 
+            /**
+             * @brief 删除指定位置的pair
+             */
             iterator erase(iterator pos){
                 return iterator(mData.erase(pos.base()));
             }
 
+            /**
+             * @brief 删除指定范围的pair
+             */
             iterator erase(iterator first, iterator last){
                 return iterator(mData.erase(first.base(), last.base()));
             }
 
+            /**
+             * @brief 删除指定键对应的pair
+             */
             iterator erese(const key_type& k){
                 return erase(find(k));
             }
-
+            
+            /**
+             * @brief 清空容器
+             */
             void clear(){
                 mData.clear();
             }
 
+            /**
+             * @brief 返回指向键对应的pair的迭代器
+             */
             iterator find(const key_type& Key){
                 pair_iterator sorted_part_end;
 
@@ -314,6 +434,9 @@ namespace Quest{
                 return i;
             }
 
+            /**
+             * @brief 返回指向键对应的pair的迭代器
+             */
             const_iterator find(const key_type& Key) const{
                 pair_const_iterator sorted_part_end(mData.begin() + mSortedPartSize);
 
@@ -327,10 +450,16 @@ namespace Quest{
                 return const_iterator(i);
             }
 
+            /**
+             * @brief 返回键值对应的pair的数量
+             */
             size_type count(const key_type& Key){
                 return find(Key) == mData.end() ? 0 : 1;
             }
 
+            /**
+             * @brief 返回键对应的值（非指针）
+             */
             TDataType& at(const key_type& Key){
                 pair_iterator sorted_part_end;
 
@@ -351,6 +480,9 @@ namespace Quest{
                 return *(i->second);
             }
 
+            /**
+             * @brief 返回键对应的值（非指针）
+             */
             TDataType& at(const key_type& Key) const{
                 pair_iterator sorted_part_end;
                 sorted_part_end = mData.begin() + mSortedPartSize;
@@ -365,39 +497,66 @@ namespace Quest{
                 return *(i->second);
             }
 
+            /**
+             * @brief 排序
+             */
             void Sort(){
                 std::sort(mData.begin(), mData.end(), CompareKey());
                 mSortedPartSize = mData.size();
             }
 
+            /**
+             * @brief 获取内部容器
+             */
             TContainerType& GetContainer(){
                 return mData;
             }
 
+            /**
+             * @brief 获取内部容器
+             */
             const TContainerType& GetContainer() const{ 
                 return mData;
             }
 
+            /**
+             * @Brief 获取最大缓冲区大小
+             */
             size_type GetMaxBufferSize() const{
                 return mMaxBufferSize;
             }
 
+            /**
+             * @brief 设置最大缓冲区大小
+             */
             void SetMaxBufferSize(const size_type NewSize){
                 mMaxBufferSize = NewSize;
             }
 
+            /**
+             * @brief 获取排序部分的大小
+             */
             size_type GetSortedPartSize() const{
                 return mSortedPartSize;
             }
 
+            /**
+             * @brief 设置排序部分的大小
+             */
             void SetSortedPartSize(const size_type NewSize){
                 mSortedPartSize = NewSize;
             }
 
+            /**
+             * @brief 判断容器是否为空
+             */
             bool empty() const{
                 return mData.empty();
             }
 
+            /**
+             * @brief 判断是都全部排序
+             */
             bool IsSorted() const{
                 return mSortedPartSize == mData.size();
             }
@@ -496,8 +655,20 @@ namespace Quest{
             }
 
         private:
+            /**
+             * @brief 实际存储数据的容器
+             * @details std::vector<std::pair<TKeyType, TPointerType>>
+             */
             TContainerType mData;
+
+            /**
+             * @brief 排序部分的大小
+             */
             size_type mSortedPartSize;
+
+            /**
+             * @brief 最大缓冲区大小(当未排序部分的大小超过该值时，将进行排序)
+             */
             size_type mMaxBufferSize;
 
     };

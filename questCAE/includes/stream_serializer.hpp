@@ -1,7 +1,3 @@
-/*-----------------------------------------
-将对象序列化为字符串
-------------------------------------------*/
-
 #ifndef QUEST_STREAM_SERIALIZER_HPP
 #define QUEST_STREAM_SERIALIZER_HPP
 
@@ -16,6 +12,10 @@
 
 namespace Quest{
 
+    /**
+     * @class StreamSerializer
+     * @brief 基于Serializer类，将对象序列化为字符串
+     */
     class StreamSerializer : public Serializer{
         public:
             QUEST_CLASS_POINTER_DEFINITION(StreamSerializer);

@@ -1,8 +1,3 @@
-/*-------------------------------------
-串行和并行情况下进行数据通信
-删除GetDefault方法
--------------------------------------*/
-
 #ifndef QUEST_DATA_COMMUNICATOR_HPP
 #define QUEST_DATA_COMMUNICATOR_HPP
 
@@ -17,7 +12,9 @@
 #include "includes/define.hpp"
 #include "includes/mpi_serializer.hpp"
 
-// 宏定义
+/**
+ * @brief 用于在错误消息中获取正确的行号的宏
+ */
 #ifndef QUEST_DATA_COMMUNICATOR_DEBUG_SIZE_CHECK
 #define QUEST_DATA_COMMUNICATOR_DEBUG_SIZE_CHECK(Size1,Size2,CheckedFunction) \
     QUEST_DEBUG_ERROR_IF(Size1!=Size2)    \
@@ -32,7 +29,9 @@
     __VA_ARGS__& rRecvValue, const int RecvSource, const int RecvTag) const {return false;}    
 #endif
 
-// 针对标量和向量的三种归约操作（Sum、Min、Max）的虚函数接口，并提供默认的串行实现
+/**
+ * @brief 基于MPI_Reduce的方法，支持求和、最大值和最小值操作
+ */
 #ifndef QUEST_BASE_DATA_COMMUNICATOR_DECLARE_REDUCE_INTERFACE_FOR_TYPE
 #define QUEST_BASE_DATA_COMMUNICATOR_DECLARE_REDUCE_INTERFACE_FOR_TYPE(...) \
     virtual __VA_ARGS__ Sum(const __VA_ARGS__& rLocalValue,const int Root) const {return rLocalValue;}   \
@@ -55,7 +54,9 @@
     }   
 #endif
 
-// 声明基于 MPI_Allreduce 的归约操作接口，支持标量和向量的求和、最小值、最大值操作。还提供了带有位置信息的最小值和最大值操作版本
+/**
+ * @brief 基于MPI_Allreduce的方法，支持求和、最大值和最小值操作
+ */
 #ifndef QUEST_BASE_DATA_COMMUNICATOR_DECLARE_ALLREDUCE_INTERFACE_FOR_TYPE
 #define QUEST_BASE_DATA_COMMUNICATOR_DECLARE_ALLREDUCE_INTERFACE_FOR_TYPE(...) \
     virtual __VA_ARGS__ SumAll(const __VA_ARGS__& rLocalValue) const {return rLocalValue;}   \
@@ -84,7 +85,9 @@
     virtual std::pair<__VA_ARGS__,int> MaxLocAll(const __VA_ARGS__& rLocalValue) const {return std::pair<__VA_ARGS__,int>(rLocalValue,0);}   
 #endif
 
-// 用于处理并行计算中归并求和操作的包装器
+/**
+ * @brief 基于MPI_Scan的方法，支持求和操作
+ */
 #ifndef QUEST_BASE_DATA_COMMUNICATOR_DECLARE_SCANSUM_INTERFACE_FOR_TYPE
 #define QUEST_BASE_DATA_COMMUNICATOR_DECLARE_SCANSUM_INTERFACE_FOR_TYPE(...) \
     virtual __VA_ARGS__ ScanSum(const __VA_ARGS__& rLocalValue) const {return rLocalValue;}   \
@@ -95,7 +98,9 @@
     }
 #endif
 
-// 对 MPI_Sendrecv、MPI_Send 和 MPI_Recv 等 MPI 函数的包装器
+/**
+ * @brief 基于MPI_Sendrecv、MPI_Send、MPI_Recv的方法，支持点对点通信
+ */
 #ifndef QUEST_BASE_DATA_COMMUNICATOR_DECLARE_SENDRECV_INTERFACE_FOR_TYPE
 #define QUEST_BASE_DATA_COMMUNICATOR_DECLARE_SENDRECV_INTERFACE_FOR_TYPE(...) \
     virtual __VA_ARGS__ SendRecvImpl(const __VA_ARGS__& rSendValue, const int SendDestination, const int SendTag,    \
@@ -139,7 +144,9 @@
 #endif
 
 
-// 提供对 MPI_Bcast（广播操作）的封装
+/**
+ * @brief 基于MPI_Bcast的方法，支持广播操作
+ */
 #ifndef QUEST_BASE_DATA_COMMUNICATOR_DECLARE_BROADCAST_INTERFACE_FOR_TYPE
 #define QUEST_BASE_DATA_COMMUNICATOR_DECLARE_BROADCAST_INTERFACE_FOR_TYPE(...) \
     virtual void BroadcastImpl(__VA_ARGS__& rBuffer, const int SourceRank) const {}   \
@@ -147,7 +154,9 @@
 #endif
 
 
-// 提供了对 MPI_Scatter 和 MPI_Scatterv 的封装接口，用于在并行计算中将数据从一个进程分发到其他进程
+/**
+ * @brief 基于MPI_Scatter、MPI_Scatterv的方法，支持分发操作
+ */
 #ifndef QUEST_BASE_DATA_COMMUNICATOR_DECLARE_SCATTER_INTERFACE_FOR_TYPE
 #define QUEST_BASE_DATA_COMMUNICATOR_DECLARE_SCATTER_INTERFACE_FOR_TYPE(...) \
     virtual std::vector<__VA_ARGS__> Scatter(const std::vector<__VA_ARGS__>& rSendValues, const int SourceRank) const {    \
@@ -178,7 +187,9 @@
 #endif
 
 
-// 提供了对 MPI 中常用的聚集（Gather）、分组聚集（Gatherv）以及全局聚集（Allgather 和 Allgatherv）操作的封装接口
+/**
+ * @brief 基于MPI_Gather、MPI_Gatherv和MPI_Allgather的方法，支持收集操作
+ */
 #ifndef QUEST_BASE_DATA_COMMUNICATOR_DECLARE_GATHER_INTERFACE_FOR_TYPE
 #define QUEST_BASE_DATA_COMMUNICATOR_DECLARE_GATHER_INTERFACE_FOR_TYPE(...) \
     virtual std::vector<__VA_ARGS__> Gather(const std::vector<__VA_ARGS__>& rSendValues, const int DestinationRank) const {    \
@@ -242,6 +253,10 @@
 
 namespace Quest{
 
+    /**
+     * @brief 用于MPI通信的串行版本的封装类
+     * @details 该类不执行任何实际的通信操作，作用相当于一个占位符
+     */
     class QUEST_API(QUEST_CORE) DataCommunicator{
         private:
             template<typename T>
@@ -289,14 +304,18 @@ namespace Quest{
 
             virtual ~DataCommunicator() {}
 
-            // 工厂方法，创建并返回一个 DataCommunicator 对象
+            /**
+             * @brief 创建并返回一个 DataCommunicator 实例
+             */
             static DataCommunicator::UniquePointer Create(){
                 return Quest::make_unique<DataCommunicator>();
             }
 
 
-            // 用于暂停程序执行，直到所有线程或进程都到达此调用点
-            // 对 MPI 的 MPI_Barrier 函数的封装
+            /**
+             * @brief 暂停程序执行，知道所有线程都到达此调用
+             * @details MPI_Barrier的封装
+             */
             virtual void Barrier() const {}
 
 
@@ -320,7 +339,9 @@ namespace Quest{
             QUEST_BASE_DATA_COMMUNICATOR_DECLARE_ALLREDUCE_LOC_INTERFACE_FOR_TYPE(long unsigned int)
             QUEST_BASE_DATA_COMMUNICATOR_DECLARE_ALLREDUCE_LOC_INTERFACE_FOR_TYPE(double)
 
-            // 归约操作（Reduce）
+            /**
+             * @brief Reduce 操作，用于在分布式计算中对数据进行归约操作
+             */
             virtual bool AndReduce(const bool Value, const int Root) const {
                 return Value;
             }
@@ -337,7 +358,9 @@ namespace Quest{
                 return Values;
             }
 
-            // 归约操作（AllReduce）
+            /**
+             * @brief AllReduce 操作，用于在分布式计算中对数据进行归约操作
+             */
             virtual bool AndReduceAll(const bool Value) const {
                 return Value;
             }
@@ -354,13 +377,17 @@ namespace Quest{
                 return Values;
             }
 
-            // 用于在并行计算中通过 MPI 进行广播操作
+            /**
+             * @brief MPI_Bcast 的封装，将缓冲区同步到广播进程持有的值
+             */
             template<typename TObject>
             void Broadcast(TObject& rBroadcastObject, const int SourceRank) const{
                 this->BroadcastImpl(rBroadcastObject, SourceRank);
             }
 
-            // 通过 SendRecvImpl 实现了数据的发送和接收
+            /**
+             * @brief MPI_Sendrecv 的封装,与其他进程交换数据
+             */
             template<typename TObject>
             TObject SendRecv(
                 const TObject& rSendObject, const int SendDestination, const int SendTag,
@@ -369,14 +396,17 @@ namespace Quest{
                 return this->SendRecvImpl(rSendObject, SendDestination, SendTag, RecvSource, RecvTag);
             }
             
-            // 用于在并行计算中进行数据的交换
+            /**
+             * @brief MPI_Sendrecv 的封装,与其他进程交换数据
+             */
             template<typename TObject>
             void SendRecv(const TObject& rSendObject, const int SendDestination, const int RecvSource) const{
                 return this->SendRecvImpl(rSendObject, SendDestination, 0, RecvSource, 0);
             }
 
-            // 封装了 MPI 的 MPI_Sendrecv 操作
-            // 通过 MPI 通信操作同时发送数据到一个指定的进程，并从另一个指定的进程接收数据
+            /**
+             * @brief MPI_Sendrecv 的封装,与其他进程交换数据
+             */
             template<typename TObject>
             void SendRecv(const TObject& rSendObject, const int SendDestination, const int SendTag,
                 TObject& rRecvObject, const int RecvSource, const int RecvTag) const
@@ -385,7 +415,9 @@ namespace Quest{
             }
 
 
-            // 通过 MPI 的 Sendrecv 操作实现数据的同步发送和接收
+            /**
+             * @brief MPI_Sendrecv 的封装,与其他进程交换数据
+             */
             template<typename TObject>
             void SendRecv(const TObject& rSendObject, const int SendDestination, TObject& rRecvObject,
                 const int RecvSource) const
@@ -393,67 +425,93 @@ namespace Quest{
                 this->SendRecvImpl(rSendObject, SendDestination, 0, rRecvObject, RecvSource, 0);
             }
 
-            // 用于在 MPI 环境中发送数据
+            /**
+             * @brief MPI_Send 函数的封装，用于在分布式计算中发送数据
+             */
             template<typename TObject>
             void Send(const TObject& rSendObject, const int Destination, const int Tag = 0) const{
                 this->SendImpl(rSendObject, Destination, Tag);
             }
 
-            // 用于在 MPI 环境中接收数据
+            /**
+             * @brief MPI_Recv 函数的封装，用于在分布式计算中接收数据
+             */
             template<typename TObject>
             void Recv(TObject& rRecvObject, const int Source, const int Tag = 0) const{
                 this->RecvImpl(rRecvObject, Source, Tag);
             }
             
-            // 获取当前 MPI 进程的编号
+            /**
+             * @brief 返回进程号
+             */
             virtual int Rank() const{
                 return 0;
             }
 
-            // 获取 DataCommunicator 的并行大小
+            /**
+             * @brief 返回进程数
+             */
             virtual int Size() const{
                 return 1;
             }
 
-            // 判断当前 DataCommunicator 是否处于分布式环境中
+            /**
+             * @brief 判断当前 DataCommunicator 是否处于分布式环境中
+             */
             virtual bool IsDistrubuted() const{
                 return false;
             }
 
-            // 检查当前 DataCommunicator 是否在当前进程（rank）上定义
+            /**
+             * @brief 判断当前 DataCommunicator 是否在当前进程（rank）上定义
+             */
             virtual bool IsDefinedOnThisRank() const{
                 return true;
             }
 
-            // 检查 DataCommunicator 是否在当前进程上是 MPI_COMM_NULL
-            // MPI_COMM_NULL 是一个特殊的 MPI 通信上下文，表示当前进程不参与通信
+            /**
+             * @brief 检查当前进程是否使用的是 MPI_COMM_NULL
+             * @details 在 MPI 中，如果某个进程没有参与通信，则该进程的通信器是 MPI_COMM_NULL
+             */
             virtual bool IsNullOnThisRank() const{
                 return false;
             }
 
-            // 获取一个基于指定进程（rank）和新通信器名称的子通信器
+            /**
+             * @brief 获取子通信器
+             */
             virtual const DataCommunicator& GetSubDataCommunicator(
                 const std::vector<int>& rRanks, const std::string& rName) const
             {
                 return *this;
             }
 
-            // 用于在并行计算中处理错误并进行广播
+            /**
+             * @brief 检测到某个进程出现错误时，强制所有进程停止
+             * @details 检查给定的条件，如果条件为 true，在根进程广播错误信息，并强制其他进程停止
+             */
             virtual bool BroadcastErrorIfTrue(bool Condition, const int SourceRank) const{
                 return Condition;
             }
 
-            // 检测某个条件，如果条件为假，在特定的源进程（SourceRank）触发错误，并将错误信息广播到所有其他进程
+            /**
+             * @brief 检测到某个进程出现错误时，强制所有进程停止
+             * @details 检查给定的条件，如果条件为假，在根进程广播错误信息，并强制其他进程停止
+             */
             virtual bool BroadcastErrorIfFalse(bool Condition, const int SourceRank) const{
                 return Condition;
             }
 
-            // 在所有进程中检查条件是否为真，并在所有进程中广播错误信息，以确保错误的一致性处理
+            /**
+             * @brief 如果条件在某些进程中为真，且在其他进程中为假，则在条件为假的进程上抛出错误
+             */
             virtual bool ErrorIfTrueOnAnyRank(bool Condition) const{
                 return Condition;
             }
 
-            // 在所有进程中检查条件是否为假，并在所有进程中广播错误信息，以确保错误的一致性处理
+            /**
+             * @brief 如果条件在某些进程中为假，且在其他进程中为真，则在条件为真的进程上抛出错误
+             */
             virtual bool ErrorIfFalseOnAnyRank(bool Condition) const{
                 return Condition;
             }
@@ -489,11 +547,15 @@ namespace Quest{
             QUEST_BASE_DATA_COMMUNICATOR_DECLARE_IMPLEMENTATION_FOR_TYPE(Matrix)
 
 
-            // MPI_Bcast 函数的封装
+            /**
+             * @brief MPI_Bcast 的封装，将缓冲区同步到广播进程持有的值
+             */
             virtual void BroadcastImpl(std::string& rBuffer, const int SourceRank) const {}
 
 
-            // 通过序列化技术将复杂对象打包为字符串，再使用 MPI_Bcast 实现广播
+            /**
+             * @brief MPI_Bcast 的封装，将缓冲区同步到广播进程持有的值
+             */
             template<typename TObject>
             void BroadcastImpl(TObject& rBroadcastObject, const int SourceRank) const{
                 CheckSerializationForSimpleType(rBroadcastObject, TypeFromBool<serialization_is_required<TObject>::value>());
@@ -525,7 +587,9 @@ namespace Quest{
             }
 
 
-            // 封装了 MPI_Sendrecv 的方法，用于在并行计算中在不同的 MPI 进程之间交换字符串数据
+            /**
+             * @brief MPI_Sendrecv 的封装,与其他进程交换数据
+             */
             virtual void SendRecvImpl(
                 const std::string& rSendValues, const int SendDestination, const int SendTag,
                 std::string& rRecvValues, const int RecvSource, const int RecvTag) const 
@@ -535,8 +599,9 @@ namespace Quest{
             }
 
 
-            // 封装了 MPI 并行编程中的 MPI_Sendrecv 函数，用于在不同的进程之间发送和接收字符串数据
-            // 这段代码的实现是一个串行版本
+            /**
+             * @brief MPI_Sendrecv 的封装,与其他进程交换数据
+             */
             virtual std::string SendRecvImpl(
                 const std::string& rSendValues, const int SendDestination, const int SendTag,
                 const int RecvSource, const int RecvTag) const
@@ -548,7 +613,9 @@ namespace Quest{
             }
 
 
-            // 封装了 MPI 中的 MPI_Sendrecv 函数，用于在不同进程间发送和接收任意可序列化对象
+            /**
+             * @brief MPI_Sendrecv 的封装,与其他进程交换数据
+             */
             template<typename TObject>
             TObject SendRecvImpl(
                 const TObject& rSendObject, const int SendDestination, const int SendTag,
@@ -576,15 +643,18 @@ namespace Quest{
             }
 
 
-            // 封装了 MPI_Send，但由于当前环境是串行的，它不会执行真正的跨进程通信，并且会在尝试跨进程通信时抛出错误
+            /**
+             * @brief MPI_Send 函数的封装，用于在分布式计算中发送数据
+             */
             virtual void SendImpl(const std::string& rSendValues, const int SendDestination, const int SendTag) const{
                 QUEST_ERROR_IF(Rank() != SendDestination)
                 << "Communication between different ranks is not possible with a serial DataCommunicator." << std::endl;
             }
 
 
-            // 实现了一个泛型版本的 SendImpl 函数，用于在分布式环境中通过 MPI 序列化并发送任意对象
-            // 将非简单数据对象（如 STL 容器中的对象）序列化为字符串，并通过 MPI 发送到指定的目标进程
+            /**
+             * @brief MPI_Send 函数的封装，用于在分布式计算中发送数据
+             */
             template<typename TObject>
             void SendImpl(const TObject& rSendObject, const int SendDestination, const int SendTag) const{
                 CheckSerializationForSimpleType(rSendObject, TypeFromBool<serialization_is_required<TObject>::value>());
@@ -601,15 +671,17 @@ namespace Quest{
             }
 
 
-            // 实现了一个虚函数 RecvImpl，用于接收来自其他进程的字符串数据
-            // 这段代码主要用于串行环境，在串行环境中调用 RecvImpl 是没有意义的
+            /**
+             * @brief MPI_Recv 函数的封装，用于在分布式计算中接收数据
+             */
             virtual void RecvImpl(std::string& rRecvValues, const int RecvSource, const int RecvTag = 0) const{
                 QUEST_ERROR << "Calling serial DataCommunicator::Recv, which has no meaningful return." << std::endl;
             }
 
 
-            // 实现了一个模板函数 RecvImpl，用于接收任意类型的对象数据
-            // 序列化技术来传输复杂对象，并适用于分布式计算环境。在串行环境中，如果试图调用它会抛出错误
+            /**
+             * @brief MPI_Recv 函数的封装，用于在分布式计算中接收数据
+             */
             template<typename TObject>
             void RecvImpl(TObject& rRecvObject, const int RecvSource, const int RecvTag = 0) const{
                 CheckSerializationForSimpleType(rRecvObject, TypeFromBool<serialization_is_required<TObject>::value>());

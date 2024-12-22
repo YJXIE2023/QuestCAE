@@ -1,7 +1,3 @@
-/*---------------------------------------
-pointer_vector_map类的迭代器类
-----------------------------------------*/
-
 #ifndef QUEST_POINTER_VECTOR_MAP_ITERATOR_HPP
 #define QUEST_POINTER_VECTOR_MAP_ITERATOR_HPP
 
@@ -18,7 +14,13 @@ pointer_vector_map类的迭代器类
 
 namespace Quest{
 
-    template<typename TIterator, typename TDataType>
+    /**
+     * @class PointerVectorMapIterator
+     * @brief PointerVectorMap的迭代器
+     * @tparam TIteratorType 迭代器类型
+     * @tparam TDataType 数据类型
+     */
+    template<typename TIteratorType, typename TDataType>
     class PointerVectorMapIterator: public boost::iterator_adaptor<PointerVectorMapIterator<TIteratorType, TDataType>,TIteratorType, TDataType>
     {
         public:

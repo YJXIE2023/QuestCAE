@@ -1,0 +1,165 @@
+Date : 2024-12-16 22:25:24
+Directory : /home/xie/code/QuestCAE/questCAE
+Total : 128 files,  26036 codes, 6749 comments, 9661 blanks, all 42446 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| C++      |        127 |     26,033 |      6,749 |      9,660 |     42,442 |
+| CMake    |          1 |          3 |          0 |          1 |          4 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                             | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                |        128 |     26,036 |      6,749 |      9,661 |     42,446 |
+| . (Files)                                                                                        |          1 |          3 |          0 |          1 |          4 |
+| IO                                                                                               |          6 |        599 |         29 |        212 |        840 |
+| container                                                                                        |         30 |      5,871 |      1,648 |      2,205 |      9,724 |
+| geometries                                                                                       |          5 |      2,169 |      1,140 |        647 |      3,956 |
+| includes                                                                                         |         44 |      9,431 |      2,897 |      3,989 |     16,317 |
+| integration                                                                                      |          5 |        558 |        268 |        235 |      1,061 |
+| linear_solvers                                                                                   |          5 |        300 |        236 |        181 |        717 |
+| linear_solvers (Files)                                                                           |          3 |        177 |        143 |         99 |        419 |
+| linear_solvers/preconditioner                                                                    |          1 |         61 |         53 |         41 |        155 |
+| linear_solvers/reorderer                                                                         |          1 |         62 |         40 |         41 |        143 |
+| sources                                                                                          |         16 |      4,558 |         70 |      1,495 |      6,123 |
+| utilities                                                                                        |         16 |      2,547 |        461 |        696 |      3,704 |
++--------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                                         | language | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| /home/xie/code/QuestCAE/questCAE/CMakeLists.txt                                                  | CMake    |          3 |          0 |          1 |          4 |
+| /home/xie/code/QuestCAE/questCAE/IO/logger.cpp                                                   | C++      |         64 |          5 |         24 |         93 |
+| /home/xie/code/QuestCAE/questCAE/IO/logger.hpp                                                   | C++      |        122 |          6 |         43 |        171 |
+| /home/xie/code/QuestCAE/questCAE/IO/logger_message.cpp                                           | C++      |         53 |          3 |         17 |         73 |
+| /home/xie/code/QuestCAE/questCAE/IO/logger_message.hpp                                           | C++      |        168 |          5 |         64 |        237 |
+| /home/xie/code/QuestCAE/questCAE/IO/logger_output.cpp                                            | C++      |         99 |          5 |         27 |        131 |
+| /home/xie/code/QuestCAE/questCAE/IO/logger_output.hpp                                            | C++      |         93 |          5 |         37 |        135 |
+| /home/xie/code/QuestCAE/questCAE/container/array_1d.hpp                                          | C++      |        411 |        107 |         96 |        614 |
+| /home/xie/code/QuestCAE/questCAE/container/csr_matrix.hpp                                        | C++      |        579 |          6 |        175 |        760 |
+| /home/xie/code/QuestCAE/questCAE/container/data_value_container.cpp                              | C++      |         58 |          4 |         14 |         76 |
+| /home/xie/code/QuestCAE/questCAE/container/data_value_container.hpp                              | C++      |        172 |         94 |         85 |        351 |
+| /home/xie/code/QuestCAE/questCAE/container/flags.cpp                                             | C++      |         59 |          3 |         18 |         80 |
+| /home/xie/code/QuestCAE/questCAE/container/flags.hpp                                             | C++      |        176 |        144 |         96 |        416 |
+| /home/xie/code/QuestCAE/questCAE/container/geometry_container.hpp                                | C++      |        163 |          5 |         86 |        254 |
+| /home/xie/code/QuestCAE/questCAE/container/global_pointers_vector.hpp                            | C++      |        231 |        152 |         73 |        456 |
+| /home/xie/code/QuestCAE/questCAE/container/model.cpp                                             | C++      |        194 |          5 |         63 |        262 |
+| /home/xie/code/QuestCAE/questCAE/container/model.hpp                                             | C++      |         50 |          6 |         56 |        112 |
+| /home/xie/code/QuestCAE/questCAE/container/nodal_data.cpp                                        | C++      |         35 |          4 |         14 |         53 |
+| /home/xie/code/QuestCAE/questCAE/container/nodal_data.hpp                                        | C++      |         58 |         56 |         44 |        158 |
+| /home/xie/code/QuestCAE/questCAE/container/periodic_variable_container.hpp                       | C++      |         87 |          7 |         31 |        125 |
+| /home/xie/code/QuestCAE/questCAE/container/pointer_hash_map_set.hpp                              | C++      |        246 |          5 |        119 |        370 |
+| /home/xie/code/QuestCAE/questCAE/container/pointer_vector.hpp                                    | C++      |        227 |        170 |         79 |        476 |
+| /home/xie/code/QuestCAE/questCAE/container/pointer_vector_map.hpp                                | C++      |        398 |          6 |        123 |        527 |
+| /home/xie/code/QuestCAE/questCAE/container/pointer_vector_map_iterator.hpp                       | C++      |         33 |          6 |         19 |         58 |
+| /home/xie/code/QuestCAE/questCAE/container/pointer_vector_set.hpp                                | C++      |        439 |        211 |        128 |        778 |
+| /home/xie/code/QuestCAE/questCAE/container/set_identity_function.hpp                             | C++      |         18 |          7 |         10 |         35 |
+| /home/xie/code/QuestCAE/questCAE/container/sparse_contiguous_row_graph.hpp                       | C++      |        299 |          7 |        101 |        407 |
+| /home/xie/code/QuestCAE/questCAE/container/sparse_graph.hpp                                      | C++      |        269 |          7 |        102 |        378 |
+| /home/xie/code/QuestCAE/questCAE/container/system_vector.hpp                                     | C++      |        179 |          5 |         80 |        264 |
+| /home/xie/code/QuestCAE/questCAE/container/variable.hpp                                          | C++      |        169 |        111 |         75 |        355 |
+| /home/xie/code/QuestCAE/questCAE/container/variable_data.cpp                                     | C++      |         67 |          4 |         26 |         97 |
+| /home/xie/code/QuestCAE/questCAE/container/variable_data.hpp                                     | C++      |         97 |        116 |         82 |        295 |
+| /home/xie/code/QuestCAE/questCAE/container/variables_list.cpp                                    | C++      |         44 |          4 |          6 |         54 |
+| /home/xie/code/QuestCAE/questCAE/container/variables_list.hpp                                    | C++      |        326 |        115 |        116 |        557 |
+| /home/xie/code/QuestCAE/questCAE/container/variables_list_data_value_container.hpp               | C++      |        561 |        269 |        206 |      1,036 |
+| /home/xie/code/QuestCAE/questCAE/container/weak_pointer_vector.hpp                               | C++      |        202 |          6 |         67 |        275 |
+| /home/xie/code/QuestCAE/questCAE/container/weak_pointer_vector_iterator.hpp                      | C++      |         24 |          6 |         15 |         45 |
+| /home/xie/code/QuestCAE/questCAE/geometries/geometry.hpp                                         | C++      |      1,553 |        809 |        431 |      2,793 |
+| /home/xie/code/QuestCAE/questCAE/geometries/geometry_data.hpp                                    | C++      |        220 |         89 |         56 |        365 |
+| /home/xie/code/QuestCAE/questCAE/geometries/geometry_dimension.hpp                               | C++      |         65 |         22 |         30 |        117 |
+| /home/xie/code/QuestCAE/questCAE/geometries/geometry_shape_function_container.hpp                | C++      |        218 |        151 |         71 |        440 |
+| /home/xie/code/QuestCAE/questCAE/geometries/point.hpp                                            | C++      |        113 |         69 |         59 |        241 |
+| /home/xie/code/QuestCAE/questCAE/includes/accessor.hpp                                           | C++      |        110 |         89 |         37 |        236 |
+| /home/xie/code/QuestCAE/questCAE/includes/check.hpp                                              | C++      |        185 |          6 |         47 |        238 |
+| /home/xie/code/QuestCAE/questCAE/includes/code_location.hpp                                      | C++      |         54 |          6 |         31 |         91 |
+| /home/xie/code/QuestCAE/questCAE/includes/communicator.hpp                                       | C++      |        172 |          5 |        241 |        418 |
+| /home/xie/code/QuestCAE/questCAE/includes/condition.hpp                                          | C++      |        510 |        354 |        109 |        973 |
+| /home/xie/code/QuestCAE/questCAE/includes/constitutive_law.hpp                                   | C++      |        582 |          4 |        305 |        891 |
+| /home/xie/code/QuestCAE/questCAE/includes/data_communicator.hpp                                  | C++      |        496 |         53 |        117 |        666 |
+| /home/xie/code/QuestCAE/questCAE/includes/define.hpp                                             | C++      |        460 |         21 |         87 |        568 |
+| /home/xie/code/QuestCAE/questCAE/includes/dof.hpp                                                | C++      |        299 |        184 |        121 |        604 |
+| /home/xie/code/QuestCAE/questCAE/includes/element.hpp                                            | C++      |        526 |          5 |        201 |        732 |
+| /home/xie/code/QuestCAE/questCAE/includes/exceptions.hpp                                         | C++      |         61 |          7 |         36 |        104 |
+| /home/xie/code/QuestCAE/questCAE/includes/fill_communicator.hpp                                  | C++      |         49 |          4 |         28 |         81 |
+| /home/xie/code/QuestCAE/questCAE/includes/fnv_1a_hash.hpp                                        | C++      |         44 |          5 |         24 |         73 |
+| /home/xie/code/QuestCAE/questCAE/includes/geometrical_object.hpp                                 | C++      |        153 |         95 |         59 |        307 |
+| /home/xie/code/QuestCAE/questCAE/includes/global_pointer.hpp                                     | C++      |        201 |         81 |         45 |        327 |
+| /home/xie/code/QuestCAE/questCAE/includes/global_variables.hpp                                   | C++      |         19 |          3 |          6 |         28 |
+| /home/xie/code/QuestCAE/questCAE/includes/indexed_object.hpp                                     | C++      |         61 |         25 |         27 |        113 |
+| /home/xie/code/QuestCAE/questCAE/includes/initial_state.hpp                                      | C++      |         82 |         66 |         45 |        193 |
+| /home/xie/code/QuestCAE/questCAE/includes/key_hash.hpp                                           | C++      |        158 |         88 |         38 |        284 |
+| /home/xie/code/QuestCAE/questCAE/includes/lock_object.hpp                                        | C++      |         54 |         33 |         21 |        108 |
+| /home/xie/code/QuestCAE/questCAE/includes/master_slave_constraint.hpp                            | C++      |        216 |          5 |        106 |        327 |
+| /home/xie/code/QuestCAE/questCAE/includes/mesh.hpp                                               | C++      |        510 |          6 |        229 |        745 |
+| /home/xie/code/QuestCAE/questCAE/includes/model_part.hpp                                         | C++      |        901 |          5 |        599 |      1,505 |
+| /home/xie/code/QuestCAE/questCAE/includes/mpi_serializer.hpp                                     | C++      |         27 |          5 |         12 |         44 |
+| /home/xie/code/QuestCAE/questCAE/includes/node.hpp                                               | C++      |        613 |        342 |        173 |      1,128 |
+| /home/xie/code/QuestCAE/questCAE/includes/parallel_enviroment.hpp                                | C++      |         88 |          7 |         69 |        164 |
+| /home/xie/code/QuestCAE/questCAE/includes/process_info.hpp                                       | C++      |        135 |        142 |         59 |        336 |
+| /home/xie/code/QuestCAE/questCAE/includes/properties.hpp                                         | C++      |        369 |        190 |         86 |        645 |
+| /home/xie/code/QuestCAE/questCAE/includes/quest_components.hpp                                   | C++      |        168 |         35 |         60 |        263 |
+| /home/xie/code/QuestCAE/questCAE/includes/quest_export_api.hpp                                   | C++      |         37 |          3 |         11 |         51 |
+| /home/xie/code/QuestCAE/questCAE/includes/quest_filesystem.hpp                                   | C++      |         20 |         22 |         20 |         62 |
+| /home/xie/code/QuestCAE/questCAE/includes/quest_flags.hpp                                        | C++      |         41 |          4 |          7 |         52 |
+| /home/xie/code/QuestCAE/questCAE/includes/quest_parameters.hpp                                   | C++      |        198 |        348 |        154 |        700 |
+| /home/xie/code/QuestCAE/questCAE/includes/quset.hpp                                              | C++      |          6 |          6 |         10 |         22 |
+| /home/xie/code/QuestCAE/questCAE/includes/registry.hpp                                           | C++      |         91 |         63 |         57 |        211 |
+| /home/xie/code/QuestCAE/questCAE/includes/registry_item.hpp                                      | C++      |        157 |        123 |        106 |        386 |
+| /home/xie/code/QuestCAE/questCAE/includes/serializer.hpp                                         | C++      |        772 |          6 |        217 |        995 |
+| /home/xie/code/QuestCAE/questCAE/includes/smart_pointers.hpp                                     | C++      |         54 |          5 |         19 |         78 |
+| /home/xie/code/QuestCAE/questCAE/includes/stream_serializer.hpp                                  | C++      |         29 |          5 |         18 |         52 |
+| /home/xie/code/QuestCAE/questCAE/includes/table.hpp                                              | C++      |        408 |         82 |        172 |        662 |
+| /home/xie/code/QuestCAE/questCAE/includes/table_stream.hpp                                       | C++      |        188 |          5 |         50 |        243 |
+| /home/xie/code/QuestCAE/questCAE/includes/ublas_complex_interface.hpp                            | C++      |         51 |          6 |         12 |         69 |
+| /home/xie/code/QuestCAE/questCAE/includes/ublas_interface.hpp                                    | C++      |         54 |          6 |         16 |         76 |
+| /home/xie/code/QuestCAE/questCAE/includes/variables.hpp                                          | C++      |         22 |        342 |        102 |        466 |
+| /home/xie/code/QuestCAE/questCAE/integration/integration_info.cpp                                | C++      |         94 |          4 |         21 |        119 |
+| /home/xie/code/QuestCAE/questCAE/integration/integration_info.hpp                                | C++      |        113 |         85 |         42 |        240 |
+| /home/xie/code/QuestCAE/questCAE/integration/integration_point.hpp                               | C++      |        113 |        112 |         70 |        295 |
+| /home/xie/code/QuestCAE/questCAE/integration/quadrature.hpp                                      | C++      |         96 |         46 |         47 |        189 |
+| /home/xie/code/QuestCAE/questCAE/integration/quadrilateral_gauss_legendre_integration_points.hpp | C++      |        142 |         21 |         55 |        218 |
+| /home/xie/code/QuestCAE/questCAE/linear_solvers/direct_solver.hpp                                | C++      |         41 |         24 |         24 |         89 |
+| /home/xie/code/QuestCAE/questCAE/linear_solvers/iterative_solver.hpp                             | C++      |          8 |          2 |          4 |         14 |
+| /home/xie/code/QuestCAE/questCAE/linear_solvers/linear_solver.hpp                                | C++      |        128 |        117 |         71 |        316 |
+| /home/xie/code/QuestCAE/questCAE/linear_solvers/preconditioner/preconditioner.hpp                | C++      |         61 |         53 |         41 |        155 |
+| /home/xie/code/QuestCAE/questCAE/linear_solvers/reorderer/reorderer.hpp                          | C++      |         62 |         40 |         41 |        143 |
+| /home/xie/code/QuestCAE/questCAE/sources/accessor.cpp                                            | C++      |        106 |          4 |         23 |        133 |
+| /home/xie/code/QuestCAE/questCAE/sources/code_location.cpp                                       | C++      |        103 |          4 |         18 |        125 |
+| /home/xie/code/QuestCAE/questCAE/sources/communicator.cpp                                        | C++      |        402 |          4 |        232 |        638 |
+| /home/xie/code/QuestCAE/questCAE/sources/constitutive_law.cpp                                    | C++      |        844 |          4 |        240 |      1,088 |
+| /home/xie/code/QuestCAE/questCAE/sources/exceptions.cpp                                          | C++      |         70 |          5 |         24 |         99 |
+| /home/xie/code/QuestCAE/questCAE/sources/fill_communicator.cpp                                   | C++      |         39 |          4 |         19 |         62 |
+| /home/xie/code/QuestCAE/questCAE/sources/initial_state.cpp                                       | C++      |        102 |          4 |         38 |        144 |
+| /home/xie/code/QuestCAE/questCAE/sources/key_hash.cpp                                            | C++      |         16 |          4 |          9 |         29 |
+| /home/xie/code/QuestCAE/questCAE/sources/master_slave_constraint.cpp                             | C++      |          7 |          4 |          4 |         15 |
+| /home/xie/code/QuestCAE/questCAE/sources/model_part.cpp                                          | C++      |      1,652 |          5 |        474 |      2,131 |
+| /home/xie/code/QuestCAE/questCAE/sources/process_info.cpp                                        | C++      |        152 |          4 |         37 |        193 |
+| /home/xie/code/QuestCAE/questCAE/sources/queat_parameters.cpp                                    | C++      |        833 |          6 |        301 |      1,140 |
+| /home/xie/code/QuestCAE/questCAE/sources/quest_components.cpp                                    | C++      |          0 |          4 |          2 |          6 |
+| /home/xie/code/QuestCAE/questCAE/sources/quest_filesystem.cpp                                    | C++      |         35 |          5 |         11 |         51 |
+| /home/xie/code/QuestCAE/questCAE/sources/registry.cpp                                            | C++      |         86 |          5 |         33 |        124 |
+| /home/xie/code/QuestCAE/questCAE/sources/registry_item.cpp                                       | C++      |        111 |          4 |         30 |        145 |
+| /home/xie/code/QuestCAE/questCAE/utilities/adjoint_extensions.hpp                                | C++      |         30 |          7 |         23 |         60 |
+| /home/xie/code/QuestCAE/questCAE/utilities/atomic_utilities.hpp                                  | C++      |        149 |          5 |         49 |        203 |
+| /home/xie/code/QuestCAE/questCAE/utilities/color_utilities.hpp                                   | C++      |         48 |          3 |          7 |         58 |
+| /home/xie/code/QuestCAE/questCAE/utilities/counter.hpp                                           | C++      |         47 |          6 |         22 |         75 |
+| /home/xie/code/QuestCAE/questCAE/utilities/indirect_scalar_fwd.hpp                               | C++      |          8 |          5 |          7 |         20 |
+| /home/xie/code/QuestCAE/questCAE/utilities/math_utils.cpp                                        | C++      |         18 |          0 |          5 |         23 |
+| /home/xie/code/QuestCAE/questCAE/utilities/math_utils.hpp                                        | C++      |      1,038 |        357 |        205 |      1,600 |
+| /home/xie/code/QuestCAE/questCAE/utilities/openmp_utils.hpp                                      | C++      |         75 |          6 |         18 |         99 |
+| /home/xie/code/QuestCAE/questCAE/utilities/parallel_utilities.cpp                                | C++      |         89 |          5 |         28 |        122 |
+| /home/xie/code/QuestCAE/questCAE/utilities/parallel_utilities.hpp                                | C++      |        332 |         15 |         80 |        427 |
+| /home/xie/code/QuestCAE/questCAE/utilities/quaternion.hpp                                        | C++      |        293 |         16 |         74 |        383 |
+| /home/xie/code/QuestCAE/questCAE/utilities/reduction_utilities.hpp                               | C++      |        214 |          5 |         83 |        302 |
+| /home/xie/code/QuestCAE/questCAE/utilities/stl_vector_io.hpp                                     | C++      |         17 |          5 |         10 |         32 |
+| /home/xie/code/QuestCAE/questCAE/utilities/string_utilities.cpp                                  | C++      |        107 |          5 |         41 |        153 |
+| /home/xie/code/QuestCAE/questCAE/utilities/string_utilities.hpp                                  | C++      |         31 |         16 |         20 |         67 |
+| /home/xie/code/QuestCAE/questCAE/utilities/table_stream_utility.hpp                              | C++      |         51 |          5 |         24 |         80 |
+| Total                                                                                            |          |     26,036 |      6,749 |      9,661 |     42,446 |
++--------------------------------------------------------------------------------------------------+----------+------------+------------+------------+------------+

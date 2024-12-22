@@ -1,8 +1,3 @@
-/*--------------------------------------------
-logger类负责将消息写入输出流中
-单例模式输出，输出列表在软件中时唯一的
----------------------------------------------*/
-
 #ifndef QUEST_LOGGER_HPP
 #define QUEST_LOGGER_HPP
 
@@ -17,6 +12,11 @@ logger类负责将消息写入输出流中
 
 namespace Quest{
     
+    /**
+     * @class Logger
+     * @brief 日志类，负责将消息写入输出流
+     * @details 持有一个日志输出数组，并将到达的日志消息分发到这些输出流
+     */
     class QUEST_API(QUEST_CORE) Logger{
         public:
             using LoggerOutputContainerType = std::vector<LoggerOutput::Pointer>;
@@ -24,32 +24,65 @@ namespace Quest{
             using Category = LoggerMessage::Category;
             using DistributedFilter = LoggerMessage::DistributedFilter;
 
+            /**
+             * @brief 构造函数
+             */
             explicit Logger(const std::string& TheLabel);
 
+            /**
+             * @brief 默认构造函数
+             */
             Logger();
 
+            /**
+             * @brief 拷贝构造函数
+             */
             Logger(const Logger& rOther) = delete;
             
+            /**
+             * @brief 析构函数
+             */
             virtual ~Logger();
 
+            /**
+             * @brief 赋值运算符
+             */
             Logger& operator=(const Logger& rOther) = delete;
 
+            /**
+             * @brief 获取所有日志输出实例
+             */
             static LoggerOutputContainerType& GetOutputsInstance(){
                 static LoggerOutputContainerType instance;
                 return instance;
             }
 
+            /**
+             * @brief 获取默认日志输出实例
+             */
             static LoggerOutput& GetDefaultOutputInstance(){
                 static LoggerOutput defaultOutputInstance(std::cout);
                 return defaultOutputInstance;
             }
 
+            /**
+             * @brief 添加日志输出实例
+             */
             static void AddOutput(LoggerOutput::Pointer pTheOutput);
 
+            /**
+             * @brief 移除日志输出实例
+             */
             static void RemoveOutput(LoggerOutput::Pointer pTheOutput);
 
+            /**
+             * @brief 强制刷新缓存区
+             */
             static void Flush();
 
+            /**
+             * @brief 返回当前日志消息
+             */
             const std::string& GetCurrentMessage(){
                 return mCurrentMessage.GetMessage();
             }
@@ -79,6 +112,9 @@ namespace Quest{
         protected:
 
         private:
+            /**
+             * @brief mCurrentMessage 当前消息
+             */
             LoggerMessage mCurrentMessage;
     };
 

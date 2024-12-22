@@ -1,7 +1,3 @@
-/*----------------------------------
-提供序列化和反序列化的接口
-------------------------------------*/
-
 #ifndef QUEST_SERIALIZER_HPP
 #define QUEST_SERIALIZER_HPP
 
@@ -67,6 +63,12 @@
 
 namespace Quest{
     
+    /**
+     * @class Serializer
+     * @brief 序列化是将对象的状态存储到数据文件或内存缓冲区中的过程，同时也从其中检索对象
+     * @details 序列化的核心是将对象的所有数据依次存储到文件或缓冲区中，并以相同的顺序加载它
+     * 序列化机制被用于创建重启文件。因此，为了将对象存储到重启文件并随后检索它，必须添加用于序列化的必要组件
+     */
     class ModelPart;
     class VariableData;
     template<typename TDataType> class Variable;

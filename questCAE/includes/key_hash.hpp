@@ -13,15 +13,27 @@ namespace Quest{
     using IndexType = std::size_t;
     using HashType = std::size_t;
 
-    // 结合给定的哈希种子 (Seed) 和输入值 (Value)，生成一个新的、更"独特"的哈希值
+    /**
+     * @brief 此方法为输入值创建一个“唯一”哈希值
+     * @details 该方法来源于 Boost
+     * @tparam TClassType 要进行哈希处理的类的类型
+     * @param Seed 用于生成哈希值的种子
+     * @param Value 需要进行哈希处理的值
+     */
     template<typename TClassType>
     inline void HashCombine(HashType& seed, const TClassType& value){
         std::hash<TClassType> hasher;
         seed ^= hasher(value) + 0x9e3779b9 + (seed<<6) + (seed>>2);
     }
 
-    // 遍历从 First 到 Last 的一系列对象，并依次对每个对象进行哈希计算，
-    // 然后使用 HashCombine 方法将这些对象的哈希值组合起来，最终返回一个综合的哈希种子值 (seed)
+
+    /**
+     * @brief 此方法将哈希值逐步组合直到最后一个类，以生成对应的种子
+     * @tparam TClassType 要进行哈希处理的类的类型
+     * @param First 第一个用于比较的类
+     * @param Last 最后一个用于比较的类
+     * @return 生成的种子值
+     */
     template<typename TClassType>
     inline HashType HashRange(TClassType First, TClassType Last){
         HashType seed = 0;
@@ -36,10 +48,17 @@ namespace Quest{
 
     class VariableData;
 
-    // 模板结构体，定义了一个比较操作符 operator()，
-    // 用于比较两个对象（first 和 second）是否相等
+    /**
+     * @brief 这是一个用于两个类之间通用的键比较器
+     * @tparam TClassType 要进行哈希处理的类的类型
+     */
     template<typename TClassType>
     struct KeyComparorRange{
+        /**
+         * @brief 这是重载的 () 操作符
+         * @param first 要比较的第一个类
+         * @param second 要比较的第二个类
+         */
         bool operator()(const TClassType& first, const TClassType& second) const{
             if (first.size()!= second.size()){
                 return false;
@@ -62,8 +81,10 @@ namespace Quest{
         }
     };
 
-    // 定义了一个泛型模板结构体 KeyHasherRange
-    // 用于计算某种类型 TClassType 的对象的哈希值
+    /**
+     * @brief 这是一个通用的哈希器
+     * @tparam TClassType 要进行哈希处理的类的类型
+     */
     template<typename TClassType>
     struct KeyHasherRange{
         HashType operator()(const TClassType& value) const{
@@ -71,29 +92,37 @@ namespace Quest{
         }
     };
 
-    // 定义了一个结构体 VariableHasher，用于对 VariableData 类型的对象进行哈希计算
+    /**
+     * @brief 变量哈希器
+     */
     struct QUEST_API(QUEST_CORE) VariableHasher{
         HashType operator()(const VariableData& rVariable) const;
     };
 
-    // 定义了一个结构体 VariableComparator，它用于比较两个 VariableData 类型的变量，以判断它们是否相等
+    /**
+     * @brief 两个变量的比较器
+     */
     struct QUEST_API(QUEST_CORE) VariableComparator{
         bool operator()(const VariableData& first, const VariableData& second) const;
     };
 
-    // 定义了一个结构体 pVariableHasher，它是一个哈希函数对象（仿函数），
-    // 用于对指向 VariableData 类型的指针进行哈希计算
+    /**
+     * @brief 变量指针的哈希器
+     */
     struct QUEST_API(QUEST_CORE) pVariableHasher{
         HashType operator()(const VariableData* pVariable) const;
     };
 
-    // 定义了一个结构体 pVariableComparator，它是一个仿函数（函数对象），
-    // 用于比较两个 VariableData 类型的指针，判断它们是否相等
+    /**
+     * @brief 两个变量指针的比较器
+     */
     struct QUEST_API(QUEST_CORE) pVariableComparator{
         bool operator()(const VariableData* first, const VariableData* second) const;
     };
 
-    // 定义了一个名为 IndexedObjectHasher 的模板结构体，它是一个哈希函数，用于对索引对象进行哈希操作
+    /**
+     * @brief 索引对象的哈希器
+     */
     template<typename TIndexedObject>
     struct IndexedObjectHasher{
         HashType operator()(const TIndexedObject& rIndexedObject) const{
@@ -101,7 +130,9 @@ namespace Quest{
         }
     };
 
-    // 定义了一个名为 IndexedObjectComparator 的模板结构体，用于比较两个索引对象是否相等
+    /**
+     * @brief 索引对象的比较器
+     */
     template<typename TIndexedObject>
     struct IndexedObjectComparator{
         bool operator()(const TIndexedObject& rFirst, const TIndexedObject& rSecond) const{
@@ -109,7 +140,9 @@ namespace Quest{
         }
     };
 
-    // 定义了一个名为 IndexedObjectPointerHasher 的模板结构体，用于对指向索引对象的指针进行哈希操作
+    /**
+     * @brief 索引对象的指针的哈希器
+     */
     template<typename TIndexedObject>
     struct IndexedObjectPointerHasher{
         HashType operator()(const TIndexedObject pIndexedObject) const{
@@ -117,7 +150,9 @@ namespace Quest{
         }
     };
 
-    // 定义了一个名为 IndexedObjectPointerComparator 的模板结构体，用于比较指向索引对象的指针
+    /**
+     * @brief 索引对象的指针的比较器
+     */
     template<typename TIndexedObject>
     struct IndexedObjectPointerComparator{
         bool operator()(const TIndexedObject pFirst, const TIndexedObject pSecond) const{
@@ -125,7 +160,9 @@ namespace Quest{
         }
     };
 
-    // 定义了一个名为 SharedPointerHasher 的模板结构体，用于计算共享指针（shared_ptr）的哈希值
+    /**
+     * @brief 共享指针的哈希器
+     */
     template<typename TSharedPointer>
     struct SharedPointerHasher{
         HashType operator()(const TSharedPointer& pSharedPointer) const{
@@ -133,7 +170,9 @@ namespace Quest{
         }
     };
 
-    // 定义了一个名为 SharedPointerComparator 的模板结构体，用于比较两个共享指针（shared_ptr）是否相等
+    /**
+     * @brief 共享指针的比较器
+     */
     template<typename TSharedPointer>
     struct SharedPointerComparator{
         bool operator()(const TSharedPointer& pFirst, const TSharedPointer& pSecond) const{
@@ -141,7 +180,9 @@ namespace Quest{
         }
     };
 
-    // 定义了一个名为 VectorIndexHasher 的模板结构体，用于计算给定索引向量的哈希值
+    /**
+     * @brief 向量索引的哈希器
+     */
     template<typename TVectorIndex>
     struct VectorIndexHasher{
         HashType operator()(const TVectorIndex& rVectorIndex) const{
@@ -149,7 +190,9 @@ namespace Quest{
         }
     };
 
-    // 定义了一个名为 VectorIndexComparor 的模板结构体，用于比较两个索引向量是否相等
+    /**
+     * @brief 向量索引的比较器
+     */
     template<typename TVectorIndex>
     struct VectorIndexComparor{
         bool operator()(const TVectorIndex& rFirst, const TVectorIndex& rSecond) const{
@@ -167,8 +210,9 @@ namespace Quest{
         }
     };
 
-    // 定义了一个名为 DofPointerHasher 的结构体，
-    // 专门用于为指向自由度（DoF，Degree of Freedom）对象的指针计算哈希值
+    /**
+     * @brief 自由度指针的哈希器
+     */
     struct DofPointerHasher{
         HashType operator() (const Dof<double>::Pointer& pDof) const{
             HashType seed = 0;
@@ -178,15 +222,19 @@ namespace Quest{
         }
     };
 
-    // 定义了一个名为 DofPointerComparor 的结构体，
-    // 用于比较两个自由度（DoF，Degree of Freedom）指针的相等性
+    /**
+     * @brief 自由度指针的比较器
+     */
     struct DofPointerComparor{
         bool operator() (const Dof<double>::Pointer& pFirst, const Dof<double>::Pointer& pSecond) const{
             return pFirst->Id() == pSecond->Id() && (pFirst->GetVariable()).Key() == (pSecond->GetVariable()).Key();
         }
     };
 
-    // 定义了一个名为 PairHasher 的模板结构体，用于计算一对值的哈希值
+    /**
+     * @brief pair 类型的哈希器
+     * @details 用于边的ID比较
+     */
     template<typename TFirst, typename TSecond>
     struct PairHasher{
         HashType operator()(const std::pair<TFirst, TSecond>& rPair) const{
@@ -197,7 +245,10 @@ namespace Quest{
         }
     };
 
-    // 定义了一个名为 PairComparor 的模板结构体，用于比较两个索引对（std::pair 类型的对象）是否相等
+    /**
+     * @brief pair 类型的比较器
+     * @details 用于B&S
+     */
     template<typename TFirst, typename TSecond>
     struct PairComparor{
         bool operator()(const std::pair<TFirst, TSecond>& rFirst, const std::pair<TFirst, TSecond>& rSecond) const{
@@ -209,8 +260,13 @@ namespace Quest{
 
 namespace std{
 
-    // 定义了一个自定义哈希函数，用于计算 std::pair<T1, T2> 类型的对象的哈希值。
-    // 该哈希函数特别适用于将 std::pair 作为键存储在无序映射（如 std::unordered_map）中
+    /**
+     * @brief 这是一个用于对偶元素的哈希器
+     * @details 例如，用于边的ID
+     * @tparam T1 对偶元素的第一个类型
+     * @tparam T2 对偶元素的第二个类型
+     * @note 这是为了在无序映射中使用对偶元素作为键
+     */
     template<typename T1, typename T2>
     struct hash<std::pair<T1, T2>>{
         std::size_t operator()(const std::pair<T1, T2>& rPair) const{

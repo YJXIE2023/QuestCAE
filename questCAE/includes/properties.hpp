@@ -22,7 +22,8 @@ namespace Quest{
     /**
      * @class Properties
      * @brief 封装了由不同的Element或Condition共享的数据，通过基于变量的方式访问
-     * @details 如一组单元的材料参数、一组边界条件/荷载条件的参数，这些数据由Properties类持有，并在单元和条件之间共享。
+     * @details 如一组单元的材料参数、一组边界条件/荷载条件的参数、一组单元的属性参数
+     * 这些数据由Properties类持有，并在单元和条件之间共享。
      * Properties可以用于访问节点数据，其流程是先从Properties数据容器中查找该变量，如果没有找到，则从节点中查找。
      */
     class Properties: public IndexedObject{

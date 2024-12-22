@@ -1,7 +1,3 @@
-/*-----------------------------------
-mpi中将对象序列化为字符串
-------------------------------------*/
-
 #ifndef QUEST_MPI_SERIALIZER_HPP
 #define QUEST_MPI_SERIALIZER_HPP
 
@@ -16,6 +12,10 @@ mpi中将对象序列化为字符串
 
 namespace Quest{
 
+    /**
+     * @brief MPI序列化器
+     * @details 通过内存中的字符串缓冲区高效地进行对象序列化和反序列化，并支持 MPI 通信和浅拷贝指针序列化
+     */
     class MpiSerializer:public StreamSerializer{
         public:
             QUEST_CLASS_POINTER_DEFINITION(MpiSerializer);

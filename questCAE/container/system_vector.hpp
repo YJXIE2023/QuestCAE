@@ -34,7 +34,7 @@ namespace Quest{
             }
 
 
-            SyatemVector(const SparseContiguousRowGraph<IndexType>& rGraph){
+            SystemVector(const SparseContiguousRowGraph<IndexType>& rGraph){
                 mpComm = rGraph.pGetComm();
                 mData.resize(rGraph.Size(),false);
             }
