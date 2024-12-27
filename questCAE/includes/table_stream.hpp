@@ -1,7 +1,3 @@
-/*-----------------------------------------------
-用于以结构化和美观的方式将数据流输出为表格形式的工具
------------------------------------------------*/
-
 #ifndef QUEST_TABLE_STREAM_HPP
 #define QUEST_TABLE_STREAM_HPP
 
@@ -20,10 +16,17 @@ namespace Quest{
 
     class endl{};
 
+    /**
+     * @class TableStream
+     * @brief 用于以结构化和美观的方式将数据流输出为表格形式的工具
+     */
     class TableStream{
         public:
             QUEST_CLASS_POINTER_DEFINITION(TableStream);
 
+            /**
+             * @brief 构造函数
+             */
             TableStream(std::ostream* pOutStream,const std::string& Separator = "|",const bool UseBoldFont = true):
                 mOutStream(pOutStream),
                 mSeparator(Separator),
@@ -35,8 +38,14 @@ namespace Quest{
                 mFlushLeft = false;
             }
 
+            /**
+             * @brief 析构函数
+             */
             virtual ~TableStream() = default;
 
+            /**
+             * @brief 重载输出流操作符
+             */
             template<typename TClass>
             TableStream& operator<<(TClass Input){
                 if(typeid(Input) == typeid(endl)){
@@ -78,30 +87,51 @@ namespace Quest{
                 return *this;
             }
 
+            /**
+             * @brief 获取当前列数
+             */
             unsigned int GetNumColumns() const{
                 return mColumnHeaders.size();
             }
 
+            /**
+             * @brief 获取表格的总宽度
+             */
             unsigned int GetTableWidth() const{
                 return mTableWidth;
             }
 
+            /**
+             * @brief 设置分隔符
+             */
             void SetSeparator(const std::string& Separator){
                 mSeparator = Separator;
             }
 
+            /**
+             * @brief 设置是否使用粗体字
+             */
             void SetBold(const bool& UseBoldFont){
                 mBoldFont = UseBoldFont;
             }
 
+            /**
+             * @brief 设置左对齐
+             */
             void SetFlushLeft(){
                 mFlushLeft = true;
             }
 
+            /**
+             * @brief 设置右对齐
+             */
             void SetFlushRight(){
                 mFlushLeft = false;
             }
 
+            /**
+             * @brief 添加一列
+             */
             void AddColumn(const std::string& HeaderName, const int ColumnWidth){
                 QUEST_ERROR_IF(ColumnWidth < 4) << "Column width must be at least 4" << std::endl;
 
@@ -110,6 +140,9 @@ namespace Quest{
                 mTableWidth += ColumnWidth + mSeparator.size();
             }
 
+            /**
+             * @brief 打印表头
+             */
             void PrintHeader(){
                 PrintHorizontalLine();
 
@@ -147,6 +180,9 @@ namespace Quest{
                 PrintHorizontalLine();
             }
 
+            /**
+             * @brief 打印表尾
+             */
             void PrintFooter(){
                 PrintHorizontalLine();
             }
@@ -154,6 +190,9 @@ namespace Quest{
         protected:
 
         private:
+            /**
+             * @brief 打印水平线
+             */
             void PrintHorizontalLine(){
                 *mOutStream << "+";
 
@@ -165,6 +204,9 @@ namespace Quest{
                 *mOutStream << "\n";
             }
 
+            /**
+             * @brief 输出小数
+             */
             template<typename TClass>
             void OutputDecimalNumber(TClass Input){
                 if (Input < 10*(mColumnWidths.at(mIndexColumn)-1) || Input > 10*(mColumnWidths.at(mIndexColumn))){
@@ -223,16 +265,49 @@ namespace Quest{
             }
 
         private:
+            /**
+             * @brief 输出流指针
+             */
             std::ostream* mOutStream;
+
+            /**
+             * @brief 表头信息
+             */
             std::vector<std::string> mColumnHeaders;
+
+            /**
+             * @brief 列宽信息
+             */
             std::vector<int> mColumnWidths;
+
+            /**
+             * @brief 分隔符
+             */
             std::string mSeparator;
 
+            /**
+             * @brief 当前行索引
+             */
             unsigned int mIndexRow;
+
+            /**
+             * @brief 当前列索引
+             */
             unsigned int mIndexColumn;
 
+            /**
+             * @brief 表格的总宽度
+             */
             unsigned int mTableWidth;
+
+            /**
+             * @brief 是否左对齐
+             */
             bool mFlushLeft;
+
+            /**
+             * @brief 是否使用粗体字
+             */
             bool mBoldFont;
 
     };

@@ -1,8 +1,3 @@
-/*---------------------------------------------------------------
-设计用于构建和存储矩阵的稀疏图结构，
-特别适合构造压缩行存储（CSR）格式的矩阵或其他类型的稀疏矩阵
----------------------------------------------------------------*/
-
 #ifndef QUEST_SPARSE_CONTIGUOUS_ROW_GRAPH_HPP
 #define QUEST_SPARSE_CONTIGUOUS_ROW_GRAPH_HPP
 
@@ -24,6 +19,10 @@
 
 namespace Quest{
 
+    /**
+     * @class SparseContiguousRowGraph
+     * @brief 稀疏图结构，用于存储矩阵的稀疏表示，特别适合构造压缩行存储（CSR）格式的矩阵或其他类型的稀疏矩阵
+     */
     template<typename TIndexType = std::size_t>
     class SparseContiguousRowGraph final{
         public:
@@ -61,11 +60,16 @@ namespace Quest{
             };
 
         public:
+            /**
+             * @brief 构造函数
+             */
             SparseContiguousRowGraph(){
                 mpComm = &ParallelEnvironment::GetDataCommunicator("Serial");
             }
 
-
+            /**
+             * @brief 构造函数
+             */
             SparseContiguousRowGraph(IndexType GraphSize){
                 mpComm = &ParallelEnvironment::GetDataCommunicator("Serial");
                 mGraph.resize(GraphSize, false);
@@ -76,13 +80,19 @@ namespace Quest{
                 });
             }
 
-
+            /**
+             * @brief 析构函数
+             */
             ~SparseContiguousRowGraph(){}
 
-
+            /**
+             * @brief 赋值运算符
+             */
             SparseContiguousRowGraph& operator = (const SparseContiguousRowGraph& rOther) = delete;
 
-
+            /**
+             * @brief 拷贝构造函数
+             */
             SparseContiguousRowGraph(const SparseContiguousRowGraph& rOther){
                 mpComm = rOther.mpComm;
                 mGraph.resize(rOther.mGraph.size());
@@ -93,56 +103,76 @@ namespace Quest{
                 this->AddEntries(rOther);
             }
 
-
+            /**
+             * @brief 获取数据通信器
+             */
             const DataCommunicator& GetComm() const{
                 return *mpComm;
             }
 
-
+            /**
+             * @brief 获取数据通信器指针
+             */
             const DataCommunicator* pGetComm() const{
                 return mpComm;
             }
 
-
+            /**
+             * @brief 清空容器
+             */
             void Clear(){
                 mGraph.clear();
                 mLocks.clear();
             }
 
-
+            /**
+             * @brief 获取矩阵行数
+             */
             inline IndexType Size() const{
                 return mGraph.size();
             }
 
-
+            /**
+             * @brief 检查（i,j）是否存在
+             */
             bool Has(const IndexType i, const IndexType j) const{
                 const auto& row = mGraph[i];
                 return (ro.find(j) != row.end());
             }
 
-
+            /**
+             * @brief 下标访问，获取第i行的元素
+             */
             const typename GraphType::value_type& operator [] (const IndexType& i) const{
                 return mGraph[i];
             }
 
-
+            /**
+             * @brief 返回本地索引
+             */
             inline IndexType LocalIndex(const IndexType GlobalIndex) const{
                 return GlobalIndex;
             }
 
-
+            /**
+             * @brief 返回全局索引
+             */
             inline IndexType GlobalIndex(const IndexType LocalIndex) const{
                 return LocalIndex;
             }
 
-
+            /**
+             * @brief 添加一个元素
+             */
             void AddEntry(const IndexType RowIndex, const IndexType ColIndex){
                 mLocks[RowIndex].lock();
                 mGraph[RowIndex].insert(ColIndex);
                 mLocks[RowIndex].unlock();
             }
 
-
+            /**
+             * @brief 添加一组元素
+             */
             template<typename TContainerType>
             void AddEntries(const IndexType RowIndex, const TContainerType& rColIndices){
                 mLocks[RowIndex].lock();
@@ -150,7 +180,9 @@ namespace Quest{
                 mLocks[RowIndex].unlock();
             }
 
-
+            /**
+             * @brief 添加一组元素
+             */
             template<typename TIteratorType>
             void AddEntries(
                 const IndexType RowIndex,
@@ -162,7 +194,9 @@ namespace Quest{
                 mLocks[RowIndex].unlock();
             }
 
-
+            /**
+             * @brief 添加一组元素
+             */
             template<typename TContainerType>
             void AddEntries(const TContainerType& rIndices){
                 for(auto i : rIndices){
@@ -174,7 +208,9 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 添加一组元素
+             */
             template<typename TContainerType>
             void AddEntries(const TContainerType& rRowIndices, const TContainerType& rColIndices){
                 for(auto i : rRowIndices){
@@ -182,22 +218,31 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 添加一组元素
+             */
             void AddEntries(const SparseContiguousRowGraph& rOther){
                 for(IndexType i=0;i<rOther.Size();i++){
                     AddEntries(i, rOther.GetGraph()[i]);
                 }
             }
 
-
+            /**
+             * @brief 结束并行化
+             */
             void Finalize(){}
 
-
+            /**
+             * @brief 获取图的邻接表表示
+             */
             const GraphType& GetGraph() const{
                 return mGraph;
             }
 
-
+            /**
+             * @brief 导出CSR格式的数组
+             * 
+             */
             template<typename TVectorType = DenseVector<IndexType>>
             IndexType ExportCSRArrays(
                 TVectorType& rRowIndices,
@@ -227,13 +272,19 @@ namespace Quest{
                 return rRowIndices.size();
             }
 
-
+            /**
+             * @brief 导出CSR格式的数组
+             * 
+             */
             IndexType ExportCSRArrays(
                 Quest::span<IndexType>& rRowIndices,
                 Quest::span<IndexType>& rColIndices
             ) const = delete;
 
-
+            /**
+             * @brief 导出CSR格式的数组
+             * 
+             */
             IndexType ExportCSRArrays(
                 IndexType*& pRowIndicesData,
                 IndexType& rRowDataSize,
@@ -289,7 +340,10 @@ namespace Quest{
                 return nrows;
             }
 
-
+            /**
+             * @brief 将图作为单个向量导出
+             * @details 格式为：行索引 行中条目数量 行中所有索引的列表
+             */
             std::vector<IndexType> ExportSingleVectorRepresentation(){
                 std::vector<IndexType> IJ;
                 IJ.push_back(GetGraph().size());
@@ -303,7 +357,9 @@ namespace Quest{
                 return IJ;
             }
 
-
+            /**
+             * @brief 从单个向量导入图
+             */
             void AddFromSingleVectorRepresentation(const std::vector<IndexType>& rSingleVectorRepresentation){
                 auto graph_size = rSingleVectorRepresentation[0];
                 QUEST_ERROR_IF(graph_size > GetGraph().size()) 
@@ -318,12 +374,16 @@ namespace Quest{
                 }
             }
 
-
+            /**
+             * @brief 返回DenseVector的首元素的迭代器
+             */
             const_iterator_adaptor begin() const{
                 return const_iterator_adaptor(mGraph.begin());
             }
 
-
+            /**
+             * @brief 返回DenseVector的尾元素的迭代器
+             */
             const_iterator_adaptor end() const{
                 return const_iterator_adaptor(mGraph.end());
             }
@@ -380,8 +440,21 @@ namespace Quest{
             }
 
         private:
+            /**
+             * @brief 数据通讯器指针
+             */
             DataCommunicator* mpComm;
+
+            /**
+             * @brief 图的邻接表表示
+             * @details DenseVector<std::unordered_set<IndexType>>
+             *  存储每行的非零元素集合
+             */
             GraphType mGraph;
+
+            /**
+             * @brief 锁对象数组
+             */
             std::vector<LockObject> mLocks;
 
     };

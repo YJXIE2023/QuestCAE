@@ -51,23 +51,40 @@ QUEST_ERROR_IF_NOT(err_msg.empty()) << "The following errors occured in a parall
 
 // 命名空间
 namespace Quest{
-    //---------------------------------
-    // 共享内存并行计算接口
-    //---------------------------------
+    /**
+     * @class ParallelUtilities
+     * @brief 共享内存并行相关的辅助类，提供访问共享内存并行功能的接口
+     */
     class QUEST_API(QUEST_CORE) ParallelUtilities{
         public:
+            /**
+             * @brief 返回当前线程数
+             */
             [[nodiscard]] static int GetNumThreads();
 
+            /**
+             * @brief 设置当前线程数
+             */
             static void SetNumThreads(const int NumThreads);
 
+            /**
+             * @brief 返回设备可用的处理器数量
+             */
             [[nodiscard]] static int GetNumProcs();
 
+            /**
+             * @brief 返回全局锁
+             */
             [[nodiscard]] static LockObject& GetGlobalLock();
 
         protected:
 
         private:
             static LockObject* mspGlobalLock;
+
+            /**
+             * @brief 线程数
+             */
             static int* mspNumThreads;
 
             ParallelUtilities() = delete;

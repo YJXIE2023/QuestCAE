@@ -1,7 +1,3 @@
-/*---------------------------------
-弱指针向量迭代器
-----------------------------------*/
-
 #ifndef QUEST_WEAK_POINTER_VECTOR_ITERATOR_HPP
 #define QUEST_WEAK_POINTER_VECTOR_ITERATOR_HPP
 
@@ -16,6 +12,10 @@
 #include "includes/define.hpp"
 
 namespace Quest{
+
+    /**
+     * @brief 弱指针向量迭代器类
+     */
     template<typename TIteratorType, typename TDataType>
     class WeakPointerVcetorItrator: public boost::iterator_adaptor<WeakPointerVectorIterator<TIterator,TDataType>,TIteratorType,TDataType>{
         public:
