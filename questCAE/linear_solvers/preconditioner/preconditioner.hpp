@@ -126,7 +126,89 @@ namespace Quest{
             ){}
 
 
-            
+            /**
+             * @brief 计算稀疏矩阵 rA 与向量 rX 的乘积，支持通过 ApplyRight 和 ApplyLeft 对向量进行自定义处理
+             */
+            virtual void Mult(SparseMatrixType& rA, VectorType& rX, VectorType& rY){
+                VectorType z = rX;
+                ApplyRight(z);
+                TSparseSpaceType::Mult(rA, z, rY);
+                ApplyLeft(rY);
+            }
+
+
+            /**
+             * @brief 计算稀疏矩阵 rA 的转置与向量 rX 的乘积，支持通过 ApplyTransposeLeft 和 ApplyTransposeRight 对向量进行自定义处理
+             */
+            virtual void TransposeMult(SparseMatrixType& rA, VectorType& rX, VectorType& rY){
+                VectorType z = rX;
+                ApplyTransposeRight(z);
+                TSparseSpaceType::TransposeMult(rA, z, rY);
+                ApplyTransposeLeft(rY);
+            }
+
+
+            /**
+             * @brief 对向量进行左预处理
+             */
+            virtual VectorType& ApplyLeft(VectorType& rX){
+                return rX;
+            }
+
+
+            /**
+             * @brief 对向量进行右预处理
+             */
+            virtual VectorType& ApplyRight(VectorType& rX){
+                return rX;
+            }
+
+
+            /**
+             * @brief 转置预处理系统（MT * X = y）的左预处理
+             */
+            virtual VectorType& ApplyTransposeLeft(VectorType& rX){
+                return rX;
+            }
+
+
+            /**
+             * @brief 转置预处理系统（MT * X = y）的右预处理
+             */
+            virtual VectorType& ApplyTransposeRight(VectorType& rX){
+                return rX;
+            }
+
+
+            /**
+             * @brief 右侧逆操作预处理
+             */
+            virtual VectorType& ApplyInverseRight(VectorType& rX){
+                return rX;
+            }
+
+
+            /**
+             * @brief 用于恢复rX的值
+             */
+            virtual VectorType& Finalize(VectorType& rX){
+                return ApplyRight(rX);
+            }
+
+
+            virtual std::string Info() const{
+                return "Preconditioner";
+            }
+
+
+            virtual void PrintInfo(std::ostream& rOstream) const{
+                rOstream << this->Info();
+            }
+
+
+            virtual void PrintData(std::ostream& rOstream) const{
+            }
+
 
         protected:
 
