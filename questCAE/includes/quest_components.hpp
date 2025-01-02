@@ -80,17 +80,28 @@ namespace Quest{
             }
 
 
-            
+            /**
+             * @brief 注册函数
+             */
             static void Register() {}
 
+            /**
+             * @brief 获取存储组件的底层容器
+             */
             static ComponentsContainerType& GetComponents(){
                 return msComponents;
             }
 
+            /**
+             * @brief 获取存储组件的底层容器的指针
+             */
             static ComponentsContainerType* pGetComponents(){
                 return &msComponents;
             }
 
+            /**
+             * @brief 判断是否存在某个组件
+             */
             static bool Has(const std::string& rName){
                 return (msComponents.find(rName)!= msComponents.end());
             }
@@ -112,6 +123,11 @@ namespace Quest{
 
             QuestComponents& operator=(const QuestComponents& rOther);
 
+            /**
+             * @brief 获取一条消息，指示具有给定名称的组件未注册。
+             * @param rName 未注册的组件名称。
+             * @return 包含错误信息的字符串。
+             */
             static std::string GetMessageUnregisteredComponent(const std::string& rComponentName){
                 std::stringstream msg;
                 msg << "The component \"" << rComponentName << "\" is not registered in the QuestComponents." << std::endl;
