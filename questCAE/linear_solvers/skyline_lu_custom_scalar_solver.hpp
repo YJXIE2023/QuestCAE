@@ -23,9 +23,9 @@
 namespace Quest{
 
     template<typename TSparseSpaceType, typename TDenseSpaceType, typename TReordererType = Reorderer<TSparseSpaceType, TDenseSpaceType>>
-    class SkylineLUSolverCustomScalarSolver : public DirectSolver<TSparseSpaceType, TDenseSpaceType, TReordererType>{
+    class SkylineLUCustomScalarSolver : public DirectSolver<TSparseSpaceType, TDenseSpaceType, TReordererType>{
         public:
-            QUEST_CLASS_POINTER_DEFINITION(SkylineLUSolverCustomScalarSolver);
+            QUEST_CLASS_POINTER_DEFINITION(SkylineLUCustomScalarSolver);
 
             using SparseMatrixType = typename TSparseSpaceType::MatrixType;
             using VectorType = typename TSparseSpaceType::VectorType;
@@ -38,13 +38,13 @@ namespace Quest{
             /**
              * @brief 构造函数
              */
-            SkylineLUSolverCustomScalarSolver(): DirectSolver<TSparseSpaceType, TDenseSpaceType, TReordererType>(){}
+            SkylineLUCustomScalarSolver(): DirectSolver<TSparseSpaceType, TDenseSpaceType, TReordererType>(){}
 
 
             /**
              * @brief 构造函数
              */
-            SkylineLUSolverCustomScalarSolver(Parameters& rParam):
+            SkylineLUCustomScalarSolver(Parameters& rParam):
                 DirectSolver<TSparseSpaceType, TDenseSpaceType, TReordererType>(rParam)
             {}
 
@@ -52,7 +52,7 @@ namespace Quest{
             /**
              * @brief 析构函数
              */
-            ~SkylineLUSolverCustomScalarSolver() override{
+            ~SkylineLUCustomScalarSolver() override{
                 Clear();
             }
 
@@ -140,13 +140,13 @@ namespace Quest{
 
 
     template<typename TSparseSpaceType, typename TDenseSpaceType, typename TReordererType>
-    inline std::istream& operator >> (std::istream& rIstream, SkylineLUSolverCustomScalarSolver<TSparseSpaceType, TDenseSpaceType, TReordererType>& rThis){
+    inline std::istream& operator >> (std::istream& rIstream, SkylineLUCustomScalarSolver<TSparseSpaceType, TDenseSpaceType, TReordererType>& rThis){
         return rIstream;
     }
 
 
     template<typename TSparseSpaceType, typename TDenseSpaceType, typename TReordererType>
-    inline std::ostream& operator << (std::ostream& rOstream, const SkylineLUSolverCustomScalarSolver<TSparseSpaceType, TDenseSpaceType, TReordererType>& rThis){
+    inline std::ostream& operator << (std::ostream& rOstream, const SkylineLUCustomScalarSolver<TSparseSpaceType, TDenseSpaceType, TReordererType>& rThis){
         rThis.PrintInfo(rOstream);
         rOstream << std::endl;
         rThis.PrintData(rOstream);
