@@ -554,6 +554,45 @@ components
     Serializer.load_base("BaseClass", *static_cast<BaseType*>(this));
 
 
+#define QUEST_DEPRECATED_MESSAGE(deprecated_message) [[deprecated(deprecated_message)]]
+
+/*-------------------------------------------------------------------------
+如果在文件中写入该宏，则在随后的代码行中，编译器将不再打印关于“已弃用函数”的警告
+---------------------------------------------------------------------------*/
+#if defined(__clang__)
+#define QUEST_PRAGMA_INSIDE_MACRO_DEFINITION(x) _Pragma(#x)
+#define QUEST_START_IGNORING_DEPRECATED_FUNCTION_WARNING \
+QUEST_PRAGMA_INSIDE_MACRO_DEFINITION(clang diagnostic push) \
+QUEST_PRAGMA_INSIDE_MACRO_DEFINITION(clang diagnostic ignored "-Wdeprecated-declarations")
+#elif defined(__GNUG__) && !defined(__INTEL_COMPILER)
+#define QUEST_PRAGMA_INSIDE_MACRO_DEFINITION(x) _Pragma(#x)
+#define QUEST_START_IGNORING_DEPRECATED_FUNCTION_WARNING \
+QUEST_PRAGMA_INSIDE_MACRO_DEFINITION(GCC diagnostic push) \
+QUEST_PRAGMA_INSIDE_MACRO_DEFINITION(GCC diagnostic ignored "-Wdeprecated-declarations")
+#elif defined(_MSC_VER)
+#define QUEST_START_IGNORING_DEPRECATED_FUNCTION_WARNING \
+__pragma(warning(push))\
+__pragma(warning(disable: 4996))
+#else
+#define QUEST_START_IGNORING_DEPRECATED_FUNCTION_WARNING // 未实现其他编译器
+#endif
+
+
+#if defined(__clang__)
+#define QUEST_STOP_IGNORING_DEPRECATED_FUNCTION_WARNING \
+_Pragma("clang diagnostic pop")
+#elif defined(__GNUG__) && !defined(__INTEL_COMPILER)
+#define QUEST_STOP_IGNORING_DEPRECATED_FUNCTION_WARNING \
+_Pragma("GCC diagnostic pop")
+#elif defined(_MSC_VER)
+#define QUEST_STOP_IGNORING_DEPRECATED_FUNCTION_WARNING \
+__pragma(warning(pop))
+#else
+#define QUEST_STOP_IGNORING_DEPRECATED_FUNCTION_WARNING // 未实现其他编译器
+#endif
+
+
+
 namespace Quest{
 
 
