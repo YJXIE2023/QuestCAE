@@ -475,6 +475,13 @@ namespace Quest{
             template<class TVariableType, class TDataType>
             void ReadConditionalVectorialVariableData(ConditionsContainerType& rThisConditions, const TVariableType& rVariable, TDataType Dummy);
 
+
+            /**
+             * @brief 读取几何的连接性数据块
+             */
+            SizeType ReadGeometriesConnectivitiesBlock(ConnectivitiesContainerType& rThisConnectivities);
+
+
             /**
              * @brief 读取单元的连接性数据块
              */
