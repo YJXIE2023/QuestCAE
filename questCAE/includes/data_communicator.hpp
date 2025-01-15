@@ -458,7 +458,7 @@ namespace Quest{
             /**
              * @brief 判断当前 DataCommunicator 是否处于分布式环境中
              */
-            virtual bool IsDistrubuted() const{
+            virtual bool IsDistributed() const{
                 return false;
             }
 
@@ -559,7 +559,7 @@ namespace Quest{
             template<typename TObject>
             void BroadcastImpl(TObject& rBroadcastObject, const int SourceRank) const{
                 CheckSerializationForSimpleType(rBroadcastObject, TypeFromBool<serialization_is_required<TObject>::value>());
-                if(this->IsDistrubuted()){
+                if(this->IsDistributed()){
                     unsigned int message_size;
                     std::string broadcast_message;
                     int rank = this->Rank();
@@ -622,7 +622,7 @@ namespace Quest{
                 const int RecvSource, const int RecvTag) const
             {
                 CheckSerializationForSimpleType(rSendObject, TypeFromBool<serialization_is_required<TObject>::value>());
-                if(this->IsDistrubuted()){
+                if(this->IsDistributed()){
                     MpiSerializer send_serializer;
                     send_serializer.save("data", rSendObject);
                     std::string send_message = send_serializer.GetStringRepresentation();
@@ -658,7 +658,7 @@ namespace Quest{
             template<typename TObject>
             void SendImpl(const TObject& rSendObject, const int SendDestination, const int SendTag) const{
                 CheckSerializationForSimpleType(rSendObject, TypeFromBool<serialization_is_required<TObject>::value>());
-                if(this->IsDistrubuted()){
+                if(this->IsDistributed()){
                     MpiSerializer send_serializer;
                     send_serializer.save("data", rSendObject);
                     std::string send_message = send_serializer.GetStringRepresentation();
@@ -685,7 +685,7 @@ namespace Quest{
             template<typename TObject>
             void RecvImpl(TObject& rRecvObject, const int RecvSource, const int RecvTag = 0) const{
                 CheckSerializationForSimpleType(rRecvObject, TypeFromBool<serialization_is_required<TObject>::value>());
-                if(this->IsDistrubuted()){
+                if(this->IsDistributed()){
                     std::string recv_message;
 
                     this->Recv(recv_message, RecvSource, RecvTag);

@@ -85,7 +85,7 @@ namespace Quest{
             /**
              * @brief 获取默认 DataCommunicator 提供的 MPI 通信器大小
              */
-            static std::string RetrieveResigteredName(const DataCommunicator& rComm);
+            static std::string RetrieveRegisteredName(const DataCommunicator& rComm);
 
             /**
              * @brief 建立 MPI 环境
@@ -161,7 +161,7 @@ namespace Quest{
             /**
              * @brief 检查是否存在指定名称的 DataCommunicator 对象
              */
-            static bool HadDataCommunicator(const std::string& rName);
+            static bool HasDataCommunicator(const std::string& rName);
 
             /**
              * @brief 获取默认数据通信器名称
@@ -198,15 +198,15 @@ namespace Quest{
             /**
              * @brief 创建MPI环境的细节
              */
-            void SetupMPIEnvironmentDetail(EnvironmentManager::Pointer pEnviromentManager);
+            void SetUpMPIEnvironmentDetail(EnvironmentManager::Pointer pEnviromentManager);
 
             template<typename TDataCommunicatorInputType>
             void RegisterFillCommunicatorFactoryDetail(std::function<FillCommunicator::Pointer(ModelPart&,TDataCommunicatorInputType&)> FillCommunicatorFactory);
 
             template<typename TDataCommunicatorInputType>
-            void ResigterDataCommunicatorFactoryDetail(std::function<Communicator::UniquePointer(ModelPart&,TDataCommunicatorInputType&)> CommunicatorFactory);
+            void RegisterCommunicatorFactoryDetail(std::function<Communicator::UniquePointer(ModelPart&,TDataCommunicatorInputType&)> CommunicatorFactory);
 
-            void RegisterDataCommunicatorFactoryDetail(const std::string& Name, DataCommunicator::UniquePointer pPrototype, const bool Default = DoNotMakeDefault);
+            void RegisterDataCommunicatorDetail(const std::string& Name, DataCommunicator::UniquePointer pPrototype, const bool Default = DoNotMakeDefault);
 
             void UnregisterDataCommunicatorDetail(const std::string& Name);
 
@@ -260,7 +260,7 @@ namespace Quest{
             /**
              * @brief 是否已经销毁
              */
-            static bool mDestoryed;
+            static bool mDestroyed;
 
             /**
              * @brief 数据通信器注册表

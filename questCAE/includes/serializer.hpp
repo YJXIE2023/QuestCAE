@@ -81,13 +81,13 @@ namespace Quest{
             QUEST_CLASS_POINTER_DEFINITION(Serializer);
 
             QUEST_DEFINE_LOCAL_FLAG( MPI );
-            QUEST_DEFINE_LOCAL_FLAG( SHALLOW_GLOBAL_POINTER_SERIALIZATION );
+            QUEST_DEFINE_LOCAL_FLAG( SHALLOW_GLOBAL_POINTERS_SERIALIZATION );
 
             typedef std::size_t SizeType;
             typedef void* (*ObjectFactoryType)();
-            typedef std::map<void*, void*> LoadedPointerContainerType;
+            typedef std::map<void*, void*> LoadedPointersContainerType;
             typedef std::map<std::string, ObjectFactoryType> RegisteredObjectsContainerType;
-            typedef std::map<std::string, std::string> RegisteredObjectsNameContianerType;
+            typedef std::map<std::string, std::string> RegisteredObjectsNameContainerType;
             typedef std::set<const void*> SavedPointerContainerType;
             typedef std::iostream BufferType;
 
@@ -116,7 +116,7 @@ namespace Quest{
             template<typename TDataType>
             static void Register(const std::string& rName,const TDataType& pPrototype){
                 msRegisteredObjects.insert(RegisteredObjectsContainerType::value_type(rName,Create<TDataType>));
-                msRegisteredObjectsName.insert(RegisteredObjectsNameContianerType::value_type(typeid(TDataType).name(),rName));
+                msRegisteredObjectsName.insert(RegisteredObjectsNameContainerType::value_type(typeid(TDataType).name(),rName));
             }
 
             template<typename TDataType>
@@ -133,7 +133,7 @@ namespace Quest{
 
                 if(pointer_type != SP_INVALID_POINTER){
                     read(p_pointer);
-                    LoadedPointerContainerType::iterator i_pointer = mLoadedPointers.find(p_pointer);
+                    LoadedPointersContainerType::iterator i_pointer = mLoadedPointers.find(p_pointer);
                     if(i_pointer == mLoadedPointers.end()){
                         if(pointer_type == SP_BASE_CLASS_POINTER){
                             if(!pValue){
@@ -169,7 +169,7 @@ namespace Quest{
 
                 if(pointer_type != SP_INVALID_POINTER){
                     read(p_pointer);                    
-                    LoadedPointerContainerType::iterator i_pointer = mLoadedPointers.find(p_pointer);
+                    LoadedPointersContainerType::iterator i_pointer = mLoadedPointers.find(p_pointer);
                     if(i_pointer == mLoadedPointers.end()){
                         if(pointer_type == SP_BASE_CLASS_POINTER){
                             if(!pValue){
@@ -205,7 +205,7 @@ namespace Quest{
 
                 if(pointer_type != SP_INVALID_POINTER){
                     read(p_pointer);                    
-                    LoadedPointerContainerType::iterator i_pointer = mLoadedPointers.find(p_pointer);
+                    LoadedPointersContainerType::iterator i_pointer = mLoadedPointers.find(p_pointer);
                     if(i_pointer == mLoadedPointers.end()){
                         if(pointer_type == SP_BASE_CLASS_POINTER){
                             if(!pValue){
@@ -241,7 +241,7 @@ namespace Quest{
 
                 if(pointer_type != SP_INVALID_POINTER){
                     read(p_pointer);                    
-                    LoadedPointerContainerType::iterator i_pointer = mLoadedPointers.find(p_pointer);
+                    LoadedPointersContainerType::iterator i_pointer = mLoadedPointers.find(p_pointer);
                     if(i_pointer == mLoadedPointers.end()){
                         if(pointer_type == SP_BASE_CLASS_POINTER){
                             if(!pValue){
@@ -658,7 +658,7 @@ namespace Quest{
                 return msRegisteredObjects;
             }
 
-            static RegisteredObjectsNameContianerType& GetRegisteredObjectsName(){
+            static RegisteredObjectsNameContainerType& GetRegisteredObjectsName(){
                 return msRegisteredObjectsName;
             }
 
@@ -682,7 +682,7 @@ namespace Quest{
 
         private:
             static RegisteredObjectsContainerType msRegisteredObjects;
-            static RegisteredObjectsNameContianerType msRegisteredObjectsName;
+            static RegisteredObjectsNameContainerType msRegisteredObjectsName;
 
             Flags mFlags;
 
@@ -691,7 +691,7 @@ namespace Quest{
             SizeType mNumberOfLines;
 
             SavedPointerContainerType mSavedPointers;
-            LoadedPointerContainerType mLoadedPointers;
+            LoadedPointersContainerType mLoadedPointers;
 
             template<typename TDataType>
             void SavePointer(const std::string& rTag,const TDataType* pValue){
@@ -699,7 +699,7 @@ namespace Quest{
                 if (mSavedPointers.find(pValue) == mSavedPointers.end()){
                     mSavedPointers.insert(pValue);
                     if (IsDerived(pValue)){
-                        typename RegisteredObjectsContainerType::iterator i_name = msRegisteredObjects.find(typeid(*pValue).name());
+                        typename RegisteredObjectsNameContainerType::iterator i_name = msRegisteredObjects.find(typeid(*pValue).name());
 
                         if(i_name!= msRegisteredObjects.end()){
                             QUEST_ERROR << "There is no object regisered in Quest with type id : "
