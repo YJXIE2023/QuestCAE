@@ -158,7 +158,7 @@ namespace Quest{
              * @param rResult 条件方程 ID 向量
              * @param rCurrentProcessInfo 当前过程信息实例
              */
-            virtual void EqationIdVector(
+            virtual void EquationIdVector(
                 EquationIdVectorType& rResult,
                 const ProcessInfo& rCurrentProcessInfo
             ) const {
