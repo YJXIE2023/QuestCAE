@@ -88,6 +88,12 @@ namespace Quest{
 
 
             /**
+             * @brief 注册所有变量
+             */
+            void RegisterVariables();
+
+
+            /**
              * @brief 注册全局指针变量
              */
             void RegisterGlobalPointerVariables();
@@ -288,9 +294,9 @@ namespace Quest{
             const MasterSlaveConstraint mMasterSlaveConstraint;
 
             // 周期性条件
-            const PeriodicCondition mPeriodicCondition;
-            const PeriodicCondition mPeriodicConditionEdge;
-            const PeriodicCondition mPeriodicConditionCorner;
+            // const PeriodicCondition mPeriodicCondition;
+            // const PeriodicCondition mPeriodicConditionEdge;
+            // const PeriodicCondition mPeriodicConditionCorner;
 
             // 网格单元
 

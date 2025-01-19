@@ -497,7 +497,7 @@ Flags
 #undef QUEST_ADD_FLAG_TO_QUEST_COMPONENTS
 #endif
 #define QUEST_ADD_FLAG_TO_QUEST_COMPONENTS(name) \
-    Quest::QuestComponent<Quest::Flags>::Add(#name, name)
+    Quest::QuestComponents<Quest::Flags>::Add(#name, name)
 
 #ifndef QUEST_CREATE_FLAG
 #undef QUEST_CREATE_FLAG
@@ -535,7 +535,47 @@ Flags
 /*---------------------------------------------------
 components
 ----------------------------------------------------*/
+#ifdef QUEST_REGISTER_GEOMETRY
+#undef QUEST_REGISTER_GEOMETRY
+#endif
+#define QUEST_REGISTER_GEOMETRY(name, reference) \
+    QuestComponents<Geometry<Node>>::Add(name, reference); \
+    Serializer::Register(name, reference);
 
+#ifdef QUEST_REGISTER_ELEMENT
+#undef QUEST_REGISTER_ELEMENT
+#endif
+#define QUEST_REGISTER_ELEMENT(name, reference) \
+    QuestComponents<Element >::Add(name, reference); \
+    Serializer::Register(name, reference);
+
+#ifdef QUEST_REGISTER_CONDITION
+#undef QUEST_REGISTER_CONDITION
+#endif
+#define QUEST_REGISTER_CONDITION(name, reference) \
+    QuestComponents<Condition >::Add(name, reference); \
+    Serializer::Register(name, reference);
+
+#ifdef QUEST_REGISTER_CONSTRAINT
+#undef QUEST_REGISTER_CONSTRAINT
+#endif
+#define QUEST_REGISTER_CONSTRAINT(name, reference) \
+    QuestComponents<MasterSlaveConstraint >::Add(name, reference); \
+    Serializer::Register(name, reference);
+
+#ifdef QUEST_REGISTER_MODELER
+#undef QUEST_REGISTER_MODELER
+#endif
+#define QUEST_REGISTER_MODELER(name, reference) \
+    QuestComponents<Modeler>::Add(name, reference); \
+    Serializer::Register(name, reference);
+
+#ifdef QUEST_REGISTER_CONSTITUTIVE_LAW
+#undef QUEST_REGISTER_CONSTITUTIVE_LAW
+#endif
+#define QUEST_REGISTER_CONSTITUTIVE_LAW(name, reference) \
+    QuestComponents<ConstitutiveLaw >::Add(name, reference); \
+    Serializer::Register(name, reference);
 
 #define QUEST_DEPRECATED [[deprecated]]
 #define QUEST_DEPRECATED_MSG(msg) [[deprecated(msg)]]

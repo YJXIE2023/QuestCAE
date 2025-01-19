@@ -1,0 +1,108 @@
+#ifndef QUEST_DEFINE_PYTHON_HPP
+#define QUEST_DEFINE_PYTHON_HPP
+
+// 第三方库
+#include "pybind11/pybind11.h"
+#include "intrusive_ptr/intrusive_ptr.hpp"
+
+PYBIND11_DECLARE_HOLDER_TYPE(T, Quest::intrusive_ptr<T>);
+
+#include "pybind11/stl.h"
+#include "pybind11/stl/filesystem.h"
+
+#include "includes/define.hpp"
+
+// 将变量注册到 Python 模块中
+#ifdef QUEST_REGISTER_IN_PYTHON_VARIABLE
+#undef QUEST_REGISTER_IN_PYTHON_VARIABLE
+#endif
+#define QUEST_REGISTER_IN_PYTHON_VARIABLE(module,variable) \
+	module.attr(#variable) = &variable;
+
+// 将3D变量注册到 Python 模块中
+#ifdef QUEST_REGISTER_IN_PYTHON_3D_VARIABLE_WITH_COMPONENTS
+#undef QUEST_REGISTER_IN_PYTHON_3D_VARIABLE_WITH_COMPONENTS
+#endif
+#define QUEST_REGISTER_IN_PYTHON_3D_VARIABLE_WITH_COMPONENTS(module,name) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_X) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_Y) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_Z)
+
+// 将对称2D张量变量注册到 Python 模块中
+#ifdef QUEST_REGISTER_IN_PYTHON_SYMMETRIC_2D_TENSOR_VARIABLE_WITH_COMPONENTS
+#undef QUEST_REGISTER_IN_PYTHON_SYMMETRIC_2D_TENSOR_VARIABLE_WITH_COMPONENTS
+#endif
+#define QUEST_REGISTER_IN_PYTHON_SYMMETRIC_2D_TENSOR_VARIABLE_WITH_COMPONENTS(module,name) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_XX) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_YY) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_XY)
+
+// 将对称3D张量变量注册到 Python 模块中
+#ifdef QUEST_REGISTER_IN_PYTHON_SYMMETRIC_3D_TENSOR_VARIABLE_WITH_COMPONENTS
+#undef QUEST_REGISTER_IN_PYTHON_SYMMETRIC_3D_TENSOR_VARIABLE_WITH_COMPONENTS
+#endif
+#define QUEST_REGISTER_IN_PYTHON_SYMMETRIC_3D_TENSOR_VARIABLE_WITH_COMPONENTS(module,name) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_XX) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_YY) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_ZZ) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_XY) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_YZ) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_XZ)
+
+// 将2D张量变量注册到 Python 模块中
+#ifdef QUEST_REGISTER_IN_PYTHON_2D_TENSOR_VARIABLE_WITH_COMPONENTS
+#undef QUEST_REGISTER_IN_PYTHON_2D_TENSOR_VARIABLE_WITH_COMPONENTS
+#endif
+#define QUEST_REGISTER_IN_PYTHON_2D_TENSOR_VARIABLE_WITH_COMPONENTS(module,name) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_XX) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_XY) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_YX) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_YY)
+
+// 将3D张量变量注册到 Python 模块中
+#ifdef QUEST_REGISTER_IN_PYTHON_3D_TENSOR_VARIABLE_WITH_COMPONENTS
+#undef QUEST_REGISTER_IN_PYTHON_3D_TENSOR_VARIABLE_WITH_COMPONENTS
+#endif
+#define QUEST_REGISTER_IN_PYTHON_3D_TENSOR_VARIABLE_WITH_COMPONENTS(module,name) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_XX) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_XY) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_XZ) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_YX) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_YY) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_YZ) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_ZX) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_ZY) \
+    QUEST_REGISTER_IN_PYTHON_VARIABLE(module,name##_ZZ)
+
+// 将标志注册到 Python 模块中的实现
+#ifdef QUEST_REGISTER_IN_PYTHON_FLAG_IMPLEMENTATION
+#undef QUEST_REGISTER_IN_PYTHON_FLAG_IMPLEMENTATION
+#endif
+#define QUEST_REGISTER_IN_PYTHON_FLAG_IMPLEMENTATION(module,flag) \
+    module.attr(#flag) = &flag;
+
+// 将标志注册到 Python 模块中
+#ifdef QUEST_REGISTER_IN_PYTHON_FLAG
+#undef QUEST_REGISTER_IN_PYTHON_FLAG
+#endif
+#define QUEST_REGISTER_IN_PYTHON_FLAG(module,flag) \
+    QUEST_REGISTER_IN_PYTHON_FLAG_IMPLEMENTATION(module,flag);
+
+
+// 这个函数用于打印 ofstream 操作符
+// 即打印一个对象时，Python 中的结果将与 C++ 中的结果相同
+// 将其定义为 "__str__" 函数
+template< class T>
+std::string PrintObject(const T& rObject)
+{
+    std::stringstream ss;
+    ss << rObject;
+    return ss.str();
+}
+
+#endif //QUEST_DEFINE_PYTHON_HPP

@@ -41,7 +41,7 @@ namespace Quest{
              * @brief 构造函数
              * @param NewId 新ID
              */
-            explicit Condition(IndexType NewId):
+            explicit Condition(IndexType NewId = 0):
                 BaseType(NewId),
                 mpProperties(nullptr)
             {}
