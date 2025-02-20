@@ -276,7 +276,7 @@ namespace Quest{
              * @param index 分量索引号
              */
             template<typename TValueType>
-            TDataType& GetValueByIndex(TDataType* pValue, std::size_t index) const{
+            TDataType& GetValueByIndex(TValueType* pValue, std::size_t index) const{
                 return *static_cast<TDataType*>(pValue + index);
             }
 
@@ -287,7 +287,7 @@ namespace Quest{
              * @param index 分量索引号
              */
             template<typename TValueType>
-            const TDataType& GetValueByIndex(const TDataType* pValue, std::size_t index) const{
+            const TDataType& GetValueByIndex(const TValueType* pValue, std::size_t index) const{
                 return *static_cast<const TDataType*>(pValue + index);
             }
 

@@ -86,7 +86,7 @@ namespace Quest{
              * @brief 设置节点数据存储容器
              * @param TheData 节点数据存储容器
              */
-            void SerSolutionStepData(const SolutionStepsNodalDataContainerType& TheData){
+            void SetSolutionStepData(const SolutionStepsNodalDataContainerType& TheData){
                 mSolutionStepsNodalData = TheData;
             }
 

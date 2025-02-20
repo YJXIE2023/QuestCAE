@@ -243,14 +243,14 @@ namespace Quest{
             }
 
             /**
-             * @brief 获取默认积分方法的所有积分点的B矩阵
+             * @brief 获取默认积分方法的所有积分点的形函数一阶导数矩阵
              */
             const ShapeFunctionsGradientsType& ShapeFunctionsLocalGradients() const{
                 return mShapeFunctionsLocalGradients[static_cast<int>(mDefaultMethod)];
             }
 
             /**
-             * @brief 获取指定积分方法的所有积分点的B矩阵
+             * @brief 获取指定积分方法的所有积分点的形函数一阶导数矩阵
              * @param ThisMethod 指定的积分方法
              */
             const ShapeFunctionsGradientsType& ShapeFunctionsLocalGradients(IntegrationMethod ThisMethod) const{
@@ -258,14 +258,14 @@ namespace Quest{
             }
 
             /**
-             * @brief 获取默认积分方法的指定积分点的B矩阵
+             * @brief 获取默认积分方法的指定积分点的形函数一阶导数矩阵
              */
             const Matrix& ShapeFunctionLocalGradient(IndexType IntegrationPointIndex) const{
                 return ShapeFunctionLocalGradient(IntegrationPointIndex, mDefaultMethod);
             }
 
             /**
-             * @brief 获取指定积分方法的指定积分点的B矩阵
+             * @brief 获取指定积分方法的指定积分点的形函数一阶导数矩阵
              * @param ThisMethod 指定的积分方法
              * @param IntegrationPointIndex 指定的积分点索引
              */
@@ -277,7 +277,7 @@ namespace Quest{
             }
 
             /**
-             * @brief 获取指定积分方法的指定积分点的B矩阵
+             * @brief 获取指定积分方法的指定积分点的形函数一阶导数矩阵
              * @param IntegrationPointIndex 指定的积分点索引
              * @param ShapeFunctionIndex 指定的形函数索引
              * @param ThisMethod 指定的积分方法
@@ -397,18 +397,18 @@ namespace Quest{
              *       2      |     0.166      |     0.622     |     0.166     |     0.044     |       
              *       3      |     0.044      |     0.166     |     0.622     |     0.166     |       
              *       4      |     0.166      |     0.044     |     0.166     |     0.622     |  
-             *  Matrix 乘 [u1, u2, u3, u4]T 可以获得所有积分点的位移值     
+             *  Matrix 乘 节点位移向量 [u1, u2, u3, u4]T 可以获得所有积分点的位移值     
              */
             ShapeFunctionsValuesContainerType mShapeFunctionsValues;
 
             /**
              * @brief 存储形函数对于单元局部坐标的导数值（一阶导数）
              * @details std::array<DenseVector<Matrix>, static_cast<int>(IntegrationMethod::NumberOfIntegrationMethods)>
-             *  应变-位移矩阵（B矩阵）
+             *  应变-位移矩阵（形函数一阶导数矩阵）
              *  ∂Ni   ∂Ni
              *  --- = ---
              *  ∂x    ∂ξj
-             *  DenseVector<Matrix> 存储的是每个积分点的B矩阵的值，Matrix乘节点位移可获得该积分点的应变
+             *  DenseVector<Matrix> 存储的是每个积分点的形函数一阶导数矩阵的值，Matrix乘节点位移可获得该积分点的应变
              */
             ShapeFunctionsLocalGradientsContainerType mShapeFunctionsLocalGradients;
 
